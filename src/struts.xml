@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <package name="login" namespace="/login" extends="struts-default">
+    	<global-results>
+			 <result name="loginPage">/WEB-INF/views/login.jsp</result>
+		</global-results>
+    	<action name="login" class="spring_test.action.LoginController" method="login">
+           	
+        </action> 
+        <action name="check" class="spring_test.action.LoginController" method="check">
+           	<result name="static">/WEB-INF/views/records/static.jsp</result>
+        </action>
+    </package>
+    <package name="record" namespace="/record" extends="struts-default">
+    	<global-results>
+			 	<result name="static">/WEB-INF/views/records/static.jsp</result>
+		</global-results>
+    	<action name="delete" class="spring_test.action.RecordController" method="delete">
+           	
+        </action> 
+        <action name="edit" class="spring_test.action.RecordController" method="edit">
+           	<result name="static">/WEB-INF/views/records/static.jsp</result>
+        </action>
+        <action name="addOrUpdate" class="spring_test.action.RecordController" method="addOrUpdate">
+           	<result name="addOrUpdate">/WEB-INF/views/records/editOrUpdateRecord.jsp</result>
+        </action>
+        <action name="addOrEditSava" class="spring_test.action.RecordController" method="addOrEditSava">
+        </action>
+    </package>
+    <package name="recordAjax" namespace="/recordAjax"  extends="json-default">
+	    <action name="getGridData" class="spring_test.action.RecordController" method="getGridData">  
+	         <result type="json"></result>  
+	   </action>                
+	</package> 
+    
+    <!-- 
+    1） <global-results> 的设置，可以复用的，/login下面访问的所有方法，返回loginPage的话，
+    	都会跳转到 login.jsp的
+	2）Action的name值映射的是 访问路径，method映射的控制层的方法名： /login/check    
+	     调用的是spring_test.action.LoginController里的 check方法
+     -->
+</struts>    

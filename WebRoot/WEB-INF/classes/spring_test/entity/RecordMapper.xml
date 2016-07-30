@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="spring_test.dao.RecordDao">
+
+    <select id="findRecordByHoldernameAndCount" 
+        parameterType="java.util.HashMap" resultType="spring_test.entity.Record">
+        select * from expense where holdername=#{holderName} order by id DESC
+    </select>
+    
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from expense where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+    </delete>
+    
+    <select id="findById" parameterType="java.lang.String" resultType="spring_test.entity.Record">
+        select * from expense where id=#{id}
+    </select>
+    
+     
+    <!-- 插入开销记录 自动主键-->  
+	<insert id="save" parameterType="spring_test.entity.Record"> 
+	 <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+              select SEQ_EXPENSE_ID.nextval from dual 
+       </selectKey>    
+	    INSERT INTO expense
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+       				 ID,times,HOLDERNAME,
+		    <if test="incomeTotal != null" >INCOME_TOTAL,</if>
+		    <if test="profit != null" >PROFIT,</if>
+		    <if test="costDaily != null" >COST_DAILY,</if>
+		    <if test="eating != null" >EATING,</if>
+		    <if test="supermarket != null" >SUPERMARKET,</if>
+		    <if test="party != null" >PARTY,</if>
+		    <if test="rent != null" >RENT,</if>
+		    <if test="loan != null" >LOAN,</if>
+		    <if test="traffic != null" >TRAFFICEXP,</if>
+		    <if test="elseCost != null" >ELSECOST,</if>
+		    <if test="remark != null" >REMARK,</if>
+		    <if test="clothes != null" >CLOTHES,</if>
+		    <if test="book != null" >BOOK</if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides="," >
+     			 #{id,jdbcType=DECIMAL},
+	    				#{times},#{holderName},
+      <if test="incomeTotal != null" >#{incomeTotal},</if>
+		    <if test="profit != null" >		#{profit},</if>
+		    <if test="costDaily != null" >  #{costDaily},</if>
+		    <if test="eating != null" >     #{eating},</if>
+		    <if test="supermarket != null" >#{supermarket},</if>
+		    <if test="party != null" >      #{party},</if>
+		    <if test="rent != null" >       #{rent},</if>
+		    <if test="loan != null" >       #{loan},</if>
+		    <if test="traffic != null" >    #{traffic},</if>
+		    <if test="elseCost != null" >   #{elseCost},</if>
+		    <if test="remark != null" >     #{remark},</if>
+		    <if test="clothes != null" >    #{clothes},</if>
+		    <if test="book != null" >       #{book}</if>
+     </trim> 
+	</insert> 
+	
+	<update id="update" parameterType="spring_test.entity.Record">
+   		 update expense set times=#{times}
+			 <if test="incomeTotal !=null ">,INCOME_TOTAL=#{incomeTotal} </if> 
+	   		 <if test="profit !=null ">,PROFIT=#{profit}</if> 
+			 <if test="costDaily !=null ">,COST_DAILY=#{costDaily}</if> 
+			 <if test="eating !=null ">,EATING=#{eating}</if> 
+			 <if test="supermarket !=null ">,SUPERMARKET=#{supermarket}</if> 
+			 <if test="party !=null ">,PARTY=#{party}</if> 
+			 <if test="rent !=null ">,RENT=#{rent}</if> 
+			 <if test="loan !=null ">,LOAN=#{loan}</if> 
+			 <if test="traffic !=null ">,TRAFFICEXP=#{traffic}</if> 
+			 <if test="elseCost !=null ">,ELSECOST=#{elseCost}</if> 
+			 <if test="remark !=null ">,REMARK=#{remark}</if> 
+			 <if test="clothes !=null ">,CLOTHES=#{clothes}</if> 
+			 <if test="book !=null ">,BOOK=#{book}</if>
+   		  where id=#{id}
+	</update>
+    
+    
+    
+</mapper>

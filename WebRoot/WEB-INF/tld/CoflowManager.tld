@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd" version="2.0">
+
+<tlib-version>1.0</tlib-version>
+<short-name>CoflowManager</short-name>
+<function>
+       <description>工作流是否可以撤回</description>
+       <name>canRecall</name>
+       <function-class>com.ces.infoplat.common.utils.CoflowManager</function-class>
+       <function-signature>
+       			boolean canRecall(long)
+       </function-signature>
+       <example>${CoflowManager:canRecall(long1)}</example>
+</function>
+<function>
+       <description>当前工作前一个节点是否是开始节点</description>
+       <name>isStartPreActivity</name>
+       <function-class>com.ces.infoplat.common.utils.CoflowManager</function-class>
+       <function-signature>
+       			boolean isStartPreActivity(long,java.lang.String)
+       </function-signature>
+       <example>${CoflowManager:isStartPreActivity(long1,str1)}</example>
+</function>
+</taglib>
