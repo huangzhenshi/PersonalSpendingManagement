@@ -21,6 +21,7 @@
 <script src="${ctx}/res/resource/style/js/sha1.js"></script>
 <script src="${ctx}/res/thirdParty/jqfloat.min.js"></script>
 <script src="${ctx}/res/resource/style/js/bootstrap.min.js"></script>
+
 <link href="${ctx}/res/resource/style/css/inforGlobal.css" type="text/css" rel="stylesheet" />
 <link href="${ctx}/res/resource/style/css/bootstrap.min.css" rel="stylesheet"/>
    
@@ -40,6 +41,7 @@
 		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit()">add</button>
 	    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">modify</button>
 	    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">delete</button>
+	     <button type="button" class="btn btn-lg btn-danger" onclick="testMessage('i am kitty')">message</button>
 	</div>
 	
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" data="${records}"  datatype="local">
@@ -116,6 +118,9 @@ function operateFormatter(cellValue, options, rowObject){
 			var owner=$("#owner").val();
 			window.location.href=('${ctx}/record/addOrUpdate?owner='+owner);
 		}
+	}
+	function testMessage(msg){
+		$.message({message:"警告！"+msg, cls:"warning"});
 	}
 	
 	
