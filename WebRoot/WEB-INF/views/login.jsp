@@ -71,7 +71,7 @@
     <div class="logo-login"></div>
     <%--判断用户名、密码、验证码是否为空，以及根据服务器返回的error码来反馈相应的错误信息 --%>
     <div class="loginbox">
-    	<cui:form id="loginForm"  action="${ctx}/login/check" method="POST">
+    	<cui:form id="loginForm"  action="${ctx}/login/check.do" method="POST">
     		<div class="exitmessage">
 				<div id="mesBox">
 					<span>
@@ -89,12 +89,11 @@
 	      <div class="paddingt55">
 	        <div class="labelbox user">
 	          <label>用户名：</label>
-	          <input type="text" id="username" name="user.username">
+	          <input type="text" id="username" name="username">
 	        </div>
 	        <div class="labelbox pwd">
 	          <label>密&emsp;码：</label>
-	          <input type="password" autocomplete="off" id="password" name="user.password">
-	          <input type="hidden" name="targetUrl" value="/backstage/ledger" >
+	          <input type="password" autocomplete="off" id="password" name="password">
 	        </div>
 	        <!-- <div class="labelbox identify">
 	          <label>验证码：</label>

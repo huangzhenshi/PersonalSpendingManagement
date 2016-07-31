@@ -23,6 +23,7 @@ import spring_test.service.StaticService;
 
 
 @Controller
+@RequestMapping("/login")
 public class LoginController
 {
 	@Resource
@@ -31,18 +32,37 @@ public class LoginController
 	private StaticService staticSer;
 	private ActionContext actionContext = ActionContext.getContext();
 	
+
+	@RequestMapping("/login.do")
+	public ModelAndView login(HttpServletRequest request){
+			HttpSession session=request.getSession();
+			session.removeAttribute("loginUser");
+		   return new ModelAndView("login");  
+	  }
+	@RequestMapping("/check.do")
+	  public ModelAndView check(HttpServletRequest request,User user,ModelMap model)
+	  {
+		 HttpSession session=request.getSession();
+		  User userIn=logSer.getUserByMybatis(user);
+		  if(userIn!=null&&userIn.getUsername().length()>0){
+			  session.setAttribute("loginUser", userIn);
+			  return new ModelAndView("records/static");  
+		  }
+		  return new ModelAndView("login");
+	  }
 	
-	 //定义实体对象属性，接收表单参数：用户名、密码
-    private User user;
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public User getUser() {
-        return this.user;
-    }
-    private String records;
-    public String getRecords() {
+	
+	/* //定义实体对象属性，接收表单参数：用户名、密码
+   private User user;
+   public void setUser(User user) {
+       this.user = user;
+   }
+   
+   public User getUser() {
+       return this.user;
+   }
+   private String records;
+   public String getRecords() {
 		return records;
 	}
 
@@ -65,25 +85,5 @@ public class LoginController
 
 	public void setOwner(String owner) {
 		this.owner = owner;
-	}
-
-	public String login()
-	  {
-				  Map session = actionContext.getSession();
-				  session.remove("message");
-		  return "loginPage";  
-	  }
-	  public String check()
-	  {
-				  User userIn=logSer.getUserByMybatis(user);
-				  
-				  if(userIn!=null&&userIn.getUsername().length()>0){
-					  owner=userIn.getUsername();
-					   records=staticSer.getCurrentRecord(userIn.getUsername(), 10);
-						 return "static";  
-				  }
-				  message="4";
-				  return "loginPage"; 
-		 
-	  }
+	}*/
 }

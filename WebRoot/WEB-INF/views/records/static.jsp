@@ -28,15 +28,14 @@
 
 </head>
 <body>
-	<input type="text" id="owner" name="owner" hidden="true" value="${owner}"/>
 	<div class="btn-group">
 		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit()">add</button>
 	    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">modify</button>
 	    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">delete</button>
-	     <button type="button" class="btn btn-lg btn-danger" onclick="testMessage('i am kitty')">message</button>
 	</div>
 	
-		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" data="${records}"  datatype="local">
+		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
+		    	url="${ctx}/record/getRecords.do?username=${loginUser.username}">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times">日期</cui:gridCol>
@@ -72,7 +71,7 @@ function operateFormatter(cellValue, options, rowObject){
 	function deleteRecord(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				window.location.href=('${ctx}/record/delete?id='+id);
+				window.location.href=('${ctx}/record/delete.do?id='+id);
 			} else {
 				message("取消");
 			}
@@ -104,11 +103,11 @@ function operateFormatter(cellValue, options, rowObject){
 				return;
 			}
 			id = recordGrid.grid("getRowData",sel).id;
-			window.location.href=('${ctx}/record/addOrUpdate?id='+id);
+			window.location.href=('${ctx}/record/addOrUpdate.do?id='+id);
 		}
 		else{
 			var owner=$("#owner").val();
-			window.location.href=('${ctx}/record/addOrUpdate?owner='+owner);
+			window.location.href=('${ctx}/record/addOrUpdate.do?holdername=${loginUser.username}');
 		}
 	}
 	

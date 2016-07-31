@@ -48,6 +48,15 @@ public class StaticService {
 			 return gson.toJson(list);
 			 
 	  }
+	public List<Record> getCurrentRecordTest(String username,int count)
+	  {
+		        Map<String, Object> params =new HashMap<String, Object>();
+		        params.put("holderName", username);
+		        params.put("count",count);
+		        List<Record> list=template.selectList("spring_test.dao.RecordDao.findRecordByHoldernameAndCount",params);
+			 return list;
+			 
+	  }
 	public Record findById(String id) {
 		Record record=template.selectOne("spring_test.dao.RecordDao.findById", id);
 		return record;

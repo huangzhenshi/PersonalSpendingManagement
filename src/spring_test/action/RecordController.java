@@ -1,14 +1,17 @@
 package spring_test.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -18,78 +21,48 @@ import spring_test.entity.Record;
 import spring_test.service.StaticService;
 
 @Controller
+@RequestMapping("/record")
 public class RecordController  extends ActionSupport{
 	@Resource
 	private StaticService staticSer;
 	
-	private String records;
-	private Record record;
-	private String owner;
-	public String getOwner() {
-		return owner;
-	}
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
-	public Record getRecord() {
-		return record;
-	}
-
-	public void setRecord(Record record) {
-		this.record = record;
-	}
-
-	public String getRecords() {
-		return records;
-	}
-
-	public void setRecords(String records) {
-		this.records = records;
-	}
-	private String id;
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String delete()
+	@RequestMapping("/delete.do")
+	public ModelAndView delete(String id)
 	  {
-		staticSer.deleteRecordById(id);
-		records=staticSer.getCurrentRecord("huang", 10);
-		 return "static";
+		 staticSer.deleteRecordById(id);
+		 return  new ModelAndView("records/static");
 	  }
-	  public String edit()
-	  {
-		  records=staticSer.getCurrentRecord("huang", 10);
-		return "static";
-	  }
-	  public String getGridData(){
-		  staticSer.deleteRecordById(id);
-		  records=staticSer.getCurrentRecord("huang", 10);    
-	    return SUCCESS; 
-	  }
-	  
-	  public String addOrUpdate(){
+	
+
+	@RequestMapping("/addOrUpdate.do")
+	public ModelAndView addOrUpdate(HttpServletRequest request,String id,String holdername,ModelMap model){
 		  if(id!=null&&id.length()>0){
-			  record=staticSer.findById(id);
+			 Record record=staticSer.findById(id);
+			 model.addAttribute("record", record);
 		  }
-		  
-	    return "addOrUpdate"; 
+		  model.addAttribute("holdername", holdername);
+		  return  new ModelAndView("records/editOrUpdateRecord"); 
 	  }
-	  public String addOrEditSava(){
+	
+	@RequestMapping("/addOrEditSava.do")
+	public ModelAndView addOrEditSava(Record record,ModelMap model){
 		  //修改保存功能
-		  if(id!=null&&id.length()>0){
+		  if(record.getId()!=null&&record.getId().length()>0){
 			  staticSer.updateRecord(record); 
 		  }else{
 			  staticSer.saveRecord(record); 
 		  }
-		  records=staticSer.getCurrentRecord("huang", 10);
-		  return "static";
+		  return  new ModelAndView("records/static");
 	  }
 	
-	
-
+	@RequestMapping("/getRecords.do")
+    @ResponseBody
+    public Map<String,Object> getRecords(String username) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        List<Record> list=new ArrayList<Record>();
+        list=staticSer.getCurrentRecordTest(username, 10);
+        map.put("data",list) ;
+        map.put("total", list.size());
+        return map;
+    }
 }
