@@ -29,16 +29,6 @@
 </style>
 </head>
 <body style="text-align:center;">
-	<script>
-		/*function relocation(){
-			var loginError="${param.login_error}";
-			if(loginError=='2'){
-				alert("登录过期，请重新登录！");
-				location.href="${ctx}";
-			}
-		}
-		relocation();*/
-	</script>
 	<script type="text/javascript">
 		$(function(){
 			$("#cloud1").jqFloat({
@@ -74,7 +64,10 @@
 <div id="cloud4" class="cloud"></div>
 <div class="loginbg">
   <div class="loginbg2"></div>
+   <div class="mylogLeft"></div>
+   <div class="mylog"></div>
   <div class="loginbg3">
+ 
     <div class="logo-login"></div>
     <%--判断用户名、密码、验证码是否为空，以及根据服务器返回的error码来反馈相应的错误信息 --%>
     <div class="loginbox">
@@ -91,20 +84,6 @@
     	  	<span>
 						<c:if test="${message=='4'}">
 						<span><img src='${ctx}/res/resource/style/images/login/fail.png'/>用户名密码不正确</span>
-							<%-- <c:choose>
-							    <c:when test="${message == '4'}">用户无效</c:when>
-							    <c:when test="${param.login_error == '3'}">用户已在其他地方登录，用户被踢出</c:when>
-							    <c:when test="${param.login_error == '2'}">用户登录超时退出</c:when>
-							    <c:when test="${param.login_error == '1'}">
-							    <span><img src='${ctx}/res/resource/style/images/login/fail.png'/></span>
-							      	<c:choose>
-									    <c:when test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message && '验证码错误！' eq SPRING_SECURITY_LAST_EXCEPTION.message}">验证码不正确</c:when>
-									    <c:otherwise>用户名密码不正确</c:otherwise>
-									</c:choose>
-							    </c:when>
-							    <c:when test="${param.login_error == '0'}">用户主动退出</c:when>
-							   <c:otherwise>未知原因</c:otherwise>
-							</c:choose> --%>
 						</c:if>
 					</span>
 	      <div class="paddingt55">
@@ -134,18 +113,13 @@
 	      </div>
       </cui:form>
     </div>
-  </div>
+  
+   </div>
 </div>
 </body>
 </html>
 <script type="text/javascript">
 	$(function(){
-		/* var code = document.getElementById("code");
-		code.src="${ctx}/reception/login/code!validateCodeLogin?width=72&height=30&fontSize=24&tm="+Math.random();
-		code.onclick=function(){
-			this.src="${ctx}/reception/login/code!validateCodeLogin?width=72&height=30&fontSize=24&tm="+Math.random();
-		}
- */
 		//绑定回车登陆
 		$("body").keydown(function(event) {
 		    if (event.keyCode == "13") {//keyCode=13是回车键

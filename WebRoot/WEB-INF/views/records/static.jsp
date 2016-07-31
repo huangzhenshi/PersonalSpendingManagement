@@ -28,14 +28,6 @@
 
 </head>
 <body>
-<!-- 	导航栏  bootstrap	
-		<div class="navbar navbar-default">
-		    <ul class="nav navbar-nav">
-		        <li class="active"><a href="">财务</a></li>
-		        <li><a href="">运动</a></li>
-		        <li><a href="">其他</a></li>
-		    </ul>
-		</div> -->
 	<input type="text" id="owner" name="owner" hidden="true" value="${owner}"/>
 	<div class="btn-group">
 		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit()">add</button>
