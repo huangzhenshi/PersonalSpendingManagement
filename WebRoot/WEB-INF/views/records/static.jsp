@@ -94,7 +94,6 @@ function operateFormatter(cellValue, options, rowObject){
 	}
 	
 	function addOrEdit(id){
-		debugger;
 		if(id){
 			var recordGrid = $("#recordGrid${idSuffix}");
 			var sel = recordGrid.grid("option", "selarrrow");
@@ -107,7 +106,7 @@ function operateFormatter(cellValue, options, rowObject){
 		}
 		else{
 			var owner=$("#owner").val();
-			window.location.href=('${ctx}/record/addOrUpdate.do?holdername=${loginUser.username}');
+			window.location.href=('${ctx}/record/addOrUpdate.do?holderName=${loginUser.username}');
 		}
 	}
 	

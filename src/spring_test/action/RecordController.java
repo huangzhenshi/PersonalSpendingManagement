@@ -35,12 +35,12 @@ public class RecordController  extends ActionSupport{
 	
 
 	@RequestMapping("/addOrUpdate.do")
-	public ModelAndView addOrUpdate(HttpServletRequest request,String id,String holdername,ModelMap model){
+	public ModelAndView addOrUpdate(HttpServletRequest request,String id,String holderName,ModelMap model){
 		  if(id!=null&&id.length()>0){
 			 Record record=staticSer.findById(id);
 			 model.addAttribute("record", record);
 		  }
-		  model.addAttribute("holdername", holdername);
+		  model.addAttribute("holderName", holderName);
 		  return  new ModelAndView("records/editOrUpdateRecord"); 
 	  }
 	

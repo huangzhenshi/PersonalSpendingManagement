@@ -44,7 +44,7 @@
 	action="${ctx}/record/addOrEditSava.do" method="post">
    <div class="form-group">
    		<input type="text" name="id" hidden="true" value="${record.id}"/>
-   		<input type="text" name="holdername" hidden="true" value="${holdername}"/>
+   		<input type="text" name="holderName" hidden="true" value="${holderName}"/>
    	  <label for="lastname" class="col-sm-2 control-label">日期:</label>
       <div class="col-sm-10">
          <input type="text" class="form-control required" id="lastname" name="times" value="${record.times}">
