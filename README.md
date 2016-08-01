@@ -5,12 +5,12 @@
 
 已经实现的功能：登录（huang/000000）、记账的增删改查功能
 
-后台框架：Spring struts2 mybatis
+后台框架：Spring mvc mybatis
 
 
-前台框架：jquery、bootstrap、Coral、
+前台框架：jquery、bootstrap、Coral
 
-数据库：oracle（在/WebRoot/oracleFile_dmp/ 下 有 oracle的dmp文件，也有基本表 基本数据的sql文件）
+数据库：oracle、mysql（在/WebRoot/oracleFile_dmp/ 下 有 oracle的dmp文件，也有基本表 基本数据的sql文件）
 
 技术上：框架和基本功能都初步实现（log4j后台打印sql、spring的 注解事务控制），能实现增删改查功能。
 
