@@ -2,9 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="spring_test.dao.RecordDao">
+	 <resultMap id="recordResult" type="spring_test.entity.Record">
+		<result property="id" column="id" />
+		<result property="times" column="times" />
+		<result property="incomeTotal" column="INCOME_TOTAL" />
+		<result property="profit" column="profit" />
+		<result property="costDaily" column="COST_DAILY" />
+		<result property="eating" column="eating" />
+		<result property="supermarket" column="supermarket" />
+		<result property="party" column="party" />
+		<result property="rent" column="rent" />
+		<result property="loan" column="loan" />
+		<result property="book" column="book" />
+		<result property="clothes" column="clothes" />
+		<result property="traffic" column="TRAFFICEXP" />
+		<result property="elseCost" column="elseCost" />
+		<result property="remark" column="remark" />
+		<result property="holderName" column="holderName" />	 
+	</resultMap>
 
     <select id="findRecordByHoldernameAndCount" 
-        parameterType="java.util.HashMap" resultType="spring_test.entity.Record">
+        parameterType="java.util.HashMap" resultMap="recordResult">
         select * from expense where holdername=#{holderName} order by id DESC
     </select>
     
@@ -15,7 +33,7 @@
 		</foreach>
     </delete>
     
-    <select id="findById" parameterType="java.lang.String" resultType="spring_test.entity.Record">
+    <select id="findById" parameterType="java.lang.String" resultMap="recordResult">
         select * from expense where id=#{id}
     </select>
     

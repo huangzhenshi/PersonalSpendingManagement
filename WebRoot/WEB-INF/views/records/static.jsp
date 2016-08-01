@@ -29,7 +29,7 @@
 </head>
 <body>
 	<div class="btn-group">
-		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit()">add</button>
+		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit(0)">add</button>
 	    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">modify</button>
 	    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">delete</button>
 	</div>
@@ -64,7 +64,7 @@
 	//格式化操作栏
 function operateFormatter(cellValue, options, rowObject){
 	var result = "";
-		result += " <a href='javascript:addOrUpdateRecord(\""+ rowObject.id+"\");' title='修改' class='grideditbtn'></a> ";
+		result += " <a href='javascript:addOrEdit(2,\""+ rowObject.id+"\");' title='修改' class='grideditbtn'></a> ";
 		result += " <a href='javascript:deleteRecord(\""+ rowObject.id+ "\");' title='删除' class='griddeletebtn'></a> ";
 	return result;}
 	//删除编码
@@ -92,20 +92,22 @@ function operateFormatter(cellValue, options, rowObject){
 		}
 		deleteRecord(ids);
 	}
-	
-	function addOrEdit(id){
-		if(id){
+	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
+	function addOrEdit(index,id){
+		debugger;
+		//点击操作选项中修改数据
+		if(index==2){
+			window.location.href=('${ctx}/record/addOrUpdate.do?id='+id);
+		}else if(index==1){
 			var recordGrid = $("#recordGrid${idSuffix}");
 			var sel = recordGrid.grid("option", "selarrrow");
 			if(sel.length !=1){
 				message("请选择一条记录！");
 				return;
 			}
-			id = recordGrid.grid("getRowData",sel).id;
-			window.location.href=('${ctx}/record/addOrUpdate.do?id='+id);
-		}
-		else{
-			var owner=$("#owner").val();
+			var idUpdate = recordGrid.grid("getRowData",sel).id;
+			window.location.href=('${ctx}/record/addOrUpdate.do?id='+idUpdate);
+		}else{
 			window.location.href=('${ctx}/record/addOrUpdate.do?holderName=${loginUser.username}');
 		}
 	}
