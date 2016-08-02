@@ -28,10 +28,14 @@
 
 </head>
 <body>
+
+	<!-- 导航栏 -->
+ 	<%@include file="../common/navbar.jsp" %>
+ 
 	<div class="btn-group">
-		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit(0)">add</button>
-	    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">modify</button>
-	    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">delete</button>
+		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit(0)">新增</button>
+	    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">修改</button>
+	    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">删除</button>
 	</div>
 	
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 

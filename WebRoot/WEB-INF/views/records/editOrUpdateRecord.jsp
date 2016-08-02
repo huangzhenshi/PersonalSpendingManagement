@@ -38,12 +38,15 @@
 
 </head>
 <body style="text-align:center;">
-<h2 class="sub-header">hello，kitty</h2>
+<!-- 导航栏 -->
+ 	<%@include file="../common/navbar.jsp" %>
+
 <div style="width:90%;margin:auto;" >
-<form class="form-horizontal" role="form" style="width:50%;" class="form-inline" 
+<form class="form-signin" role="form" 
 	action="${ctx}/record/addOrEditSava.do" method="post">
+	<h2 class="form-signin-heading">${message}</h2>
    <div class="form-group">
-   		<input type="text" name="id" hidden="true" value="${record.id}"/>
+   		<input type="text" name="id" hidden="true" value="${record.id}" class="input-block-level"/>
    		<input type="text" name="holderName" hidden="true" value="${holderName}"/>
    	  <label for="lastname" class="col-sm-2 control-label">日期:</label>
       <div class="col-sm-10">

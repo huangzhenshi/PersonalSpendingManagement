@@ -25,6 +25,10 @@ import spring_test.service.StaticService;
 public class RecordController  extends ActionSupport{
 	@Resource
 	private StaticService staticSer;
+	@RequestMapping("/toMainRecordPage.do")
+	public ModelAndView toMainRecordPage(){
+		return  new ModelAndView("records/static");
+	}
 	
 	@RequestMapping("/delete.do")
 	public ModelAndView delete(String id)
@@ -36,11 +40,14 @@ public class RecordController  extends ActionSupport{
 
 	@RequestMapping("/addOrUpdate.do")
 	public ModelAndView addOrUpdate(HttpServletRequest request,String id,String holderName,ModelMap model){
-		  if(id!=null&&id.length()>0){
+		String message="新增记录";  
+		if(id!=null&&id.length()>0){
 			 Record record=staticSer.findById(id);
 			 model.addAttribute("record", record);
+			 message="修改记录";
 		  }
 		  model.addAttribute("holderName", holderName);
+		  model.addAttribute("message", message);
 		  return  new ModelAndView("records/editOrUpdateRecord"); 
 	  }
 	
