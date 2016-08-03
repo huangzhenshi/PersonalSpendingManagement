@@ -14,7 +14,8 @@
     <!-- 正常尺寸下的导航拦 -->  
      <div class="collapse navbar-collapse" id="navigation-list">  
       <ul class="nav navbar-nav">  
-        <li class="active"><a href="${ctx}/record/toMainRecordPage.do">历史回顾</a></li>  
+        <li class="active"><a href="${ctx}/record/toMainRecordPage.do">我要记账</a></li> 
+         <li><a href="${ctx}/record/getRecordByDate.do">账单回顾</a></li>   
         <li><a href="http://phalcon.framework.dev/Index/touch">智能分析</a></li>  
         <li><a href="http://phalcon.framework.dev/List">excel导入导出</a></li>  
         <li><a href="#" data-target="#about" data-toggle="modal">系统配置</a></li>  

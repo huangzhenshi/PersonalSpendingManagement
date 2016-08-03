@@ -29,6 +29,10 @@ public class RecordController  extends ActionSupport{
 	public ModelAndView toMainRecordPage(){
 		return  new ModelAndView("records/static");
 	}
+	@RequestMapping("/getRecordByDate.do")
+	public ModelAndView getRecordByDate(){
+		return  new ModelAndView("records/reviewRecords");
+	}
 	
 	@RequestMapping("/delete.do")
 	public ModelAndView delete(String id)
