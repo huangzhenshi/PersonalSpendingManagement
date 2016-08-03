@@ -43,6 +43,10 @@ public class LoginController
 	  public ModelAndView check(HttpServletRequest request,User user,ModelMap model)
 	  {
 		 HttpSession session=request.getSession();
+		 User userInsession=(User) session.getAttribute("loginUser");
+		 if(userInsession!=null){
+			 user=userInsession;
+		 }
 		  User userIn=logSer.getUserByMybatis(user);
 		  if(userIn!=null&&userIn.getUsername().length()>0){
 			  session.setAttribute("loginUser", userIn);
