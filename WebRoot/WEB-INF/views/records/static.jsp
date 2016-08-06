@@ -47,7 +47,7 @@
 		</div>
 		
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
-		    	url="${ctx}/record/getRecords.do?username=${loginUser.username}"
+		    	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}"
 		    	rowNum="31"
 		    	>
 		    	<cui:gridCols>

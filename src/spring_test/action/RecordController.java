@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
 
 import spring_test.entity.Record;
+import spring_test.entity.User;
 import spring_test.service.StaticService;
 
 @Controller
@@ -29,8 +31,13 @@ public class RecordController  extends ActionSupport{
 	public ModelAndView toMainRecordPage(){
 		return  new ModelAndView("records/static");
 	}
-	@RequestMapping("/getRecordByDate.do")
-	public ModelAndView getRecordByDate(){
+	@RequestMapping("/getRecordReview.do")
+	public ModelAndView getRecordReview(HttpServletRequest request,ModelMap model,String qssj,String jssj){
+		HttpSession session=request.getSession();
+		User userInsession=(User) session.getAttribute("loginUser");
+		List<Record> list=staticSer.getRecordByDate(userInsession.getUsername(),qssj,jssj);
+		Gson gs=new Gson();
+		model.addAttribute("records", gs.toJson(list));
 		return  new ModelAndView("records/reviewRecords");
 	}
 	
@@ -43,7 +50,7 @@ public class RecordController  extends ActionSupport{
 	
 
 	@RequestMapping("/addOrUpdate.do")
-	public ModelAndView addOrUpdate(HttpServletRequest request,String id,String holderName,ModelMap model){
+	public ModelAndView addOrUpdate(String id,String holderName,ModelMap model){
 		String message="新增记录";  
 		if(id!=null&&id.length()>0){
 			 Record record=staticSer.findById(id);
@@ -66,14 +73,15 @@ public class RecordController  extends ActionSupport{
 		  return  new ModelAndView("records/static");
 	  }
 	
-	@RequestMapping("/getRecords.do")
+	@RequestMapping("/getRecordByDate.do")
     @ResponseBody
-    public Map<String,Object> getRecords(String username) {
+    public Map<String,Object> getRecordByDate(String username,String qssj,String jssj) {
         Map<String,Object> map = new HashMap<String, Object>();
         List<Record> list=new ArrayList<Record>();
-        list=staticSer.getCurrentRecordTest(username, 10);
+        list=staticSer.getRecordByDate(username,qssj,jssj);
         map.put("data",list) ;
         map.put("total", list.size());
         return map;
     }
+	
 }

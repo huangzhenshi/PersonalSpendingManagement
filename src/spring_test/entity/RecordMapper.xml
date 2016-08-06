@@ -20,12 +20,14 @@
 		<result property="remark" column="remark" />
 		<result property="holderName" column="holderName" />	 
 	</resultMap>
-
-    <select id="findRecordByHoldernameAndCount" 
+	
+    <select id="getRecordByDate" 
         parameterType="java.util.HashMap" resultMap="recordResult">
         select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
        			 party, rent, loan, trafficexp, elsecost, remark, clothes, book, holdername 
-        from expense where holdername=#{holderName} order by times DESC
+        from expense where holdername=#{holdername}  
+        	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd')  
+       		order by times DESC
     </select>
     
     <delete id="deleteById" parameterType="java.lang.String">

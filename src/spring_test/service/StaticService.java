@@ -1,9 +1,17 @@
 package spring_test.service;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
+
+
+
 
 
 
@@ -38,22 +46,39 @@ public class StaticService {
         } 
 		return message;
 	}
-	public String getCurrentRecord(String username,int count)
+	
+	/**
+	 * 根据日期获取对应的记账记录
+	 *qssj和jssj都为空，则获取当前系统月份的所有记录
+	 *qssj不为空，jssj为空，获取指定月份的记录
+	 *qssj和jssj都不为空，获取指定日期间的记录
+	 */
+	public List<Record> getRecordByDate(String username, String qssj, String jssj)
 	  {
 		        Map<String, Object> params =new HashMap<String, Object>();
-		        params.put("holderName", username);
-		        params.put("count",count);
-		        List<Record> list=template.selectList("spring_test.dao.RecordDao.findRecordByHoldernameAndCount",params);
-			  Gson gson=new Gson();
-			 return gson.toJson(list);
-			 
-	  }
-	public List<Record> getCurrentRecordTest(String username,int count)
-	  {
-		        Map<String, Object> params =new HashMap<String, Object>();
-		        params.put("holderName", username);
-		        params.put("count",count);
-		        List<Record> list=template.selectList("spring_test.dao.RecordDao.findRecordByHoldernameAndCount",params);
+		        params.put("holdername", username);
+		        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		        //如果是当前月
+		        if(qssj==null||qssj.length()==0){
+		        	Calendar c = Calendar.getInstance();    
+			        c.add(Calendar.MONTH, 0);
+			        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+			        qssj = format.format(c.getTime());  
+			        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));  
+			        jssj = format.format(c.getTime());
+		        }else if(jssj==null||jssj.length()==0){
+		        	String[] result=qssj.split("-");
+		            Calendar cal = Calendar.getInstance();
+		            cal.set(Calendar.YEAR,Integer.parseInt(result[0]));
+		            cal.set(Calendar.MONTH, Integer.parseInt(result[1]));
+		            cal.set(Calendar.DAY_OF_MONTH, 1);
+		            cal.add(Calendar.DAY_OF_MONTH, -1);
+		            jssj=format.format(cal.getTime());
+		        }
+		        params.put("qssj", qssj);
+	        	params.put("jssj", jssj);
+		      
+		        List<Record> list=template.selectList("spring_test.dao.RecordDao.getRecordByDate",params);
 			 return list;
 			 
 	  }
