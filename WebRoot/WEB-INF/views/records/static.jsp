@@ -20,10 +20,14 @@
 <script src="${ctx}/res/resource/style/js/md5.min.js"></script>
 <script src="${ctx}/res/resource/style/js/sha1.js"></script>
 <script src="${ctx}/res/thirdParty/jqfloat.min.js"></script>
+<script src="${ctx}/res/resource/style/js/bootstrap.minnew.js"></script>
 <script src="${ctx}/res/resource/style/js/bootstrap.min.js"></script>
+
 <script src="${ctx}/mainJs/function.js"></script>
 <link href="${ctx}/res/resource/style/css/inforGlobal.css" type="text/css" rel="stylesheet" />
+<%-- <link href="${ctx}/res/resource/style/css/bootstrap.minnew.css" rel="stylesheet"/> --%>
 <link href="${ctx}/res/resource/style/css/bootstrap.min.css" rel="stylesheet"/>
+
    
 
 </head>
@@ -31,33 +35,36 @@
 
 	<!-- 导航栏 -->
  	<%@include file="../common/navbar.jsp" %>
- 
-	<div class="btn-group">
-		<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit(0)">
-		  <i class="icon-plus"></i>新增</button>
-	    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">
-	      <i class="icon-pencil"></i>修改</button>
-	    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">
-	      <i class="icon-minus"></i>删除</button>
-	</div>
-	
+	 <div class="row">
+			<div class="btn-group span5 col-xs-offset-1huang">
+				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit(0)">
+				  <i class="icon-plus"></i>新增</button>
+			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">
+			      <i class="icon-pencil"></i>修改</button>
+			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">
+			      <i class="icon-minus"></i>删除</button>
+			</div>
+		</div>
+		
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
-		    	url="${ctx}/record/getRecords.do?username=${loginUser.username}">
+		    	url="${ctx}/record/getRecords.do?username=${loginUser.username}"
+		    	rowNum="31"
+		    	>
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
-		    		<cui:gridCol name="times">日期</cui:gridCol>
-		    		<cui:gridCol name="incomeTotal" hidden="true">日工资</cui:gridCol>
-		    		<cui:gridCol name="profit" width="80">剩余</cui:gridCol>
-		    		<cui:gridCol name="costDaily" width="80">开销</cui:gridCol>
-		    		<cui:gridCol name="eating" width="80">吃饭水果</cui:gridCol>
-		    		<cui:gridCol name="supermarket" width="80">超市</cui:gridCol>
-		    		<cui:gridCol name="party" width="80">聚餐</cui:gridCol>
-		    		<cui:gridCol name="rent" width="80">房租水电</cui:gridCol>
-		    		<cui:gridCol name="loan" width="80">贷款</cui:gridCol>
-		    		<cui:gridCol name="book" width="80">买书</cui:gridCol>
-		    		<cui:gridCol name="clothes" width="80">买衣服</cui:gridCol>
-		    		<cui:gridCol name="traffic" width="80">交通</cui:gridCol>
-		    		<cui:gridCol name="elseCost" width="80">其他</cui:gridCol>
+		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
+		    		<cui:gridCol name="incomeTotal" hidden="true" align="center">日工资</cui:gridCol>
+		    		<cui:gridCol name="profit" width="80" align="center">剩余</cui:gridCol>
+		    		<cui:gridCol name="costDaily" width="80" align="center">开销</cui:gridCol>
+		    		<cui:gridCol name="eating" width="80" align="center">吃饭水果</cui:gridCol>
+		    		<cui:gridCol name="supermarket" width="80" align="center">超市</cui:gridCol>
+		    		<cui:gridCol name="party" width="80" align="center">聚餐</cui:gridCol>
+		    		<cui:gridCol name="rent" width="80" align="center">房租水电</cui:gridCol>
+		    		<cui:gridCol name="loan" width="80" align="center">贷款</cui:gridCol>
+		    		<cui:gridCol name="book" width="80" align="center">买书</cui:gridCol>
+		    		<cui:gridCol name="clothes" width="80" align="center">买衣服</cui:gridCol>
+		    		<cui:gridCol name="traffic" width="80" align="center">交通</cui:gridCol>
+		    		<cui:gridCol name="elseCost" width="80" align="center">其他</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>

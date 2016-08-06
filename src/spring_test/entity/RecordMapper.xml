@@ -4,7 +4,7 @@
 <mapper namespace="spring_test.dao.RecordDao">
 	 <resultMap id="recordResult" type="spring_test.entity.Record">
 		<result property="id" column="id" />
-		<result property="times" column="times" />
+		<result property="times" column="timestr" />
 		<result property="incomeTotal" column="INCOME_TOTAL" />
 		<result property="profit" column="profit" />
 		<result property="costDaily" column="COST_DAILY" />
@@ -23,7 +23,9 @@
 
     <select id="findRecordByHoldernameAndCount" 
         parameterType="java.util.HashMap" resultMap="recordResult">
-        select * from expense where holdername=#{holderName} order by id DESC
+        select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
+       			 party, rent, loan, trafficexp, elsecost, remark, clothes, book, holdername 
+        from expense where holdername=#{holderName} order by times DESC
     </select>
     
     <delete id="deleteById" parameterType="java.lang.String">
@@ -34,7 +36,8 @@
     </delete>
     
     <select id="findById" parameterType="java.lang.String" resultMap="recordResult">
-        select * from expense where id=#{id}
+        select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
+       			 party, rent, loan, trafficexp, elsecost, remark, clothes, book, holdername from expense where id=#{id}
     </select>
     
      
@@ -62,7 +65,7 @@
 	  </trim>
 	  <trim prefix="values (" suffix=")" suffixOverrides="," >
      			 #{id,jdbcType=DECIMAL},
-	    				#{times},#{holderName},
+	    				to_date(#{times},'yyyy-mm-dd'),#{holderName},
       <if test="incomeTotal != null" >#{incomeTotal},</if>
 		    <if test="profit != null" >		#{profit},</if>
 		    <if test="costDaily != null" >  #{costDaily},</if>
@@ -80,7 +83,7 @@
 	</insert> 
 	
 	<update id="update" parameterType="spring_test.entity.Record">
-   		 update expense set times=#{times}
+   		 update expense set times=to_date(#{times},'yyyy-mm-dd')
 			 <if test="incomeTotal !=null ">,INCOME_TOTAL=#{incomeTotal} </if> 
 	   		 <if test="profit !=null ">,PROFIT=#{profit}</if> 
 			 <if test="costDaily !=null ">,COST_DAILY=#{costDaily}</if> 

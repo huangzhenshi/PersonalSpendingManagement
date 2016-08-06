@@ -36,10 +36,10 @@
 
 	<!-- 导航栏 -->
  	<%@include file="../common/navbar.jsp" %>
- 
+ 	
 	<!-- 查询条件 -->
 	<div class="row">
-	<div class="col-sm-12">
+	<div class="col-sm-12 col-xs-offset-1huang">
 	<form:form id="searchForm" action="${ctx}/record/getRecordByDate.do" method="post"  class="form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
@@ -65,29 +65,6 @@
 	<br/>
 	</div>
 	</div>
-	
-		   <%--  <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
-		    	url="${ctx}/record/getRecords.do?username=${loginUser.username}">
-		    	<cui:gridCols>
-		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
-		    		<cui:gridCol name="times">日期</cui:gridCol>
-		    		<cui:gridCol name="incomeTotal" hidden="true">日工资</cui:gridCol>
-		    		<cui:gridCol name="profit" width="80">剩余</cui:gridCol>
-		    		<cui:gridCol name="costDaily" width="80">开销</cui:gridCol>
-		    		<cui:gridCol name="eating" width="80">吃饭水果</cui:gridCol>
-		    		<cui:gridCol name="supermarket" width="80">超市</cui:gridCol>
-		    		<cui:gridCol name="party" width="80">聚餐</cui:gridCol>
-		    		<cui:gridCol name="rent" width="80">房租水电</cui:gridCol>
-		    		<cui:gridCol name="loan" width="80">贷款</cui:gridCol>
-		    		<cui:gridCol name="book" width="80">买书</cui:gridCol>
-		    		<cui:gridCol name="clothes" width="80">买衣服</cui:gridCol>
-		    		<cui:gridCol name="traffic" width="80">交通</cui:gridCol>
-		    		<cui:gridCol name="elseCost" width="80">其他</cui:gridCol>
-		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
-		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
-		    	</cui:gridCols>
-		    </cui:grid>  --%>
-		    
 	<script>
 	$(function() {
 		
