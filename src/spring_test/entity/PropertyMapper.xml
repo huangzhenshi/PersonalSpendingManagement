@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="spring_test.dao.CardDao">
-	 <resultMap id="cardResult" type="spring_test.entity.Card">
+<mapper namespace="spring_test.dao.PropertyDao">
+	 <resultMap id="propertyResult" type="spring_test.entity.Property">
 		<result property="id" column="id" />
+		<result property="card1" column="card1" />
+		<result property="card2" column="card2" />
+		<result property="card3" column="card3" />
+		<result property="card4" column="card4" />
+		<result property="card5" column="card5" />
+		<result property="card6" column="card6" />
+		<result property="cash" column="cash" />
+		<result property="housingFund" column="housingFund" />
+		<result property="alipay" column="alipay" />
 		<result property="holderName" column="holderName" />
-		<result property="bankName" column="bankname" />
-		<result property="accountNumber" column="accountNumber" />
-		<result property="balance" column="balance" />
-		<result property="updateTime" column="updateTime" />
-		<result property="location" column="location" />
+		<result property="antloan" column="antloan" />
+		<result property="creditCard" column="creditCard" />
+		<result property="rent" column="rent" />
+		<result property="mortgage" column="mortgage" />
+		<result property="loan2" column="loan2" />
+		<result property="loan1" column="loan1" />
 		<result property="remark" column="remark" />
-		<result property="password" column="password" />
-		<result property="reserveField1" column="reserveField1" />
-		<result property="reserveField2" column="reserveField2" />
 	</resultMap>
 	
-	<insert id="save" parameterType="spring_test.entity.Card">  
+	<insert id="save" parameterType="spring_test.entity.Property">  
 		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
               select SEQ_CARDS_ID.nextval from dual 
        </selectKey>    
-	    INSERT INTO cards
+	    INSERT INTO property
 	    <trim prefix="(" suffix=")" suffixOverrides="," >
        				 ID,updateTime,HOLDERNAME,
 		    <if test="bankName != null" >bankName,</if>
@@ -45,8 +52,8 @@
      </trim> 
 	</insert>
 	
-	<update id="update" parameterType="spring_test.entity.Card">
-		update cards set updateTime=#{updateTime}
+	<update id="update" parameterType="spring_test.entity.Property">
+		update property set updateTime=#{updateTime}
 			 <if test="bankName !=null ">,bankName=#{bankName}</if> 
 	   		 <if test="accountNumber !=null ">,accountNumber=#{accountNumber}</if> 
 			 <if test="balance !=null ">,balance=#{balance}</if> 
@@ -58,25 +65,18 @@
    		  where id=#{id}
 	</update>
 	
-    <select id="getAllCardInfoByHoldername" parameterType="java.lang.String" resultMap="cardResult">
-   		select * from cards where holdername=#{holdername} order by id
+    <select id="getAllPropertyInfoByHoldername" parameterType="java.lang.String" resultMap="propertyResult">
+   		select * from property where holdername=#{holdername} order by id
     </select>
     
-    <select id="findById" parameterType="java.lang.String" resultMap="cardResult">
-    	 select * from cards where id=#{id}
+    <select id="findById" parameterType="java.lang.String" resultMap="propertyResult">
+    	 select * from property where id=#{id}
     </select>
     
     <delete id="deleteById" parameterType="java.lang.String">
-    	 delete from cards where id in
+    	 delete from property where id in
 	        <foreach item="id" collection="array" open="(" separator="," close=")">
 				#{id}
 			</foreach>
-    </delete>
-    
-	 
-	
-	
-    
-    
-    
+    </delete> 
 </mapper>

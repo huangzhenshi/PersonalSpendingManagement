@@ -17,6 +17,20 @@ public class Property implements Serializable{
 	private Integer cash;
 	private Integer housingFund;
 	private Integer alipay;
+	private String holderName;
+	private Integer antloan;
+	private Integer creditCard;
+	private Integer rent;
+	private Integer mortgage;
+	private Integer loan1;
+	private Integer loan2;
+	private String remark;
+	public String getHolderName() {
+		return holderName;
+	}
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
+	}
 	public String getId() {
 		return id;
 	}
@@ -119,12 +133,5 @@ public class Property implements Serializable{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	private Integer antloan;
-	private Integer creditCard;
-	private Integer rent;
-	private Integer mortgage;
-	private Integer loan1;
-	private Integer loan2;
-	private String remark;
 	
 }
