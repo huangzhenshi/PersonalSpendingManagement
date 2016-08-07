@@ -42,42 +42,68 @@
  	<%@include file="../common/navbar.jsp" %>
 
 <div style="width:90%;margin:auto;" >
-<form class="form-horizontal" role="form" action="${ctx}/propertys/addOrEditPropertySava.do" method="post">
+<form class="form-horizontal" role="form" action="${ctx}/property/addOrEditPropertySava.do" method="post">
 	<h2 class="form-signin-heading">${message}</h2>
    <div class="form-group">
    		<input type="text" name="id" hidden="true" value="${property.id}" class="input-block-level"/>
    		<input type="text" name="holderName" hidden="true" value="${loginUser.username}" class="input-block-level"/>
    		
-   		  <label for="firstname" class="col-sm-2 control-label">银行名称:</label>
+   		  <label for="firstname" class="col-sm-2 control-label">日期:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="bankName" value="${property.bankName}">
+	         <input type="text" class="form-control" id="firstname" name="times" value="${property.times}">
 	      </div>
 	      
 	      
-	      <label for="firstname" class="col-sm-2 control-label">卡号:</label>
+	      <label for="firstname" class="col-sm-2 control-label">招商银行:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="accountNumber" value="${property.accountNumber}">
+	         <input type="text" class="form-control" id="firstname" name="card1" value="${property.card1}">
 	      </div>
 	      
 	      
-	      <label for="firstname" class="col-sm-2 control-label">余额:</label>
+	      <label for="firstname" class="col-sm-2 control-label">中国银行:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="balance" value="${property.balance}">
+	         <input type="text" class="form-control" id="firstname" name="card2" value="${property.card2}">
 	      </div>
 	      
-	      <label for="firstname" class="col-sm-2 control-label">归属地:</label>
+	      <label for="firstname" class="col-sm-2 control-label">现金:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="location" value="${property.location}">
+	         <input type="text" class="form-control" id="firstname" name="cash" value="${property.cash}">
 	      </div>
 	      
-	      <label for="lastname" class="col-sm-2 control-label">Hint:</label>
+	      <label for="lastname" class="col-sm-2 control-label">支付宝:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="lastname"  name="password" value="${property.password}">
+	         <input type="text" class="form-control" id="lastname"  name="alipay" value="${property.alipay}">
 	      </div>
       
-	   	  <label for="lastname" class="col-sm-2 control-label">更新日期:</label>
+	   	  <label for="lastname" class="col-sm-2 control-label">信用卡:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control required" id="lastname" name="updateTime" value="${property.updateTime}">
+	         <input type="text" class="form-control required" id="lastname" name="creditCard" value="${property.creditCard}">
+	      </div>
+	      
+	      <label for="lastname" class="col-sm-2 control-label">贷款:</label>
+	      <div class="col-sm-10">
+	         <input type="text" class="form-control required" id="lastname" name="mortgage" value="${property.mortgage}">
+	      </div>
+	      
+	      <label for="lastname" class="col-sm-2 control-label">公积金:</label>
+	      <div class="col-sm-10">
+	         <input type="text" class="form-control required" id="lastname" name="housingFund" value="${property.housingFund}">
+	      </div>
+	      
+	      
+	      <label for="lastname" class="col-sm-2 control-label">房租折算:</label>
+	      <div class="col-sm-10">
+	         <input type="text" class="form-control required" id="lastname" name="rent" value="${property.rent}">
+	      </div>
+	      
+	      <label for="lastname" class="col-sm-2 control-label">别人欠我:</label>
+	      <div class="col-sm-10">
+	         <input type="text" class="form-control required" id="lastname" name="loan1" value="${property.loan1}">
+	      </div>
+	      
+	      <label for="lastname" class="col-sm-2 control-label">我欠别人:</label>
+	      <div class="col-sm-10">
+	         <input type="text" class="form-control required" id="lastname" name="loan1" value="${property.loan1}">
 	      </div>
 	      
 	      <label for="lastname" class="col-sm-2 control-label">备注:</label>

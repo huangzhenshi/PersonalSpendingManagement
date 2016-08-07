@@ -8,6 +8,13 @@ public class Property implements Serializable{
 	 */
 	private static final long serialVersionUID = -8690656326650349483L;
 	private String id;
+	private String times;
+	public String getTimes() {
+		return times;
+	}
+	public void setTimes(String times) {
+		this.times = times;
+	}
 	private Integer card1;
 	private Integer card2;
 	private Integer card3;
@@ -18,7 +25,6 @@ public class Property implements Serializable{
 	private Integer housingFund;
 	private Integer alipay;
 	private String holderName;
-	private Integer antloan;
 	private Integer creditCard;
 	private Integer rent;
 	private Integer mortgage;
@@ -90,12 +96,6 @@ public class Property implements Serializable{
 	}
 	public void setAlipay(Integer alipay) {
 		this.alipay = alipay;
-	}
-	public Integer getAntloan() {
-		return antloan;
-	}
-	public void setAntloan(Integer antloan) {
-		this.antloan = antloan;
 	}
 	public Integer getCreditCard() {
 		return creditCard;

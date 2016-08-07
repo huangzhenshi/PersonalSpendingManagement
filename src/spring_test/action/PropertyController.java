@@ -32,24 +32,22 @@ public class PropertyController {
 	
 	@RequestMapping("/getAllProperty.do")
     @ResponseBody
-    public Map<String,Object> getAllProperty(HttpServletRequest request){
-		HttpSession session=request.getSession();
-		User userInsession=(User) session.getAttribute("loginUser");
+    public Map<String,Object> getAllProperty(String username){
         Map<String,Object> map = new HashMap<String, Object>();
         List<Property> list=new ArrayList<Property>();
-        list=propertySer.getAllProperty(userInsession.getUsername());
-        map.put("data",list) ;
-        map.put("total", list.size());
+	        list=propertySer.getAllProperty(username);
+	        map.put("data",list) ;
+	        map.put("total", list.size());
         return map;
     }
 	
 	@RequestMapping("/editOrUpdateProperty.do")
 	public ModelAndView editOrUpdateProperty(String id,String holderName,ModelMap model){
-		String message="新增银行卡信息";  
+		String message="新增资产信息条目";  
 		if(id!=null&&id.length()>0){
 			 Property property=propertySer.findById(id);
 			 model.addAttribute("property", property);
-			 message="修改银行卡信息";
+			 message="修改资产信息条目";
 		  }
 		  model.addAttribute("holderName", holderName);
 		  model.addAttribute("message", message);

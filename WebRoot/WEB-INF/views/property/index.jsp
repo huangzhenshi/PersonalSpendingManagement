@@ -47,15 +47,20 @@
 		</div>
 		
 		    <cui:grid id="propertyGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 
-		    	url="${ctx}/property/getAllProperty.do">
+		    	url="${ctx}/property/getAllProperty.do?username=${loginUser.username}">
 		    	<cui:gridCols>
-		    		<cui:gridCol name="id" align="center">id</cui:gridCol>
-		    		<cui:gridCol name="bankName" align="center">银行名称</cui:gridCol>
-		    		<cui:gridCol name="accountNumber" align="center">卡号</cui:gridCol>
-		    		<cui:gridCol name="balance" width="80" align="center">余额</cui:gridCol>
-		    		<cui:gridCol name="location" width="80" align="center">归属地</cui:gridCol>
-		    		<cui:gridCol name="password" width="80" align="center">Hint</cui:gridCol>
-		    		<cui:gridCol name="updateTime" width="80" align="center">更新时间</cui:gridCol>
+		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
+		    		<cui:gridCol name="times" width="80" align="center">日期</cui:gridCol>
+		    		<cui:gridCol name="card1" width="80" align="center">招商银行</cui:gridCol>
+		    		<cui:gridCol name="card2" width="80" align="center">中国银行</cui:gridCol>
+		    		<cui:gridCol name="cash" width="80" align="center">现金</cui:gridCol>
+		    		<cui:gridCol name="alipay" align="center">支付宝</cui:gridCol>
+		    		<cui:gridCol name="creditCard" align="center">信用卡</cui:gridCol>
+		    		<cui:gridCol name="mortgage" width="80" align="center">按揭</cui:gridCol>
+		    		<cui:gridCol name="housingFund" width="80" align="center">公积金</cui:gridCol>
+		    		<cui:gridCol name="rent" width="80" align="center">房租折算</cui:gridCol>
+		    		<cui:gridCol name="loan1" width="80">别人欠我</cui:gridCol>
+		    		<cui:gridCol name="loan2" width="80" align="center">欠别人</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>
