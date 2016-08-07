@@ -68,7 +68,7 @@
 	  <trim prefix="values (" suffix=")" suffixOverrides="," >
      			 #{id,jdbcType=DECIMAL},
 	    				to_date(#{times},'yyyy-mm-dd'),#{holderName},
-      <if test="incomeTotal != null" >#{incomeTotal},</if>
+     		<if test="incomeTotal != null" >#{incomeTotal},</if>
 		    <if test="profit != null" >		#{profit},</if>
 		    <if test="costDaily != null" >  #{costDaily},</if>
 		    <if test="eating != null" >     #{eating},</if>

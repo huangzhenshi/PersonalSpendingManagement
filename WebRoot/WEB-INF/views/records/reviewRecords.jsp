@@ -93,11 +93,11 @@
      
      
       <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" altRows="true"   
-		    	data="${records}" datatype="local" rowNum="130">
+		    	data="${records}" datatype="local" rowNum="130"  >
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
-		    		<cui:gridCol name="incomeTotal" hidden="true" align="center">日工资</cui:gridCol>
+		    		<cui:gridCol name="incomeTotal"  align="center">日工资</cui:gridCol>
 		    		<cui:gridCol name="profit" width="80" align="center">剩余</cui:gridCol>
 		    		<cui:gridCol name="costDaily" width="80" align="center">开销</cui:gridCol>
 		    		<cui:gridCol name="eating" width="80" align="center">吃饭水果</cui:gridCol>
@@ -110,11 +110,14 @@
 		    		<cui:gridCol name="traffic" width="80" align="center">交通</cui:gridCol>
 		    		<cui:gridCol name="elseCost" width="80" align="center">其他</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
-		    	</cui:gridCols>
+		</cui:gridCols>
 		    </cui:grid> 
 		    
 	<script>
 	$(function() {
+		debugger;
+		var test=$("#jqgh_recordGrid_times");
+		$("#jqgh_recordGrid_times").click(); 
 		var years=['2016','2017'];
 		for(var i=0;i<years.length;i++){
 			$("#sel_year").append("<option value='"+years[i]+"'>"+years[i]+"年"+"</option>");

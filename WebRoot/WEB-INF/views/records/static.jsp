@@ -53,7 +53,7 @@
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
-		    		<cui:gridCol name="incomeTotal" hidden="true" align="center">日工资</cui:gridCol>
+		    		<cui:gridCol name="incomeTotal" align="center">日工资</cui:gridCol>
 		    		<cui:gridCol name="profit" width="80" align="center">剩余</cui:gridCol>
 		    		<cui:gridCol name="costDaily" width="80" align="center">开销</cui:gridCol>
 		    		<cui:gridCol name="eating" width="80" align="center">吃饭水果</cui:gridCol>

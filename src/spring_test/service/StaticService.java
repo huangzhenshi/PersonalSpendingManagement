@@ -37,14 +37,9 @@ public class StaticService {
 	@Resource
     private SqlSessionTemplate template;
 	@Transactional
-	public String deleteRecordById(String id) {
-		String message="false";
+	public void deleteRecordById(String id) {
 		String[] ids=id.split(",");
-     	Integer delNum=template.delete("spring_test.dao.RecordDao.deleteById",ids);
-        if(delNum!=null&&delNum>0){
-        	message="true";
-        } 
-		return message;
+		template.delete("spring_test.dao.RecordDao.deleteById",ids);
 	}
 	
 	/**
