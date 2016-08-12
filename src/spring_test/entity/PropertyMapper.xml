@@ -12,6 +12,7 @@
 		<result property="rent" column="rent" />	<result property="mortgage" column="mortgage" />
 		<result property="loan2" column="loan2" />	<result property="loan1" column="loan1" />
 		<result property="remark" column="remark" /><result property="times" column="times" />
+		<result property="total" column="total" />
 	</resultMap>
 	
 	<insert id="save" parameterType="spring_test.entity.Property">  
@@ -70,12 +71,39 @@
    		  where id=#{id}
 	</update>
 	
+	<update id="updateCards" parameterType="java.util.HashMap">
+		update cards set balance=#{balance}
+   		  where id=(SELECT VALUE FROM codes WHERE code=#{cardNum})
+	</update>
+	
+	<update id="updateTotal" parameterType="String">
+		update property set total=(select )
+   		  where id=(SELECT VALUE FROM codes WHERE code=#{cardNum})
+   		  
+   		  
+UPDATE property b SET b.total=(
+       SELECT nvl(card1,0)+nvl(card1,0)+nvl(card1,0)+nvl(card1,0)+nvl(card1,0)
+) WHERE ID=(
+  SELECT MAX(a.id) FROM property a 
+)
+
+ SELECT nvl(card1,0)+nvl(card2,0)+nvl(cash,0)+nvl(housingfund,0)+nvl(ALIPAY,0)+ nvl(CREDITCARD,0)
+        +nvl(RENT,0)
+        +nvl(MORTGAGE,0)+nvl(LOAN1,0)+nvl(LOAN2,0) FROM property WHERE ID
+	</update>
+	
+	
+	
     <select id="getAllPropertyInfoByHoldername" parameterType="java.lang.String" resultMap="propertyResult">
    		select * from property where holdername=#{holdername} order by times desc
     </select>
     
     <select id="findById" parameterType="java.lang.String" resultMap="propertyResult">
     	 select * from property where id=#{id}
+    </select>
+    
+    <select id="getMaxKey"  resultType="Integer">
+    	 select max(id) from property
     </select>
     
     <delete id="deleteById" parameterType="java.lang.String">

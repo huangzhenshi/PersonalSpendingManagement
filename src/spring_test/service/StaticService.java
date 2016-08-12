@@ -72,6 +72,7 @@ public class StaticService {
 		        }
 		        params.put("qssj", qssj);
 	        	params.put("jssj", jssj);
+	        	params.put("count"," and rownum <20");
 		      
 		        List<Record> list=template.selectList("spring_test.dao.RecordDao.getRecordByDate",params);
 			 return list;

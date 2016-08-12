@@ -26,7 +26,7 @@
         select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
        			 party, rent, loan, trafficexp, elsecost, remark, clothes, book, holdername 
         from expense where holdername=#{holdername}  
-        	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd')  
+        	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
        		order by times DESC
     </select>
     

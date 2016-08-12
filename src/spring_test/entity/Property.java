@@ -31,6 +31,15 @@ public class Property implements Serializable{
 	private Integer loan1;
 	private Integer loan2;
 	private String remark;
+	private Integer total;
+	
+	
+	public Integer getTotal() {
+		return total;
+	}
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
 	public String getHolderName() {
 		return holderName;
 	}

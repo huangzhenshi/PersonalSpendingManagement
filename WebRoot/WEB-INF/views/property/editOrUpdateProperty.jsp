@@ -103,7 +103,7 @@
 	      
 	      <label for="lastname" class="col-sm-2 control-label">我欠别人:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control required" id="lastname" name="loan1" value="${property.loan1}">
+	         <input type="text" class="form-control required" id="lastname" name="loan2" value="${property.loan2}">
 	      </div>
 	      
 	      <label for="lastname" class="col-sm-2 control-label">备注:</label>
