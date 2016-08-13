@@ -19,7 +19,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
  >
  
- 	<context:component-scan base-package="spring_test"/>
+ 	<context:component-scan base-package="account_huang"/>
  	
 	<mvc:annotation-driven/>
 	
@@ -43,15 +43,15 @@
 		</property>
 		<!-- 指定SQL语句的XML文件 -->
 		<property name="mapperLocations" 
-			value="classpath:spring_test/mybatisXml/*.xml">
+			value="classpath:account_huang/mybatisXml/*.xml">
 		</property>
 	</bean>
 
  	<!-- 配置MyBatis注解 -->
  	<!-- 扫描指定包下带有注解@MyBatisRepository的接口 -->    
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="spring_test.dao" />
-         <property name="annotationClass" value="spring_test.annotation.MyBatisRepository" />
+        <property name="basePackage" value="account_huang.dao" />
+         <property name="annotationClass" value="account_huang.annotation.MyBatisRepository" />
     </bean>	
     
     <!--定义SqlSessionTemplate -->

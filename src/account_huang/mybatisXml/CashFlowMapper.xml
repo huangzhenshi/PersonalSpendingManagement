@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="account_huang.dao.CashFlowDao">
+	 <resultMap id="cashFlowResult" type="account_huang.entity.CashFlow">
+		<result property="id" column="id" />
+		<result property="holderName" column="holderName" />
+		<result property="item" column="item" />
+		<result property="money" column="money" />
+		<result property="times" column="times" />
+		<result property="remark" column="remark" />
+	</resultMap>
+	
+	<insert id="save" parameterType="account_huang.entity.CashFlow">  
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+              select SEQ_FLOW_ID.nextval from dual 
+       </selectKey>    
+	    INSERT INTO cashFlow
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+       				 ID,updateTime,HOLDERNAME,
+		    <if test="bankName != null" >bankName,</if>
+		    <if test="accountNumber != null" >accountNumber,</if>
+		    <if test="balance != null" >balance,</if>
+		    <if test="location != null" >location,</if>
+		    <if test="remark != null" >remark,</if>
+		    <if test="password != null" >password,</if>
+		    <if test="reserveField1 != null" >reserveField1,</if>
+		    <if test="reserveField2 != null" >reserveField2,</if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides="," >
+     			 #{id,jdbcType=DECIMAL},#{updateTime},#{holderName},
+     	    <if test="bankName != null">#{bankName},</if>
+		    <if test="accountNumber != null">#{accountNumber},</if>
+		    <if test="balance != null">#{balance},</if>
+		    <if test="location != null">#{location},</if>
+		    <if test="remark != null">#{remark},</if>
+		    <if test="password != null">#{password},</if>
+		    <if test="reserveField1 != null">#{reserveField1},</if>
+		    <if test="reserveField2 != null">#{reserveField2},</if>
+     </trim> 
+	</insert>
+	
+	<update id="update" parameterType="account_huang.entity.CashFlow">
+		update cashFlow set updateTime=#{updateTime}
+			 <if test="bankName !=null ">,bankName=#{bankName}</if> 
+	   		 <if test="accountNumber !=null ">,accountNumber=#{accountNumber}</if> 
+			 <if test="balance !=null ">,balance=#{balance}</if> 
+			 <if test="location !=null ">,location=#{location}</if> 
+			 <if test="remark !=null ">,remark=#{remark}</if> 
+			 <if test="password !=null ">,password=#{password}</if> 
+			 <if test="reserveField1 !=null ">,reserveField1=#{reserveField1}</if> 
+			 <if test="reserveField2 !=null ">,reserveField2=#{reserveField2}</if> 
+   		  where id=#{id}
+	</update>
+	
+    <select id="getAllCashFlowInfoByHoldername" parameterType="java.lang.String" resultMap="cashFlowResult">
+   		select * from CashFlow where holdername=#{holdername} order by id
+    </select>
+    
+    <select id="findById" parameterType="java.lang.String" resultMap="cashFlowResult">
+    	 select * from CashFlow where id=#{id}
+    </select>
+    
+    <delete id="deleteById" parameterType="java.lang.String">
+    	 delete from CashFlow where id in
+	        <foreach item="id" collection="array" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+    </delete>
+    
+	 
+	
+	
+    
+    
+    
+</mapper>
