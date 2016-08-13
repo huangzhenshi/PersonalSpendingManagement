@@ -38,10 +38,10 @@
  	<%@include file="../common/navbar.jsp" %>
 	 <div class="row">
 	        <div class="col-sm-5 col-xs-offset-1huang">
-	          <div class="panel panel-default">
+	          <div class="panel  panel-success">
 	            <div class="panel-body">	
 					            <select id="sel_year"  class="form-control"></select>
-						
+							<br/>
 				             <select id="sel_month"  class="form-control">
 								    <option value="01">1月</option>
 								    <option value="02">2月</option>
@@ -56,6 +56,7 @@
 								    <option value="11">11月</option>
 								    <option value="12">12月</option>
 							</select>
+							<p>  </p>
 							<button type="button" class="btn btn-lg btn-primary" onclick="getRecordByMonth()">
 				 			 	<i class="icon-search"></i>按月查询
 				 			 </button>
