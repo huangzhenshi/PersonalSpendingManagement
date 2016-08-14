@@ -32,12 +32,10 @@ public class CardController {
 	
 	@RequestMapping("/getAllCard.do")
     @ResponseBody
-    public Map<String,Object> getAllCard(HttpServletRequest request){
-		HttpSession session=request.getSession();
-		User userInsession=(User) session.getAttribute("loginUser");
+    public Map<String,Object> getAllCard(String username){
         Map<String,Object> map = new HashMap<String, Object>();
         List<Card> list=new ArrayList<Card>();
-        list=cardSer.getAllCard(userInsession.getUsername());
+        list=cardSer.getAllCard(username);
         map.put("data",list) ;
         map.put("total", list.size());
         return map;

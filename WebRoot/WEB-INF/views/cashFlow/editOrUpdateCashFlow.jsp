@@ -42,42 +42,25 @@
  	<%@include file="../common/navbar.jsp" %>
 
 <div style="width:90%;margin:auto;" >
-<form class="form-horizontal" role="form" action="${ctx}/cashFlow/addOrEditCardSava.do" method="post">
+<form class="form-horizontal" role="form" action="${ctx}/cashFlow/addOrEditCashFlowSava.do" method="post">
 	<h2 class="form-signin-heading">${message}</h2>
    <div class="form-group">
    		<input type="text" name="id" hidden="true" value="${cashFlow.id}" class="input-block-level"/>
    		<input type="text" name="holderName" hidden="true" value="${loginUser.username}" class="input-block-level"/>
    		
-   		  <label for="firstname" class="col-sm-2 control-label">银行名称:</label>
+   		  <label for="firstname" class="col-sm-2 control-label">流转日期:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="bankName" value="${cashFlow.bankName}">
+	         <input type="text" class="form-control" id="firstname" name="times" value="${cashFlow.times}">
 	      </div>
 	      
-	      
-	      <label for="firstname" class="col-sm-2 control-label">卡号:</label>
+	      <label for="firstname" class="col-sm-2 control-label">流转大类:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="accountNumber" value="${cashFlow.accountNumber}">
+	         <input type="text" class="form-control" id="firstname" name="item" value="${cashFlow.item}">
 	      </div>
 	      
-	      
-	      <label for="firstname" class="col-sm-2 control-label">余额:</label>
+	      <label for="firstname" class="col-sm-2 control-label">流转金额:</label>
 	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="balance" value="${cashFlow.balance}">
-	      </div>
-	      
-	      <label for="firstname" class="col-sm-2 control-label">归属地:</label>
-	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="firstname" name="location" value="${cashFlow.location}">
-	      </div>
-	      
-	      <label for="lastname" class="col-sm-2 control-label">Hint:</label>
-	      <div class="col-sm-10">
-	         <input type="text" class="form-control" id="lastname"  name="password" value="${cashFlow.password}">
-	      </div>
-      
-	   	  <label for="lastname" class="col-sm-2 control-label">更新日期:</label>
-	      <div class="col-sm-10">
-	         <input type="text" class="form-control required" id="lastname" name="updateTime" value="${cashFlow.updateTime}">
+	         <input type="text" class="form-control" id="firstname" name="money" value="${cashFlow.money}">
 	      </div>
 	      
 	      <label for="lastname" class="col-sm-2 control-label">备注:</label>

@@ -7,7 +7,7 @@
 		<result property="holderName" column="holderName" />
 		<result property="item" column="item" />
 		<result property="money" column="money" />
-		<result property="times" column="times" />
+		<result property="times" column="timesString" />
 		<result property="remark" column="remark" />
 	</resultMap>
 	
@@ -17,48 +17,41 @@
        </selectKey>    
 	    INSERT INTO cashFlow
 	    <trim prefix="(" suffix=")" suffixOverrides="," >
-       				 ID,updateTime,HOLDERNAME,
-		    <if test="bankName != null" >bankName,</if>
-		    <if test="accountNumber != null" >accountNumber,</if>
-		    <if test="balance != null" >balance,</if>
-		    <if test="location != null" >location,</if>
+       				 ID,times,HOLDERNAME,
+		    <if test="item != null" >item,</if>
+		    <if test="money != null and money &gt;0" >money, type,</if>
+		    <if test="money != null and money &lt;0" >money, type,</if>
 		    <if test="remark != null" >remark,</if>
-		    <if test="password != null" >password,</if>
-		    <if test="reserveField1 != null" >reserveField1,</if>
-		    <if test="reserveField2 != null" >reserveField2,</if>
 	  </trim>
 	  <trim prefix="values (" suffix=")" suffixOverrides="," >
-     			 #{id,jdbcType=DECIMAL},#{updateTime},#{holderName},
-     	    <if test="bankName != null">#{bankName},</if>
-		    <if test="accountNumber != null">#{accountNumber},</if>
-		    <if test="balance != null">#{balance},</if>
-		    <if test="location != null">#{location},</if>
+     			 #{id,jdbcType=DECIMAL},to_date(#{times},'yyyy-mm-dd'),#{holderName},
+     	    <if test="item != null">#{item},</if>
+		    <if test="money != null and money &gt;0" >#{money},0,</if>
+		    <if test="money != null and money &lt;0" >#{money},1,</if>
 		    <if test="remark != null">#{remark},</if>
-		    <if test="password != null">#{password},</if>
-		    <if test="reserveField1 != null">#{reserveField1},</if>
-		    <if test="reserveField2 != null">#{reserveField2},</if>
      </trim> 
 	</insert>
 	
 	<update id="update" parameterType="account_huang.entity.CashFlow">
-		update cashFlow set updateTime=#{updateTime}
-			 <if test="bankName !=null ">,bankName=#{bankName}</if> 
-	   		 <if test="accountNumber !=null ">,accountNumber=#{accountNumber}</if> 
-			 <if test="balance !=null ">,balance=#{balance}</if> 
-			 <if test="location !=null ">,location=#{location}</if> 
-			 <if test="remark !=null ">,remark=#{remark}</if> 
-			 <if test="password !=null ">,password=#{password}</if> 
-			 <if test="reserveField1 !=null ">,reserveField1=#{reserveField1}</if> 
-			 <if test="reserveField2 !=null ">,reserveField2=#{reserveField2}</if> 
+		update cashFlow set times=to_date(#{times},'yyyy-mm-dd')
+			 <if test="item !=null ">,item=#{item}</if> 
+	   		  <if test="money != null and money &gt;0" >,money=#{money},type=0</if> 
+	   		   <if test="money != null and money &lt;0" >,money=#{money},type=1</if> 
+			 <if test="remark !=null ">,remark=#{remark}</if>  
    		  where id=#{id}
 	</update>
 	
-    <select id="getAllCashFlowInfoByHoldername" parameterType="java.lang.String" resultMap="cashFlowResult">
-   		select * from CashFlow where holdername=#{holdername} order by id
+    <select id="getAllCashFlowInfoByHoldername" parameterType="java.util.HashMap" resultMap="cashFlowResult">
+   		select ID, to_char(times,'yyyy-mm-dd') as timesString, item, money, remark, holdername from CashFlow 
+   		where holdername=#{holdername}  and type=#{type} ORDER BY times desc
+    </select>
+    
+    <select id="getTotalIncomeByYear" parameterType="java.util.HashMap" resultMap="cashFlowResult" >
+    	SELECT sum(money) AS money FROM cashflow  WHERE holdername=#{holdername} and to_char(times,'yyyy')=#{year} and item LIKE '工资%'   
     </select>
     
     <select id="findById" parameterType="java.lang.String" resultMap="cashFlowResult">
-    	 select * from CashFlow where id=#{id}
+    	 select ID, to_char(times,'yyyy-mm-dd')  as timesString, item, money, remark, holdername from CashFlow where id=#{id}
     </select>
     
     <delete id="deleteById" parameterType="java.lang.String">

@@ -47,7 +47,7 @@
 		</div>
 		
 		    <cui:grid id="cardGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 
-		    	url="${ctx}/cards/getAllCard.do">
+		    	url="${ctx}/cards/getAllCard.do?username=${loginUser.username}">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" align="center">id</cui:gridCol>
 		    		<cui:gridCol name="bankName" align="center">银行名称</cui:gridCol>

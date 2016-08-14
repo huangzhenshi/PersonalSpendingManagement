@@ -20,7 +20,7 @@ public class CardService {
 		 List<Card> list=template.selectList("account_huang.dao.CardDao.getAllCardInfoByHoldername",holderName);
 		return list;
 	}
-
+	@Transactional
 	public void deleteCardById(String id) {
 		String[] ids=id.split(",");
 		template.delete("account_huang.dao.CardDao.deleteById",ids);
