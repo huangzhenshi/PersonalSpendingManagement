@@ -51,6 +51,7 @@
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" width="80" align="center">日期</cui:gridCol>
+		    		<cui:gridCol name="total" width="80" align="center">资产合计</cui:gridCol>
 		    		<cui:gridCol name="card1" width="80" align="center">招商银行</cui:gridCol>
 		    		<cui:gridCol name="card2" width="80" align="center">中国银行</cui:gridCol>
 		    		<cui:gridCol name="cash" width="80" align="center">现金</cui:gridCol>

@@ -54,6 +54,18 @@
      </trim> 
 	</insert>
 	
+	<update id="updateTotal" parameterType="account_huang.entity.Property">
+		update property b set b.total=(
+			SELECT NVL(A.CARD1, 0) + NVL(A.CARD2, 0) + NVL(A.CASH, 0) +
+                          NVL(A.HOUSINGFUND, 0) + NVL(A.ALIPAY, 0) +
+                          NVL(A.CREDITCARD, 0) + NVL(A.RENT, 0) +
+                          NVL(A.MORTGAGE, 0) + NVL(A.LOAN1, 0) +
+                          NVL(A.LOAN2, 0)
+                     FROM PROPERTY A
+                    WHERE A.times=#{times}
+		) where b.times=#{times}
+	</update>
+	
 	<update id="update" parameterType="account_huang.entity.Property">
 		update property set times=#{times}
 			 <if test="card1 !=null ">,card1=#{card1}</if> 
@@ -76,24 +88,7 @@
    		  where id=(SELECT VALUE FROM codes WHERE code=#{cardNum})
 	</update>
 	
-	<update id="updateTotal" parameterType="String">
-		update property set total=(select )
-   		  where id=(SELECT VALUE FROM codes WHERE code=#{cardNum})
-   		  
-   		  
-UPDATE property b SET b.total=(
-       SELECT nvl(card1,0)+nvl(card1,0)+nvl(card1,0)+nvl(card1,0)+nvl(card1,0)
-) WHERE ID=(
-  SELECT MAX(a.id) FROM property a 
-)
 
- SELECT nvl(card1,0)+nvl(card2,0)+nvl(cash,0)+nvl(housingfund,0)+nvl(ALIPAY,0)+ nvl(CREDITCARD,0)
-        +nvl(RENT,0)
-        +nvl(MORTGAGE,0)+nvl(LOAN1,0)+nvl(LOAN2,0) FROM property WHERE ID
-	</update>
-	
-	
-	
     <select id="getAllPropertyInfoByHoldername" parameterType="java.lang.String" resultMap="propertyResult">
    		select * from property where holdername=#{holdername} order by times desc
     </select>
