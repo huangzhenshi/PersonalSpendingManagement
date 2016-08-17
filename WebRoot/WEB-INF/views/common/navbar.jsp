@@ -13,7 +13,7 @@
     </div>  
     <!-- 正常尺寸下的导航拦 -->  
      <div class="collapse navbar-collapse" id="navigation-list">  
-      <ul class="nav navbar-nav">  
+       <ul class="nav navbar-nav">  
          <li class="active"><a href="${ctx}/record/toMainRecordPage.do">我要记账</a></li> 
          <li><a href="${ctx}/record/getRecordReview.do">账单回顾</a></li> 
          <li><a href="http://phalcon.framework.dev/Index/touch">智能分析</a></li> 
@@ -21,8 +21,8 @@
           <li><a href="${ctx}/cashFlow/toCashFlowMainPage.do?username=${loginUser.username}&year=2016">资金流转</a></li>  
          <li><a href="${ctx}/cards/toCardMainPage.do">银行卡管理</a></li>   
          <li><a href="http://phalcon.framework.dev/List">excel导入导出</a></li>  
-         <li><a href="#" data-target="#about" data-toggle="modal">码表配置</a></li>  
-      </ul>    
+         <li><a href="${ctx}/code/getAllCodes.do?username=${loginUser.username}">码表配置</a></li>  
+      </ul>        
     </div>  
   </div>  
 </nav> 

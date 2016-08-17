@@ -53,21 +53,9 @@
 		         <input type="text" class="form-control required" id="lastname" name="times" value="${record.times}">
 		      </div>
 		      
-	    
       <label for="firstname" class="col-sm-2 control-label">日工资:</label>
       <div class="col-sm-10">
          <input type="text" class="form-control" id="firstname" name="incomeTotal" value="${record.incomeTotal}">
-      </div>
-      
-      
-      <label for="firstname" class="col-sm-2 control-label">日净增涨:</label>
-      <div class="col-sm-10">
-         <input type="text" class="form-control" id="firstname" name="profit" value="${record.profit}">
-      </div>
-      
-      <label for="lastname" class="col-sm-2 control-label">开销:</label>
-      <div class="col-sm-10">
-         <input type="text" class="form-control" id="lastname"  name="costDaily" value="${record.costDaily}">
       </div>
       
    </div>
@@ -95,13 +83,6 @@
          <input type="text" class="form-control" id="lastname"  name="rent" value="${record.rent}">
       </div>
       
-      
-      
-      <label for="firstname" class="col-sm-2 control-label">贷款:</label>
-      <div class="col-sm-10">
-         <input type="text" class="form-control" id="firstname" name="loan" value="${record.loan}">
-      </div>
-      
       <label for="lastname" class="col-sm-2 control-label">买书:</label>
       <div class="col-sm-10">
          <input type="text" class="form-control" id="lastname" name="book" value="${record.book}">
@@ -122,12 +103,8 @@
      </div>
      
      <div class="form-group">
-     	<label for="firstname" class="col-sm-2 control-label">其他:</label>
-      <div class="col-sm-10">
-         <input type="text" class="form-control" id="firstname"   name="elseCost" value="${record.elseCost}">
-      </div>
     
-	      <label for="lastname" class="col-sm-2 control-label">备注:</label>
+	      <label for="lastname" class="col-sm-2 control-label">其他备注:</label>
 	      <div class="col-sm-10">
 	         <input type="text" class="form-control" id="lastname"  name="remark" value="${record.remark}">
 	      </div>
@@ -136,13 +113,6 @@
      <button type="submit" class="btn btn-lg btn-success">提交</button>
 </form>
 </div>
-	<script>
-	
-	$(function(){
-	})
-	
-	
-	</script>
 </body>
 </html>
  </body>
