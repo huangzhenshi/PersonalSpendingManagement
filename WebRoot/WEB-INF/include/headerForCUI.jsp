@@ -133,6 +133,13 @@
 
 <script type="text/javascript" src="${ctx}/res/thirdParty/jquery.base64.js"></script>
 <script type="text/javascript" src="${ctx }/res/resource/style/js/sessionCheck.js"></script>
+<script src="${ctx}/res/resource/style/js/bootstrap.min.js"></script>
+<script src="${ctx}/res/resource/style/js/jquery.validate.min.js"></script>
+<script src="${ctx}/res/resource/style/js/messages_zh.js"></script>
+<script src="${ctx}/mainJs/function.js"></script>
+<link href="${ctx}/res/resource/style/css/inforGlobal.css" type="text/css" rel="stylesheet" />
+<link href="${ctx}/res/resource/style/css/bootstrap.min.css" rel="stylesheet"/>
+
 <script type="text/javascript">
 	var ctx = "${ctx}";
 </script>

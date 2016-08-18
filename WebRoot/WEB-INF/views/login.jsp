@@ -20,7 +20,6 @@
 <script src="${ctx}/res/resource/style/js/md5.min.js"></script>
 <script src="${ctx}/res/resource/style/js/sha1.js"></script>
 <script src="${ctx}/res/thirdParty/jqfloat.min.js"></script>
-<link href="${ctx}/res/resource/style/css/inforGlobal.css" type="text/css" rel="stylesheet" />
 <link href="${ctx}/res/resource/style/css/login.css" type="text/css" rel="stylesheet" />
 <style type="text/css">
 	body{
@@ -95,11 +94,7 @@
 	          <label>密&emsp;码：</label>
 	          <input type="password" autocomplete="off" id="password" name="password">
 	        </div>
-	        <!-- <div class="labelbox identify">
-	          <label>验证码：</label>
-	          <input type="text" name="validateCode" id="validateCode">
-	          <span class="identifyIMg"><img id="code" title="点击刷新" alt="验证码" /></span>
-	        </div> -->
+	       
 	        <div class="rember clearfix">
 	          <span>
 	            <input id="_spring_security_remember_me" name="_spring_security_remember_me" type="checkbox" value="true"/>

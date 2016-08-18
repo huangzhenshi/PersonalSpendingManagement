@@ -18,16 +18,9 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
-<script src="${ctx}/res/resource/style/js/md5.min.js"></script>
-<script src="${ctx}/res/resource/style/js/sha1.js"></script>
-<script src="${ctx}/res/thirdParty/jqfloat.min.js"></script>
-<script src="${ctx}/res/resource/style/js/bootstrap.min.js"></script>
-<script src="${ctx}/mainJs/function.js"></script>
 <!-- 引入layer插件 -->
 <script src="${ctx}/res/resource/style/js/layer/layer.js"></script>
 <script src="${ctx}/res/resource/style/js/layer/laydate/laydate.js"></script>
-<link href="${ctx}/res/resource/style/css/inforGlobal.css" type="text/css" rel="stylesheet" />
-<link href="${ctx}/res/resource/style/css/bootstrap.min.css" rel="stylesheet"/>
 	
    
 
