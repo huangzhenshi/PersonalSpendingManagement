@@ -17,11 +17,6 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
- <script>
-$().ready(function() {
-	$("#form1").validate();
-	});
-</script>
 <style>
 .error{
 	color:red;
@@ -33,24 +28,6 @@ $().ready(function() {
 
 	<!-- 导航栏 -->
  	<%@include file="../common/navbar.jsp" %>
- 	
- 	
- 	<form method="get" class="cmxform" id="form1" action="">
-		  <fieldset>
-		    <legend>登录框</legend>
-		    <p>
-		      <label for="user">用户名</label>
-		      <input id="user" name="user" required>
-		    </p>
-		    <p>
-		      <label for="password">密码</label>
-		      <input id="password" type="password" name="password" required>
-		    </p>
-		    <p>
-		      <input class="submit" type="submit" value="Login">
-		    </p>
-		  </fieldset>
-	</form>
  <div class="container">
 	 <div class="row">					
 		<div class="form-group  btn-group  col-xs-offset-1huang">
@@ -63,8 +40,8 @@ $().ready(function() {
 		    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCodeArray()">
 			  <i class="icon-minus"></i>删除</button>
 			<div class="input-group  col-sm-4 pull-right">
-		   		<input type="text" class="form-control input-lg" placeholder="输入类型或者描述值搜索">
-		   		<span class="input-group-addon btn btn-primary">搜索</span>
+		   		<input type="text" class="form-control input-lg" id="searchInfo" placeholder="输入类型或者描述值搜索">
+		   		<span class="input-group-addon btn btn-primary" onclick="search();">搜索</span>
 			</div>
 		</div>		          
 	 </div>
@@ -130,29 +107,35 @@ $().ready(function() {
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function AddOrEditCode(index,id){
 		debugger;
-		//点击操作选项中修改数据
-		if(index==0){
-			$("#addOrEditCodeForm")[0].reset();  
-			return;
-		}else if(index==1){
+		$("#addOrEditCodeForm")[0].reset(); 
+		if(index==1){
 			var codeGrid = $("#codeGrid${idSuffix}");
-			var sel = codeGrid.grid("option", "selarrrow");
+			var sel=codeGrid.grid("option", "selarrrow");
+			var row = $("#codeGrid${idSuffix}").grid("getRowData",sel);
 			if(sel.length !=1){
 				message("请选择一条记录！");
 				return;
 			}
-			var test=codeGrid.grid("getRowData",sel);
-			$("#addOrEditCodeForm")[0].reset();  
 			$("#modalDescription").val("修改码表值");
-			$("#codeId").val(codeGrid.grid("getRowData",sel).id);
-			$("#codeType").val(codeGrid.grid("getRowData",sel).type);
-			$("#code").val(codeGrid.grid("getRowData",sel).code);
-			$("#codeValue").val(codeGrid.grid("getRowData",sel).value);
-			$("#description").val(codeGrid.grid("getRowData",sel).description);
+			$("#codeId").val(row.id);
+			$("#codeType").val(row.type);
+			$("#code").val(row.code);
+			$("#codeValue").val(row.value);
+			$("#description").val(row.description);
 			
-		}else{
-			window.location.href=('${ctx}/code/editOrUpdateCode.do?holderName=${loginUser.username}');
+		}else if(index==2){
+			var row = $("#codeGrid${idSuffix}").grid("getRowData",id);
+			$("#modalDescription").val("修改码表值");
+			$("#codeId").val(id);
+			$("#codeType").val(row.type);
+			$("#code").val(row.code);
+			$("#codeValue").val(row.value);
+			$("#description").val(row.description);
+			$("#addOrEditCodeModal").modal();
 		}
+	}
+	function search(){
+		window.location.href=("${ctx}/code/getAllCodes.do?username=${loginUser.username}&index="+$("#searchInfo").val());
 	}
 	</script>
 </body>

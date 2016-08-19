@@ -1,23 +1,17 @@
 package account_huang.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
 import account_huang.entity.Code;
-import account_huang.entity.Record;
-import account_huang.entity.User;
 import account_huang.service.CodeService;
 
 @Controller
@@ -32,19 +26,6 @@ public class CodeController {
 		model.addAttribute("codes", new Gson().toJson(list));
 		return  new ModelAndView("code/index");
 	}
-	
-	@RequestMapping("/editOrUpdateCode.do")
-	public ModelAndView editOrUpdateCode(String id,String holderName,ModelMap model){
-		String message="新增码表信息";  
-		if(id!=null&&id.length()>0){
-			 Code Code=codeSer.findById(id);
-			 model.addAttribute("Code", Code);
-			 message="修改码表信息";
-		  }
-		  model.addAttribute("holderName", holderName);
-		  model.addAttribute("message", message);
-		  return  new ModelAndView("code/editOrUpdateCode"); 
-	  }
 	
 	@RequestMapping("/addOrEditCodeSava.do")
 	public ModelAndView addOrEditCodeSava(Code Code,ModelMap model,String holderName){

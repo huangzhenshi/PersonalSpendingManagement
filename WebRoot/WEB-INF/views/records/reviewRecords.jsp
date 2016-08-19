@@ -98,7 +98,6 @@
 		    		<cui:gridCol name="supermarket" width="80" align="center">超市</cui:gridCol>
 		    		<cui:gridCol name="party" width="80" align="center">聚餐</cui:gridCol>
 		    		<cui:gridCol name="rent" width="80" align="center">房租水电</cui:gridCol>
-		    		<cui:gridCol name="loan" width="80" align="center">贷款</cui:gridCol>
 		    		<cui:gridCol name="book" width="80" align="center">买书</cui:gridCol>
 		    		<cui:gridCol name="clothes" width="80" align="center">买衣服</cui:gridCol>
 		    		<cui:gridCol name="traffic" width="80" align="center">交通</cui:gridCol>

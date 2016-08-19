@@ -18,7 +18,6 @@ implements Serializable{
 	private Integer supermarket;
 	private Integer party;
 	private Integer rent;
-	private Integer loan;
 	private Integer book;
 	private Integer clothes;
 	private Integer traffic;
@@ -96,12 +95,6 @@ implements Serializable{
 	}
 	public void setRent(Integer rent) {
 		this.rent = rent;
-	}
-	public Integer getLoan() {
-		return loan;
-	}
-	public void setLoan(Integer loan) {
-		this.loan = loan;
 	}
 	public Integer getTraffic() {
 		return traffic;

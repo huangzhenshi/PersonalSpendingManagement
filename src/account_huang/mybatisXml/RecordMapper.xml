@@ -12,7 +12,6 @@
 		<result property="supermarket" column="supermarket" />
 		<result property="party" column="party" />
 		<result property="rent" column="rent" />
-		<result property="loan" column="loan" />
 		<result property="book" column="book" />
 		<result property="clothes" column="clothes" />
 		<result property="traffic" column="TRAFFICEXP" />
@@ -24,7 +23,7 @@
     <select id="getRecordByDate" 
         parameterType="java.util.HashMap" resultMap="recordResult">
         select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
-       			 party, rent, loan, trafficexp, elsecost, remark, clothes, book, holdername 
+       			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername 
         from expense where holdername=#{holdername}  
         	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
        		order by times DESC
@@ -39,7 +38,7 @@
     
     <select id="findById" parameterType="java.lang.String" resultMap="recordResult">
         select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
-       			 party, rent, loan, trafficexp, elsecost, remark, clothes, book, holdername from expense where id=#{id}
+       			 party, rent,trafficexp, elsecost, remark, clothes, book, holdername from expense where id=#{id}
     </select>
     
      
@@ -58,7 +57,6 @@
 		    <if test="supermarket != null" >SUPERMARKET,</if>
 		    <if test="party != null" >PARTY,</if>
 		    <if test="rent != null" >RENT,</if>
-		    <if test="loan != null" >LOAN,</if>
 		    <if test="traffic != null" >TRAFFICEXP,</if>
 		    <if test="elseCost != null" >ELSECOST,</if>
 		    <if test="remark != null" >REMARK,</if>
@@ -75,7 +73,6 @@
 		    <if test="supermarket != null" >#{supermarket},</if>
 		    <if test="party != null" >      #{party},</if>
 		    <if test="rent != null" >       #{rent},</if>
-		    <if test="loan != null" >       #{loan},</if>
 		    <if test="traffic != null" >    #{traffic},</if>
 		    <if test="elseCost != null" >   #{elseCost},</if>
 		    <if test="remark != null" >     #{remark},</if>
@@ -93,7 +90,6 @@
 			 <if test="supermarket !=null ">,SUPERMARKET=#{supermarket}</if> 
 			 <if test="party !=null ">,PARTY=#{party}</if> 
 			 <if test="rent !=null ">,RENT=#{rent}</if> 
-			 <if test="loan !=null ">,LOAN=#{loan}</if> 
 			 <if test="traffic !=null ">,TRAFFICEXP=#{traffic}</if> 
 			 <if test="elseCost !=null ">,ELSECOST=#{elseCost}</if> 
 			 <if test="remark !=null ">,REMARK=#{remark}</if> 

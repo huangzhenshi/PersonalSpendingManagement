@@ -12,17 +12,17 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<label for="txtUserName">码表类型</label>
-								<input type="text" class="form-control" name="type" id="codeType" required="required"/>
+								<input type="text" class="form-control" name="type" id="codeType" required/>
 							</div>
 							
 							<div class="form-group">
 								<label for="txtPassWord">code值</label>
-								<input type="text" class="form-control" name="code" id="code"/>
+								<input type="text" class="form-control" name="code" id="code" required/>
 							</div>
 							
 							<div class="form-group">
 								<label for="txtPassWord">码值</label>
-								<input type="text" class="form-control" name="value" id="codeValue"/>
+								<input type="text" class="form-control" name="value" id="codeValue" required/>
 							</div>
 							
 							<div class="form-group">
@@ -52,6 +52,11 @@
 			</div>
 		</div>
 		<script>
+
+			$().ready(function() {
+					$("#addOrEditCodeForm").validate();
+				});
+		
 			function submitForm(){
 				$('#addOrEditCodeForm').submit();
 			}

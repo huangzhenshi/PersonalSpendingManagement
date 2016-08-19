@@ -52,6 +52,9 @@ public class CashFlowService {
 		params.put("holdername",username);
 		params.put("year",year);
 		CashFlow cashFlow=template.selectOne("account_huang.dao.CashFlowDao.getTotalIncomeByYear", params);
+		if(cashFlow==null){
+			return "0";
+		}
 		return cashFlow.getMoney()+"";
 	}
 }
