@@ -29,13 +29,9 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
-<script src="${ctx}/res/resource/style/js/md5.min.js"></script>
-<script src="${ctx}/res/resource/style/js/sha1.js"></script>
-<script src="${ctx}/res/thirdParty/jqfloat.min.js"></script>
-<script src="${ctx}/res/resource/style/js/bootstrap.min.js"></script>
-<link href="${ctx}/res/resource/style/css/inforGlobal.css" type="text/css" rel="stylesheet" />
-<link href="${ctx}/res/resource/style/css/bootstrap.min.css" rel="stylesheet"/>
-
+<link href="${ctx}/res/resource/style/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 </head>
 <body style="text-align:center;">
 <!-- 导航栏 -->

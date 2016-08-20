@@ -37,18 +37,18 @@
 		    	url="${ctx}/property/getAllProperty.do?username=${loginUser.username}">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
-		    		<cui:gridCol name="times" width="80" align="center">日期</cui:gridCol>
-		    		<cui:gridCol name="total" width="80" align="center">资产合计</cui:gridCol>
-		    		<cui:gridCol name="card1" width="80" align="center">招商银行</cui:gridCol>
-		    		<cui:gridCol name="card2" width="80" align="center">中国银行</cui:gridCol>
-		    		<cui:gridCol name="cash" width="80" align="center">现金</cui:gridCol>
+		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
+		    		<cui:gridCol name="total" width="80" align="center">Total</cui:gridCol>
+		    		<cui:gridCol name="card1"  align="center">招商银行</cui:gridCol>
+		    		<cui:gridCol name="card2"  align="center">中国银行</cui:gridCol>
+		    		<cui:gridCol name="cash"  align="center">现金</cui:gridCol>
 		    		<cui:gridCol name="alipay" align="center">支付宝</cui:gridCol>
 		    		<cui:gridCol name="creditCard" align="center">信用卡</cui:gridCol>
-		    		<cui:gridCol name="mortgage" width="80" align="center">按揭</cui:gridCol>
-		    		<cui:gridCol name="housingFund" width="80" align="center">公积金</cui:gridCol>
-		    		<cui:gridCol name="rent" width="80" align="center">房租折算</cui:gridCol>
-		    		<cui:gridCol name="loan1" width="80">别人欠我</cui:gridCol>
-		    		<cui:gridCol name="loan2" width="80" align="center">欠别人</cui:gridCol>
+		    		<cui:gridCol name="mortgage"  align="center">按揭</cui:gridCol>
+		    		<cui:gridCol name="housingFund"  align="center">公积金</cui:gridCol>
+		    		<cui:gridCol name="rent"  align="center">房租折算</cui:gridCol>
+		    		<cui:gridCol name="loan1" >别人欠我</cui:gridCol>
+		    		<cui:gridCol name="loan2"  align="center">欠别人</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>

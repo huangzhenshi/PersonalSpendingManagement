@@ -18,9 +18,9 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
-<!-- 引入layer插件 -->
-<script src="${ctx}/res/resource/style/js/layer/layer.js"></script>
-<script src="${ctx}/res/resource/style/js/layer/laydate/laydate.js"></script>
+
+<link href="${ctx}/res/resource/style/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
 	
    
 
@@ -61,31 +61,34 @@
 	        <div class="col-sm-5 col-xs-offset-1huang">
 	          <div class="panel panel-success">
 	            <div class="panel-body">
-						<form class="form-horizontal">
+						<form class="form-horizontal" id="dateChooseForm" role="form"
+							action="${ctx}/record/getRecordReview.do?username=${loginUser.username}" method="post">
 							 <div class="form-group has-success">
 				                  <label class="col-lg-2 control-label">起始日期</label>
 				                  <div class="col-lg-10">
-				                    <input id="qssj" class="form-control" placeholder="起始时间" type="text">
+				                    <input id="qssj" class="form-control date form_date"
+				                         data-date="" data-date-format="yyyy-mm-dd" name="qssj"
+				                         placeholder="起始时间" type="text" required/>
 				                  </div>
 				             </div>
 				              <div class="form-group has-success">
 				                  <label class="col-lg-2 control-label">结束日期</label>
 				                  <div class="col-lg-10">
-				                    <input id="jssj" class="form-control" placeholder="结束时间" type="text">
+				                    <input id="jssj" class="form-control date form_date"  name="jssj"
+				                    	data-date="" data-date-format="yyyy-mm-dd" placeholder="结束时间" type="text" required/>
 				                  </div>
 				             </div>
 				             <div class="form-actions">
-					                <button type="button" class="btn btn-lg btn-primary" onclick="getRecordByDate()">
-				 			 	<i class="icon-search"></i>按天查询
-				 			 </button>
+					                <button  type="submit" class="btn btn-lg btn-primary">
+				 			 			<i class="icon-search"></i>按天查询
+				 				 	</button>
 					         </div>
 						</form>
 	            </div>
 	          </div>
 	        </div>
      </div>
-     
-     
+    
       <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" altRows="true"   
 		    	data="${records}" datatype="local" rowNum="130"  >
 		    	<cui:gridCols>
@@ -105,8 +108,27 @@
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		</cui:gridCols>
 		    </cui:grid> 
+<!-- 引入layer插件 -->
+<script src="${ctx}/res/resource/style/js/layer/layer.js"></script>
+<script src="${ctx}/res/resource/style/js/layer/laydate/laydate.js"></script>		    
+<script src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 		    
 	<script>
+	$('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	
+	$().ready(function() {
+		$("#dateChooseForm").validate();
+	});
 	$(function() {
 		$("#jqgh_recordGrid_times").click(); 
 		var years=['2016','2017'];
@@ -119,9 +141,6 @@
 		var month=$("#sel_month").val();
 		var result=year+"-"+month+"-01";
 		window.location.href=('${ctx}/record/getRecordReview.do?username=${loginUser.username}&qssj='+result);
-	}
-	function  getRecordByDate(){
-		window.location.href=('${ctx}/record/getRecordReview.do?username=${loginUser.username}&qssj='+$("#qssj").val()+'&jssj='+$("#jssj").val());
 	}
 	</script>
 </body>

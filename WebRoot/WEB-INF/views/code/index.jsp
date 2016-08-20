@@ -41,7 +41,7 @@
 			  <i class="icon-minus"></i>删除</button>
 			<div class="input-group  col-sm-4 pull-right">
 		   		<input type="text" class="form-control input-lg" id="searchInfo" placeholder="输入类型或者描述值搜索">
-		   		<span class="input-group-addon btn btn-primary" onclick="search();">搜索</span>
+		   		<span class="input-group-addon btn btn-lg btn-primary icon-search" onclick="search();">搜索</span>
 			</div>
 		</div>		          
 	 </div>

@@ -42,7 +42,7 @@
 		    		<cui:gridCol name="balance" width="80" align="center">余额</cui:gridCol>
 		    		<cui:gridCol name="location" width="80" align="center">归属地</cui:gridCol>
 		    		<cui:gridCol name="password" width="80" align="center">Hint</cui:gridCol>
-		    		<cui:gridCol name="updateTime" width="80" align="center">更新时间</cui:gridCol>
+		    		<cui:gridCol name="updateTime"  align="center">更新时间</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>

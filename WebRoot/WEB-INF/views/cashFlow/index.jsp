@@ -37,7 +37,7 @@
 		    	url="${ctx}/cashFlow/getAllCashFlow.do?username=${loginUser.username}&type=0">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
-		    		<cui:gridCol name="times" width="80" align="center">流转日期</cui:gridCol>
+		    		<cui:gridCol name="times" align="center">流转日期</cui:gridCol>
 		    		<cui:gridCol name="item" align="center">收入大类</cui:gridCol>
 		    		<cui:gridCol name="money" align="center">流转金额</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
@@ -50,7 +50,7 @@
 		    	url="${ctx}/cashFlow/getAllCashFlow.do?username=${loginUser.username}&type=1">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
-		    		<cui:gridCol name="times" width="80" align="center">流转日期</cui:gridCol>
+		    		<cui:gridCol name="times" align="center">流转日期</cui:gridCol>
 		    		<cui:gridCol name="item" align="center">支出大类</cui:gridCol>
 		    		<cui:gridCol name="money" align="center">流转金额</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
