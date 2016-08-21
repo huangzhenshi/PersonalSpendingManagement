@@ -48,22 +48,8 @@ public class RecordController  extends ActionSupport{
 		 return  new ModelAndView("records/static");
 	  }
 	
-
-	@RequestMapping("/addOrUpdate.do")
-	public ModelAndView addOrUpdate(String id,String holderName,ModelMap model){
-		String message="新增记录";  
-		if(id!=null&&id.length()>0){
-			 Record record=staticSer.findById(id);
-			 model.addAttribute("record", record);
-			 message="修改记录";
-		  }
-		  model.addAttribute("holderName", holderName);
-		  model.addAttribute("message", message);
-		  return  new ModelAndView("records/editOrUpdateRecord"); 
-	  }
-	
-	@RequestMapping("/addOrEditSava.do")
-	public ModelAndView addOrEditSava(Record record,ModelMap model){
+	@RequestMapping("/addOrEditRecordSava.do")
+	public ModelAndView addOrEditRecordSava(Record record){
 		  //修改保存功能
 		  if(record.getId()!=null&&record.getId().length()>0){
 			  staticSer.updateRecord(record); 

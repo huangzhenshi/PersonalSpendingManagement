@@ -17,12 +17,7 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
-<style>
-.error{
-	color:red;
-}
-</style>
-
+<style>.error{color:red;}</style>
 </head>
 <body>
 
@@ -46,7 +41,7 @@
 		</div>		          
 	 </div>
 	 
-	<%@include file="editOrUpdateCodeModal.jsp" %>
+<%@include file="editOrUpdateCodeModal.jsp" %>
 </div>
 		
 	    <cui:grid id="codeGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 
@@ -106,7 +101,6 @@
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function AddOrEditCode(index,id){
-		debugger;
 		$("#addOrEditCodeForm")[0].reset(); 
 		if(index==1){
 			var codeGrid = $("#codeGrid${idSuffix}");
@@ -116,7 +110,7 @@
 				message("请选择一条记录！");
 				return;
 			}
-			$("#modalDescription").val("修改码表值");
+			$("#modalDescription").html("修改码表值");
 			$("#codeId").val(row.id);
 			$("#codeType").val(row.type);
 			$("#code").val(row.code);
@@ -125,7 +119,7 @@
 			
 		}else if(index==2){
 			var row = $("#codeGrid${idSuffix}").grid("getRowData",id);
-			$("#modalDescription").val("修改码表值");
+			$("#modalDescription").html("修改码表值");
 			$("#codeId").val(id);
 			$("#codeType").val(row.type);
 			$("#code").val(row.code);

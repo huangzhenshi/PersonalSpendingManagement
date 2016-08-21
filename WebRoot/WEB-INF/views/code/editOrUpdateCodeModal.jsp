@@ -40,7 +40,7 @@
 						    </div>
 						</div>
 						<div class="modal-footer">
-							<button class="btn btn-primary" type="submit"  onclick="submitForm()">
+							<button class="btn btn-primary" type="submit">
 								保存
 							</button>
 							<button class="btn btn-primary" data-dismiss="modal">
@@ -52,12 +52,7 @@
 			</div>
 		</div>
 		<script>
-
 			$().ready(function() {
 					$("#addOrEditCodeForm").validate();
 				});
-		
-			function submitForm(){
-				$('#addOrEditCodeForm').submit();
-			}
 		</script>

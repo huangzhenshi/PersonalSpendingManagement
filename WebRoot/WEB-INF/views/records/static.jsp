@@ -17,21 +17,26 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
+<style>.error{color:red;}</style>
 </head>
 <body>
 
-	<!-- 导航栏 -->
- 	<%@include file="../common/navbar.jsp" %>
+<!-- 导航栏 -->
+<%@include file="../common/navbar.jsp" %>
 	 <div class="row">
 			<div class="btn-group span5 col-xs-offset-1huang">
-				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEdit(0)">
+				<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
+   							data-target="#addOrEditRecordModal"  onclick="addOrEdit(0)">
 				  <i class="icon-plus"></i>新增</button>
-			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">
+			    <button type="button" class="btn btn-lg btn-success" data-toggle="modal" 
+   							data-target="#addOrEditRecordModal"  onclick="addOrEdit(1)">
 			      <i class="icon-pencil"></i>修改</button>
 			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">
 			      <i class="icon-minus"></i>删除</button>
 			</div>
 		</div>
+<!-- 新增修改模态窗口-->
+<%@include file="editOrUpdateRecordModal.jsp" %>
 		
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
 		    	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}"
@@ -40,13 +45,13 @@
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
-		    		<cui:gridCol name="incomeTotal" align="center">日工资</cui:gridCol>
-		    		<cui:gridCol name="profit" width="80" align="center">剩余</cui:gridCol>
+		    		<cui:gridCol name="profit" width="80" align="center">结余</cui:gridCol>
+		    		<cui:gridCol name="incomeTotal" width="80" align="center">工资</cui:gridCol>
 		    		<cui:gridCol name="costDaily" width="80" align="center">开销</cui:gridCol>
-		    		<cui:gridCol name="eating" width="80" align="center">吃饭水果</cui:gridCol>
+		    		<cui:gridCol name="eating" width="80" align="center">饮食</cui:gridCol>
 		    		<cui:gridCol name="supermarket" width="80" align="center">超市</cui:gridCol>
 		    		<cui:gridCol name="party" width="80" align="center">聚餐</cui:gridCol>
-		    		<cui:gridCol name="rent" width="80" align="center">房租水电</cui:gridCol>
+		    		<cui:gridCol name="rent" width="80" align="center">房租</cui:gridCol>
 		    		<cui:gridCol name="book" width="80" align="center">买书</cui:gridCol>
 		    		<cui:gridCol name="clothes" width="80" align="center">买衣服</cui:gridCol>
 		    		<cui:gridCol name="traffic" width="80" align="center">交通</cui:gridCol>
@@ -57,6 +62,7 @@
 		    </cui:grid> 
 		    
 	<script>
+	
 	$(function() {
 		
 	});
@@ -95,21 +101,43 @@ function operateFormatter(cellValue, options, rowObject){
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEdit(index,id){
 		debugger;
-		//点击操作选项中修改数据
-		if(index==2){
-			window.location.href=('${ctx}/record/addOrUpdate.do?id='+id);
-		}else if(index==1){
+		$("#addOrEditRecordForm")[0].reset(); 
+		if(index==1){
 			var recordGrid = $("#recordGrid${idSuffix}");
-			var sel = recordGrid.grid("option", "selarrrow");
+			var sel=recordGrid.grid("option", "selarrrow");
+			var row = $("#recordGrid${idSuffix}").grid("getRowData",sel);
 			if(sel.length !=1){
 				message("请选择一条记录！");
 				return;
 			}
-			var idUpdate = recordGrid.grid("getRowData",sel).id;
-			window.location.href=('${ctx}/record/addOrUpdate.do?id='+idUpdate);
-		}else{
-			window.location.href=('${ctx}/record/addOrUpdate.do?holderName=${loginUser.username}');
+			$("#modalDescription").html("修改记账");
+			$("#recordId").val(row.id);
+			$("#recordTimes").val(row.times);
+			$("#recordIncomeTotal").val(row.incomeTotal);
+			$("#recordEating").val(row.eating);
+			$("#recordSupermarket").val(row.supermarket);
+			$("#recordParty").val(row.party);
+			$("#recordRent").val(row.rent);
+			$("#recordBook").val(row.book);
+			$("#recordClothes").val(row.clothes);
+			$("#recordTraffic").val(row.traffic);
+			
+		}else if(index==2){
+			var row = $("#recordGrid${idSuffix}").grid("getRowData",id);
+			$("#modalDescription").html("修改记账");
+			$("#recordId").val(row.id);
+			$("#recordTimes").val(row.times);
+			$("#recordIncomeTotal").val(row.incomeTotal);
+			$("#recordEating").val(row.eating);
+			$("#recordSupermarket").val(row.supermarket);
+			$("#recordParty").val(row.party);
+			$("#recordRent").val(row.rent);
+			$("#recordBook").val(row.book);
+			$("#recordClothes").val(row.clothes);
+			$("#recordTraffic").val(row.traffic);
+			$("#addOrEditRecordModal").modal();
 		}
+		
 	}
 	
 	
@@ -193,6 +221,26 @@ function operateFormatter(cellValue, options, rowObject){
 						$(this).dialog("close");
 					}
 				}).dialog("open");
+	} */
+
+	/* //index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
+	function addOrEdit(index,id){
+		debugger;
+		//点击操作选项中修改数据
+		if(index==2){
+			window.location.href=('${ctx}/record/addOrUpdate.do?id='+id);
+		}else if(index==1){
+			var recordGrid = $("#recordGrid${idSuffix}");
+			var sel = recordGrid.grid("option", "selarrrow");
+			if(sel.length !=1){
+				message("请选择一条记录！");
+				return;
+			}
+			var idUpdate = recordGrid.grid("getRowData",sel).id;
+			window.location.href=('${ctx}/record/addOrUpdate.do?id='+idUpdate);
+		}else{
+			window.location.href=('${ctx}/record/addOrUpdate.do?holderName=${loginUser.username}');
+		}
 	} */
 	</script>
 </body>
