@@ -72,7 +72,7 @@
 			return "通用码值";
 		}
 		return "专有码值";
-}
+	}
 	
 	//删除编码
 	function deleteCode(id){

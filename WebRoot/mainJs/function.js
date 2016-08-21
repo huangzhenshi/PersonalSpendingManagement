@@ -920,9 +920,10 @@ function encodeBase64Json(json){
 	}
 	return json;
 }
-/*$('.se-searchall .coral-textbox-default').textbox({
-		onKeyUp : function(event, ui){
-			var value = parseInt(ui.value);
-			tooltipinput(pl);
-		}
-	});*/
+
+function zeroFormat(cellValue){
+	if(cellValue==0||cellValue==null){
+		return "";
+	}
+	return cellValue;
+}

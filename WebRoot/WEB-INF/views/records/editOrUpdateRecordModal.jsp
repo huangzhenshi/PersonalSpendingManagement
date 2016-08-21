@@ -59,7 +59,7 @@
 									
 									<div class="form-group">
 										<label for="txtUserName">其他:</label>
-										<input type="isInteger" class="form-control" name="remark" id="recordRemark" />
+										<input type="text" class="form-control" name="remark" id="recordRemark" />
 									</div>
 						</div>
 						

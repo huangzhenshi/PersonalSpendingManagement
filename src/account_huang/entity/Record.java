@@ -24,7 +24,15 @@ implements Serializable{
 	private Integer elseCost;
 	private String remark;
 	private String holderName;
+	private String profitThisMonth;
+	private String costThisMonth;
 
+	public String getCostThisMonth() {
+		return costThisMonth;
+	}
+	public void setCostThisMonth(String costThisMonth) {
+		this.costThisMonth = costThisMonth;
+	}
 	public String getHolderName() {
 		return holderName;
 	}
@@ -42,6 +50,13 @@ implements Serializable{
 	 * comment on column EXPENSE.CLOTHES is '买衣服'; comment on column
 	 * EXPENSE.BOOK is '买书'; comment on column EXPENSE.USERNAME is '记录所属用户名';
 	 */
+
+	public String getProfitThisMonth() {
+		return profitThisMonth;
+	}
+	public void setProfitThisMonth(String profitThisMonth) {
+		this.profitThisMonth = profitThisMonth;
+	}
 	public String getId() {
 		return id;
 	}

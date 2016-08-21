@@ -17,14 +17,18 @@
 		<result property="traffic" column="TRAFFICEXP" />
 		<result property="elseCost" column="elseCost" />
 		<result property="remark" column="remark" />
-		<result property="holderName" column="holderName" />	 
+		<result property="holderName" column="holderName" />	
+		<result property="profitThisMonth" column="profitThisMonth" />
+		<result property="costThisMonth" column="costThisMonth" />
 	</resultMap>
 	
     <select id="getRecordByDate" 
         parameterType="java.util.HashMap" resultMap="recordResult">
         select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
-       			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername 
-        from expense where holdername=#{holdername}  
+       			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername,
+        (SELECT SUM(b.PROFIT) FROM expense b WHERE b.times  BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND a.times and  holdername=#{holdername} ) AS profitThisMonth,
+        (SELECT SUM(b.COST_DAILY) FROM expense b WHERE b.times  BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND a.times and  holdername=#{holdername} ) AS costThisMonth
+        from expense a where holdername=#{holdername}  
         	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
        		order by times DESC
     </select>
@@ -96,6 +100,12 @@
 			 <if test="clothes !=null ">,CLOTHES=#{clothes}</if> 
 			 <if test="book !=null ">,BOOK=#{book}</if>
    		  where id=#{id}
+	</update>
+	
+	<update id="updateTotal" parameterType="String">
+   		 update expense set cost_Daily=nvl(eating,0)+nvl(supermarket,0)+nvl(party,0)+nvl(rent,0)+nvl(clothes,0)+nvl(book,0)+nvl(trafficexp,0)+nvl(elseCost,0),
+                			profit=income_total-(nvl(eating,0)+nvl(supermarket,0)+nvl(party,0)+nvl(rent,0)+nvl(clothes,0)+nvl(book,0)+nvl(trafficexp,0)+nvl(elseCost,0))
+                where times=to_date(#{times},'yyyy-mm-dd')
 	</update>
     
     

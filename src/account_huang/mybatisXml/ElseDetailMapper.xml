@@ -16,7 +16,7 @@
        </selectKey>    
 	    INSERT INTO elseDetail
 	    	(ID,times,HOLDERNAME,columnName,value) 
-	    	values(#{id,jdbcType=DECIMAL},#{times},#{holderName},#{columnName},#{value})
+	    	values(#{id,jdbcType=DECIMAL},to_Date(#{times},'yyyy-mm-dd'),#{holderName},#{columnName},#{value})
 	</insert>
     
     <delete id="deleteByTimes" parameterType="java.lang.String">

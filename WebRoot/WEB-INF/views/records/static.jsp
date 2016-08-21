@@ -45,9 +45,11 @@
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
-		    		<cui:gridCol name="profit" width="80" align="center">结余</cui:gridCol>
+		    		<cui:gridCol name="costThisMonth" width="80" align="center">月开销</cui:gridCol>
+		    		<cui:gridCol name="costDaily" width="80" align="center">日开销</cui:gridCol>
+		    		<cui:gridCol name="profitThisMonth" width="80" align="center">月结余</cui:gridCol>
+		    		<cui:gridCol name="profit" width="80" align="center">日结余</cui:gridCol>
 		    		<cui:gridCol name="incomeTotal" width="80" align="center">工资</cui:gridCol>
-		    		<cui:gridCol name="costDaily" width="80" align="center">开销</cui:gridCol>
 		    		<cui:gridCol name="eating" width="80" align="center">饮食</cui:gridCol>
 		    		<cui:gridCol name="supermarket" width="80" align="center">超市</cui:gridCol>
 		    		<cui:gridCol name="party" width="80" align="center">聚餐</cui:gridCol>
@@ -55,7 +57,7 @@
 		    		<cui:gridCol name="book" width="80" align="center">买书</cui:gridCol>
 		    		<cui:gridCol name="clothes" width="80" align="center">买衣服</cui:gridCol>
 		    		<cui:gridCol name="traffic" width="80" align="center">交通</cui:gridCol>
-		    		<cui:gridCol name="elseCost" width="80" align="center">其他</cui:gridCol>
+		    		<cui:gridCol name="elseCost" width="80" align="center" formatter="zeroFormat">其他</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>
@@ -121,7 +123,7 @@ function operateFormatter(cellValue, options, rowObject){
 			$("#recordBook").val(row.book);
 			$("#recordClothes").val(row.clothes);
 			$("#recordTraffic").val(row.traffic);
-			
+			$("#recordRemark").val(row.remark);
 		}else if(index==2){
 			var row = $("#recordGrid${idSuffix}").grid("getRowData",id);
 			$("#modalDescription").html("修改记账");
@@ -135,6 +137,7 @@ function operateFormatter(cellValue, options, rowObject){
 			$("#recordBook").val(row.book);
 			$("#recordClothes").val(row.clothes);
 			$("#recordTraffic").val(row.traffic);
+			$("#recordRemark").val(row.remark);
 			$("#addOrEditRecordModal").modal();
 		}
 		
