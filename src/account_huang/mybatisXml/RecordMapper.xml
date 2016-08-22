@@ -25,13 +25,21 @@
     <select id="getRecordByDate" 
         parameterType="java.util.HashMap" resultMap="recordResult">
         select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
-       			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername,
-        (SELECT SUM(b.PROFIT) FROM expense b WHERE b.times  BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND a.times and  holdername=#{holdername} ) AS profitThisMonth,
-        (SELECT SUM(b.COST_DAILY) FROM expense b WHERE b.times  BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND a.times and  holdername=#{holdername} ) AS costThisMonth
-        from expense a where holdername=#{holdername}  
+       			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername
+       			 from expense a where holdername=#{holdername}  
         	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
        		order by times DESC
     </select>
+    <!-- 根据日期查询这段时间的 总的结余和总的开销 -->
+    <select id="getTotalByDate"  parameterType="java.util.HashMap" resultMap="recordResult">
+      SELECT SUM(PROFIT) AS PROFITTHISMONTH, SUM(COST_DAILY) AS COSTTHISMONTH
+   			FROM EXPENSE  WHERE HOLDERNAME = #{holdername}
+    				AND TIMES BETWEEN TO_DATE(#{qssj}, 'yyyy-mm-dd') AND
+        							  TO_DATE(#{jssj}, 'yyyy-mm-dd')
+
+    </select>
+    
+    
     
     <delete id="deleteById" parameterType="java.lang.String">
         delete from expense where id in

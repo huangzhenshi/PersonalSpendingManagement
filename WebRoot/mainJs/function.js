@@ -268,6 +268,11 @@ function getDateToday(){
 	var dateNext = date+" 24:00:00";
 	return [datePre,dateNext];
 }
+
+function getDateTodayDayOnly(){
+	var dd = new Date();
+	return dd.pattern("yyyy-MM-dd");
+}
 /**
  * 最近N天
  * @returns {Array}

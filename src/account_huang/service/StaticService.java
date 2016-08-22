@@ -23,6 +23,8 @@ import java.util.Map;
 
 
 
+
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,8 +33,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
 import account_huang.dao.RecordDao;
+import account_huang.entity.Code;
 import account_huang.entity.ElseDetail;
 import account_huang.entity.Record;
 import account_huang.entity.User;
@@ -46,6 +50,9 @@ public class StaticService {
 	
 	@Resource
 	private ElseDetailService elseService;
+	
+	@Resource
+	private CodeService codeService;
 	
 	@Transactional
 	public void deleteRecordById(String id) {
@@ -92,6 +99,22 @@ public class StaticService {
 	public Record findById(String id) {
 		Record record=template.selectOne("account_huang.dao.RecordDao.findById", id);
 		return record;
+	}
+	
+	public Record getTotalByDate(String username){
+		  Map<String, Object> params =new HashMap<String, Object>();
+	        params.put("holdername", username);
+	        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        	Calendar c = Calendar.getInstance();    
+		        c.add(Calendar.MONTH, 0);
+		        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+		        String qssj = format.format(c.getTime());  
+		        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));  
+		        String jssj = format.format(c.getTime());
+	        params.put("qssj", qssj);
+        	params.put("jssj", jssj);
+		Record record=template.selectOne("account_huang.dao.RecordDao.getTotalByDate", params);
+		return  record;
 	}
 	
 	/**
@@ -173,6 +196,13 @@ public class StaticService {
 		template.update("account_huang.dao.RecordDao.updateTotal", record.getTimes());
 		
 		
+	}
+
+	public void setAutoFill(ModelMap model, String username) {
+		List<Code> codes=codeService.findByType(username,"autoFill");
+		for(int i=0;i<codes.size();i++){
+			model.addAttribute(codes.get(i).getCode(), codes.get(i).getValue());
+		}
 	}
 	
 }

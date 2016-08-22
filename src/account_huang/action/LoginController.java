@@ -46,6 +46,9 @@ public class LoginController
 		  User userIn=logSer.getUserByMybatis(user);
 		  if(userIn!=null&&userIn.getUsername().length()>0){
 			  session.setAttribute("loginUser", userIn);
+			    Record rec=staticSer.getTotalByDate(userIn.getUsername());
+				model.addAttribute("costAll", rec.getCostThisMonth());
+				model.addAttribute("profitAll", rec.getProfitThisMonth());
 			  return new ModelAndView("records/static");  
 		  }
 		  return new ModelAndView("login");

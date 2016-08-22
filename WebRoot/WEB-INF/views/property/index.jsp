@@ -55,6 +55,10 @@
 		    </cui:grid> 
 		    
 	<script>
+	$(function() {
+		$("#propertyNav").addClass("active");
+		$("#propertyNav").parent("ul").children("li").not("#propertyNav").removeClass("active");
+	});
 	//格式化操作栏
 function operateFormatter(cellValue, options, rowObject){
 	var result = "";

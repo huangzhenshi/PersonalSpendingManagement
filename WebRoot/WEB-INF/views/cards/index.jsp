@@ -49,6 +49,12 @@
 		    </cui:grid> 
 		    
 	<script>
+
+	$(function() {
+		$("#cardNav").addClass("active");
+		$("#cardNav").parent("ul").children("li").not("#cardNav").removeClass("active");
+	});
+	
 	//格式化操作栏
 function operateFormatter(cellValue, options, rowObject){
 	var result = "";

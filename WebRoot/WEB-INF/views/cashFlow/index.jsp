@@ -22,8 +22,9 @@
 
 	<!-- 导航栏 -->
  	<%@include file="../common/navbar.jsp" %>
+<div class="container-fluid">
 	 <div class="row">
-			<div class="btn-group span5 col-xs-offset-1huang">
+			<div class="col-xs-offset-1huang  col-lg-3">
 				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditCashFlow(0)">
 				  <i class="icon-plus"></i>新增</button>
 			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEditCashFlow(1)">
@@ -31,8 +32,13 @@
 			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCashFlowArray()">
 			      <i class="icon-minus"></i>删除</button>
 			</div>
+			
+			<div class="col-lg-7">
+				 <h3  class="text-left">收入明细(${total})</h3>
+			</div>
 		</div>
-		 <h3  class="text-center">收入明细(${total})</h3>
+		
+</div>
 		    <cui:grid id="2cashFlowGrid${idSuffix}" rownumbers="true" width="auto" height="700" multiselect="true" altRows="true" 
 		    	url="${ctx}/cashFlow/getAllCashFlow.do?username=${loginUser.username}&type=0">
 		    	<cui:gridCols>
@@ -60,6 +66,10 @@
 		   
 		    
 	<script>
+	$(function() {
+		$("#flowNav").addClass("active");
+		$("#flowNav").parent("ul").children("li").not("#flowNav").removeClass("active");
+	});
 	//格式化操作栏
 function operateFormatter(cellValue, options, rowObject){
 	var result = "";

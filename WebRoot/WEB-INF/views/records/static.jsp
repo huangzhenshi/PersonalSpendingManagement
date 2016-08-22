@@ -23,32 +23,38 @@
 
 <!-- 导航栏 -->
 <%@include file="../common/navbar.jsp" %>
-	 <div class="row">
-			<div class="btn-group span5 col-xs-offset-1huang">
-				<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
-   							data-target="#addOrEditRecordModal"  onclick="addOrEdit(0)">
-				  <i class="icon-plus"></i>新增</button>
-			    <button type="button" class="btn btn-lg btn-success" data-toggle="modal" 
-   							data-target="#addOrEditRecordModal"  onclick="addOrEdit(1)">
-			      <i class="icon-pencil"></i>修改</button>
-			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">
-			      <i class="icon-minus"></i>删除</button>
-			</div>
+<div class="container-fluid">
+	 <div class="row ">					
+		<div class="col-xs-offset-1huang col-lg-3" >
+			<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
+   				data-target="#addOrEditRecordModal" onclick="addOrEdit(0)">
+			  <i class="icon-plus"></i>新增</button>
+		    <button type="button" class="btn btn-lg btn-success" data-toggle="modal" 
+   				data-target="#addOrEditRecordModal"  onclick="addOrEdit(1)">
+		      <i class="icon-pencil"></i>修改</button>
+		    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">
+			  <i class="icon-minus"></i>删除</button>
+			  
 		</div>
+		
+		<div class="col-lg-7">
+			<h2 class="text-left">本月累计开销${costAll}元，累计结余${profitAll}元</h3>
+		</div>
+			          
+	 </div>	
+</div>
+			
+
 <!-- 新增修改模态窗口-->
 <%@include file="editOrUpdateRecordModal.jsp" %>
 		
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
-		    	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}"
-		    	rowNum="31"
-		    	>
+		    	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}" rowNum="31">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
-		    		<cui:gridCol name="costThisMonth" width="80" align="center">月开销</cui:gridCol>
-		    		<cui:gridCol name="costDaily" width="80" align="center">日开销</cui:gridCol>
-		    		<cui:gridCol name="profitThisMonth" width="80" align="center">月结余</cui:gridCol>
-		    		<cui:gridCol name="profit" width="80" align="center">日结余</cui:gridCol>
+		    		<cui:gridCol name="costDaily" width="80" align="center">开销</cui:gridCol>
+		    		<cui:gridCol name="profit" width="80" align="center">结余</cui:gridCol>
 		    		<cui:gridCol name="incomeTotal" width="80" align="center">工资</cui:gridCol>
 		    		<cui:gridCol name="eating" width="80" align="center">饮食</cui:gridCol>
 		    		<cui:gridCol name="supermarket" width="80" align="center">超市</cui:gridCol>
@@ -66,7 +72,8 @@
 	<script>
 	
 	$(function() {
-		
+		$("#doRecordNav").addClass("active");
+		$("#doRecordNav").parent("ul").children("li").not("#doRecordNav").removeClass("active");
 	});
 	
 	//格式化操作栏
@@ -79,7 +86,7 @@ function operateFormatter(cellValue, options, rowObject){
 	function deleteRecord(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				window.location.href=('${ctx}/record/delete.do?id='+id);
+				window.location.href=('${ctx}/record/delete.do?id='+id+'&username=${loginUser.username}');
 			} else {
 				message("取消");
 			}
@@ -104,6 +111,18 @@ function operateFormatter(cellValue, options, rowObject){
 	function addOrEdit(index,id){
 		debugger;
 		$("#addOrEditRecordForm")[0].reset(); 
+		if(index==0){
+			if("${salary}"){
+				$("#recordIncomeTotal").val(${salary});
+			}
+			if("${rent}"){
+				$("#recordRent").val(${rent});
+			}
+			if("${eating}"){
+				$("#recordEating").val(${eating});
+			}
+			$("#recordTimes").val(getDateTodayDayOnly());
+		}
 		if(index==1){
 			var recordGrid = $("#recordGrid${idSuffix}");
 			var sel=recordGrid.grid("option", "selarrrow");

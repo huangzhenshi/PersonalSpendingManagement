@@ -66,16 +66,16 @@
 							 <div class="form-group has-success">
 				                  <label class="col-lg-2 control-label">起始日期</label>
 				                  <div class="col-lg-10">
-				                    <input id="qssj" class="form-control date form_date"
+				                    <input id="qssj" class="form-control date form_date required"
 				                         data-date="" data-date-format="yyyy-mm-dd" name="qssj"
-				                         placeholder="起始时间" type="text" required/>
+				                         placeholder="起始时间" type="text" value="${qssj}" />
 				                  </div>
 				             </div>
 				              <div class="form-group has-success">
 				                  <label class="col-lg-2 control-label">结束日期</label>
 				                  <div class="col-lg-10">
-				                    <input id="jssj" class="form-control date form_date"  name="jssj"
-				                    	data-date="" data-date-format="yyyy-mm-dd" placeholder="结束时间" type="text" required/>
+				                    <input id="jssj" class="form-control date form_date required"  name="jssj"
+				                    	data-date="" data-date-format="yyyy-mm-dd" placeholder="结束时间" type="text" value="${jssj}" />
 				                  </div>
 				             </div>
 				             <div class="form-actions">
@@ -111,10 +111,13 @@
 <!-- 引入layer插件 -->
 <script src="${ctx}/res/resource/style/js/layer/layer.js"></script>
 <script src="${ctx}/res/resource/style/js/layer/laydate/laydate.js"></script>		    
-<script src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
-<script src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 		    
 	<script>
+	
+	$(function() {
+		$("#recordReviewNav").addClass("active");
+		$("#recordReviewNav").parent("ul").children("li").not("#recordReviewNav").removeClass("active");
+	});
 	$('.form_date').datetimepicker({
         language:  'zh-CN',
         weekStart: 1,

@@ -32,6 +32,15 @@ public class CodeService {
 		Code Code=template.selectOne("account_huang.dao.CodeDao.findById", id);
 		return Code;
 	}
+	
+	public List<Code> findByType(String username,String type) {
+		Map<String,Object> params=new HashMap<String,Object>();
+			params.put("holdername", username);
+			params.put("type", type);
+		List<Code> list=template.selectList("account_huang.dao.CodeDao.findByType",params);
+		return list;
+	}
+	
 	@Transactional
 	public void updateCode(Code Code) {
 		template.update("account_huang.dao.CodeDao.update", Code);

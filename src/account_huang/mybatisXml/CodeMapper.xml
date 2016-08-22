@@ -39,13 +39,17 @@
 	</update>
 	
     <select id="getAllCodeInfoByHoldername" parameterType="java.util.HashMap" resultMap="CodeResult">
-   		select * from codes where holdername=#{holdername} or holdername is null 
+   		select ID, TYPE, code, VALUE, DESCRIPTION, holdername, isall from codes where holdername=#{holdername} or holdername is null 
 	     		<if test="type !=null "> and (type like #{type} or description like #{description})</if> 	
    		order by type,value
     </select>
     
     <select id="findById" parameterType="java.lang.String" resultMap="CodeResult">
-    	 select * from codes where id=#{id}
+    	 select ID, TYPE, code, VALUE, DESCRIPTION, holdername, isall from codes where id=#{id}
+    </select>
+    
+    <select id="findByType" parameterType="java.util.HashMap" resultMap="CodeResult">
+    	 select TYPE, code, VALUE from codes where holdername=#{holdername} and type=#{type}
     </select>
     
     <delete id="deleteById" parameterType="java.lang.String">
@@ -54,5 +58,7 @@
 				#{id}
 			</foreach>
     </delete>
+    
+    
     
 </mapper>
