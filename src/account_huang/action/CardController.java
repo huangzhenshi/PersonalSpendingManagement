@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import account_huang.entity.Card;
-import account_huang.entity.User;
 import account_huang.service.CardService;
 
 @Controller
@@ -55,11 +52,12 @@ public class CardController {
 	  }
 	
 	@RequestMapping("/addOrEditCardSava.do")
-	public ModelAndView addOrEditCardSava(Card card,ModelMap model){
+	public ModelAndView addOrEditCardSava(Card card,ModelMap model,String holderName){
 		  //修改保存功能
 		  if(card.getId()!=null&&card.getId().length()>0){
 			  cardSer.updateCard(card); 
 		  }else{
+			  card.setHolderName(holderName);
 			  cardSer.saveCard(card); 
 		  }
 		  return  new ModelAndView("cards/index");

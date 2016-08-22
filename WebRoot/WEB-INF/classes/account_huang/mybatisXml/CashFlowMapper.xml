@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="account_huang.dao.CashFlowDao">
+	 <resultMap id="cashFlowResult" type="account_huang.entity.CashFlow">
+		<result property="id" column="id" />
+		<result property="holderName" column="holderName" />
+		<result property="item" column="item" />
+		<result property="money" column="money" />
+		<result property="times" column="timesString" />
+		<result property="remark" column="remark" />
+	</resultMap>
+	
+	<insert id="save" parameterType="account_huang.entity.CashFlow">  
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+              select SEQ_FLOW_ID.nextval from dual 
+       </selectKey>    
+	    INSERT INTO cashFlow
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+       				 ID,times,HOLDERNAME,
+		    <if test="item != null" >item,</if>
+		    <if test="money != null and money &gt;0" >money, type,</if>
+		    <if test="money != null and money &lt;0" >money, type,</if>
+		    <if test="remark != null" >remark,</if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides="," >
+     			 #{id,jdbcType=DECIMAL},to_date(#{times},'yyyy-mm-dd'),#{holderName},
+     	    <if test="item != null">#{item},</if>
+		    <if test="money != null and money &gt;0" >#{money},0,</if>
+		    <if test="money != null and money &lt;0" >#{money},1,</if>
+		    <if test="remark != null">#{remark},</if>
+     </trim> 
+	</insert>
+	
+	<update id="update" parameterType="account_huang.entity.CashFlow">
+		update cashFlow set times=to_date(#{times},'yyyy-mm-dd')
+			 <if test="item !=null ">,item=#{item}</if> 
+	   		  <if test="money != null and money &gt;0" >,money=#{money},type=0</if> 
+	   		   <if test="money != null and money &lt;0" >,money=#{money},type=1</if> 
+			 <if test="remark !=null ">,remark=#{remark}</if>  
+   		  where id=#{id}
+	</update>
+	
+    <select id="getAllCashFlowInfoByHoldername" parameterType="java.util.HashMap" resultMap="cashFlowResult">
+   		select ID, to_char(times,'yyyy-mm-dd') as timesString, item, money, remark, holdername from CashFlow 
+   		where holdername=#{holdername}  and type=#{type} ORDER BY times desc
+    </select>
+    
+    <select id="getTotalIncomeByYear" parameterType="java.util.HashMap" resultMap="cashFlowResult" >
+    	SELECT sum(money) AS money FROM cashflow  WHERE holdername=#{holdername} and to_char(times,'yyyy')=#{year} and item LIKE '工资%'   
+    </select>
+    
+    <select id="findById" parameterType="java.lang.String" resultMap="cashFlowResult">
+    	 select ID, to_char(times,'yyyy-mm-dd')  as timesString, item, money, remark, holdername from CashFlow where id=#{id}
+    </select>
+    
+    <delete id="deleteById" parameterType="java.lang.String">
+    	 delete from CashFlow where id in
+	        <foreach item="id" collection="array" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+    </delete>
+    
+	 
+	
+	
+    
+    
+    
+</mapper>

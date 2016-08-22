@@ -26,14 +26,18 @@ public class CodeController {
 		model.addAttribute("codes", new Gson().toJson(list));
 		return  new ModelAndView("code/index");
 	}
-	
+	/**
+	 * 修改码表值的时候不能修改holdername所以前台不需要传递 holdername参数，但是新增的时候必须塞给code
+	 * @return
+	 */
 	@RequestMapping("/addOrEditCodeSava.do")
-	public ModelAndView addOrEditCodeSava(Code Code,ModelMap model,String holderName){
+	public ModelAndView addOrEditCodeSava(Code code,ModelMap model,String holderName){
 		  //修改保存功能
-		  if(Code.getId()!=null&&Code.getId().length()>0){
-			  codeSer.updateCode(Code); 
+		  if(code.getId()!=null&&code.getId().length()>0){
+			  codeSer.updateCode(code); 
 		  }else{
-			  codeSer.saveCode(Code); 
+			  code.setHolderName(holderName);
+			  codeSer.saveCode(code); 
 		  }
 		  List<Code> list=codeSer.getAllCodes(holderName,"");
 		  model.addAttribute("codes", new Gson().toJson(list));

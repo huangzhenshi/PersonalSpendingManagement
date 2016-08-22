@@ -29,8 +29,7 @@
 			<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
    				data-target="#addOrEditRecordModal" onclick="addOrEdit(0)">
 			  <i class="icon-plus"></i>新增</button>
-		    <button type="button" class="btn btn-lg btn-success" data-toggle="modal" 
-   				data-target="#addOrEditRecordModal"  onclick="addOrEdit(1)">
+		    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">
 		      <i class="icon-pencil"></i>修改</button>
 		    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">
 			  <i class="icon-minus"></i>删除</button>
@@ -109,7 +108,6 @@ function operateFormatter(cellValue, options, rowObject){
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEdit(index,id){
-		debugger;
 		$("#addOrEditRecordForm")[0].reset(); 
 		if(index==0){
 			if("${salary}"){
@@ -122,6 +120,7 @@ function operateFormatter(cellValue, options, rowObject){
 				$("#recordEating").val(${eating});
 			}
 			$("#recordTimes").val(getDateTodayDayOnly());
+			return;
 		}
 		if(index==1){
 			var recordGrid = $("#recordGrid${idSuffix}");
@@ -131,35 +130,23 @@ function operateFormatter(cellValue, options, rowObject){
 				message("请选择一条记录！");
 				return;
 			}
-			$("#modalDescription").html("修改记账");
-			$("#recordId").val(row.id);
-			$("#recordTimes").val(row.times);
-			$("#recordIncomeTotal").val(row.incomeTotal);
-			$("#recordEating").val(row.eating);
-			$("#recordSupermarket").val(row.supermarket);
-			$("#recordParty").val(row.party);
-			$("#recordRent").val(row.rent);
-			$("#recordBook").val(row.book);
-			$("#recordClothes").val(row.clothes);
-			$("#recordTraffic").val(row.traffic);
-			$("#recordRemark").val(row.remark);
+			
 		}else if(index==2){
 			var row = $("#recordGrid${idSuffix}").grid("getRowData",id);
-			$("#modalDescription").html("修改记账");
-			$("#recordId").val(row.id);
-			$("#recordTimes").val(row.times);
-			$("#recordIncomeTotal").val(row.incomeTotal);
-			$("#recordEating").val(row.eating);
-			$("#recordSupermarket").val(row.supermarket);
-			$("#recordParty").val(row.party);
-			$("#recordRent").val(row.rent);
-			$("#recordBook").val(row.book);
-			$("#recordClothes").val(row.clothes);
-			$("#recordTraffic").val(row.traffic);
-			$("#recordRemark").val(row.remark);
-			$("#addOrEditRecordModal").modal();
 		}
-		
+		$("#modalDescription").html("修改记账");
+		$("#recordId").val(row.id);
+		$("#recordTimes").val(row.times);
+		$("#recordIncomeTotal").val(row.incomeTotal);
+		$("#recordEating").val(row.eating);
+		$("#recordSupermarket").val(row.supermarket);
+		$("#recordParty").val(row.party);
+		$("#recordRent").val(row.rent);
+		$("#recordBook").val(row.book);
+		$("#recordClothes").val(row.clothes);
+		$("#recordTraffic").val(row.traffic);
+		$("#recordRemark").val(row.remark);
+		$("#addOrEditRecordModal").modal();
 	}
 	
 	

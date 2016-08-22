@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="account_huang.dao.CodeDao">
+	 <resultMap id="CodeResult" type="account_huang.entity.Code">
+		<result property="id" column="id" />
+		<result property="holderName" column="holderName" />
+		<result property="type" column="type" />
+		<result property="code" column="code" />
+		<result property="value" column="value" />
+		<result property="description" column="description" />
+	</resultMap>
+
+<!-- isAll如果为1 则为局部的码值，否则就是全局变量，holdername为空即可 -->
+	<insert id="save" parameterType="account_huang.entity.Code">  
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+              select SEQ_codes_ID.nextval from dual 
+       </selectKey>    
+	    INSERT INTO codes
+	   	 <trim prefix="(" suffix=")" suffixOverrides="," >
+       				 ID,type,code,value,
+		   
+		    <if test="isAll=1" >holderName,</if>
+		    <if test="description != null" >description,</if>
+		  </trim>
+		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+	     			 #{id,jdbcType=DECIMAL},#{type},#{code},#{value},
+			    <if test="isAll=1">#{holderName},</if>
+			    <if test="description != null">#{description},</if>
+	     </trim> 
+	</insert>
+	
+	<update id="update" parameterType="account_huang.entity.Code">
+		update codes set value=#{value}
+			 <if test="type !=null ">,type=#{type}</if> 
+	   		 <if test="code !=null ">,code=#{code}</if> 
+			 <if test="description !=null ">,description=#{description}</if> 
+   		  where id=#{id}
+	</update>
+	
+    <select id="getAllCodeInfoByHoldername" parameterType="java.util.HashMap" resultMap="CodeResult">
+   		select ID, TYPE, code, VALUE, DESCRIPTION, holdername, isall from codes where holdername=#{holdername} or holdername is null 
+	     		<if test="type !=null "> and (type like #{type} or description like #{description})</if> 	
+   		order by type,value
+    </select>
+    
+    <select id="findById" parameterType="java.lang.String" resultMap="CodeResult">
+    	 select ID, TYPE, code, VALUE, DESCRIPTION, holdername, isall from codes where id=#{id}
+    </select>
+    
+    <select id="findByType" parameterType="java.util.HashMap" resultMap="CodeResult">
+    	 select TYPE, code, VALUE from codes where holdername=#{holdername} and type=#{type}
+    </select>
+    
+    <delete id="deleteById" parameterType="java.lang.String">
+    	 delete from codes where id in
+	        <foreach item="id" collection="array" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+    </delete>
+    
+    
+    
+</mapper>

@@ -29,8 +29,7 @@
 			<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
    				data-target="#addOrEditCodeModal" onclick="AddOrEditCode(0)">
 			  <i class="icon-plus"></i>新增</button>
-		    <button type="button" class="btn btn-lg btn-success" data-toggle="modal" 
-   				data-target="#addOrEditCodeModal"  onclick="AddOrEditCode(1)">
+		    <button type="button" class="btn btn-lg btn-success" onclick="AddOrEditCode(1)">
 		      <i class="icon-pencil"></i>修改</button>
 		    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCodeArray()">
 			  <i class="icon-minus"></i>删除</button>
@@ -48,6 +47,7 @@
 	    	data="${codes}" datatype="local" rowNum="130">
 	    	<cui:gridCols>
 	    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
+	    		<cui:gridCol name="holderName" hidden="true">holderName</cui:gridCol>
 	    		<cui:gridCol name="type" align="center">码表类型</cui:gridCol>
 	    		<cui:gridCol name="code" align="center">code值</cui:gridCol>
 	    		<cui:gridCol name="value" width="80" align="center">码值</cui:gridCol>
@@ -106,6 +106,9 @@
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function AddOrEditCode(index,id){
 		$("#addOrEditCodeForm")[0].reset(); 
+		if(index==0){
+			return;
+		}
 		if(index==1){
 			var codeGrid = $("#codeGrid${idSuffix}");
 			var sel=codeGrid.grid("option", "selarrrow");
@@ -114,23 +117,16 @@
 				message("请选择一条记录！");
 				return;
 			}
-			$("#modalDescription").html("修改码表值");
-			$("#codeId").val(row.id);
-			$("#codeType").val(row.type);
-			$("#code").val(row.code);
-			$("#codeValue").val(row.value);
-			$("#description").val(row.description);
-			
 		}else if(index==2){
 			var row = $("#codeGrid${idSuffix}").grid("getRowData",id);
-			$("#modalDescription").html("修改码表值");
-			$("#codeId").val(id);
-			$("#codeType").val(row.type);
-			$("#code").val(row.code);
-			$("#codeValue").val(row.value);
-			$("#description").val(row.description);
-			$("#addOrEditCodeModal").modal();
 		}
+		$("#modalDescription").html("修改码表值");
+		$("#codeId").val(id);
+		$("#codeType").val(row.type);
+		$("#code").val(row.code);
+		$("#codeValue").val(row.value);
+		$("#description").val(row.description);
+		$("#addOrEditCodeModal").modal();
 	}
 	function search(){
 		window.location.href=("${ctx}/code/getAllCodes.do?username=${loginUser.username}&index="+$("#searchInfo").val());

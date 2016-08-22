@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="account_huang.dao.ElseDetailDao">
+	 <resultMap id="elseResult" type="account_huang.entity.ElseDetail">
+		<result property="id" column="id" />
+		<result property="holderName" column="holderName" />
+		<result property="times" column="times" />
+		<result property="columnName" column="columnName" />
+		<result property="value" column="value" />
+	</resultMap>
+	
+	<insert id="save" parameterType="account_huang.entity.ElseDetail">  
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+              select SEQ_ELSEDETAIL_ID.nextval from dual 
+       </selectKey>    
+	    INSERT INTO elseDetail
+	    	(ID,times,HOLDERNAME,columnName,value) 
+	    	values(#{id,jdbcType=DECIMAL},to_Date(#{times},'yyyy-mm-dd'),#{holderName},#{columnName},#{value})
+	</insert>
+    
+    <delete id="deleteByTimes" parameterType="java.lang.String">
+    	 delete from elseDetail where times in
+	        <foreach item="times" collection="array" open="(" separator="," close=")">
+				to_date(#{times},'yyyy-mm-dd')
+			</foreach>
+    </delete>
+    
+	 
+	
+	
+    
+    
+    
+</mapper>

@@ -17,6 +17,7 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
+<style>.error{color:red;}</style>
 </head>
 <body>
 
@@ -24,7 +25,8 @@
  	<%@include file="../common/navbar.jsp" %>
 	 <div class="row">
 			<div class="btn-group span5 col-xs-offset-1huang">
-				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditCard(0)">
+				<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
+   				data-target="#addOrEditCardModal" onclick="addOrEditCard(0)">
 				  <i class="icon-plus"></i>新增</button>
 			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEditCard(1)">
 			      <i class="icon-pencil"></i>修改</button>
@@ -32,6 +34,7 @@
 			      <i class="icon-minus"></i>删除</button>
 			</div>
 		</div>
+<%@include file="editOrUpdateCardModal.jsp" %>
 		
 		    <cui:grid id="cardGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 
 		    	url="${ctx}/cards/getAllCard.do?username=${loginUser.username}">
@@ -89,21 +92,33 @@ function operateFormatter(cellValue, options, rowObject){
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEditCard(index,id){
 		debugger;
-		//点击操作选项中修改数据
-		if(index==2){
-			window.location.href=('${ctx}/cards/editOrUpdateCard.do?id='+id);
-		}else if(index==1){
+		$("#addOrEditCardForm")[0].reset(); 
+		if(index==0){
+			$("#cardUpdateTime").val(getDateTodayDayOnly());
+			return;
+		}
+		if(index==1){
 			var cardGrid = $("#cardGrid${idSuffix}");
-			var sel = cardGrid.grid("option", "selarrrow");
+			var sel=cardGrid.grid("option", "selarrrow");
+			var row = $("#cardGrid${idSuffix}").grid("getRowData",sel);
 			if(sel.length !=1){
 				message("请选择一条记录！");
 				return;
 			}
-			var idUpdate = cardGrid.grid("getRowData",sel).id;
-			window.location.href=('${ctx}/cards/editOrUpdateCard.do?id='+idUpdate+'&holderName=${loginUser.username}');
-		}else{
-			window.location.href=('${ctx}/cards/editOrUpdateCard.do?holderName=${loginUser.username}');
+			
+		}else if(index==2){
+			var row = $("#cardGrid${idSuffix}").grid("getRowData",id);
 		}
+		$("#modalDescription").html("修改银行卡");
+		$("#cardId").val(row.id);
+		$("#cardBankName").val(row.bankName);
+		$("#cardAccountNumber").val(row.accountNumber);
+		$("#cardBalance").val(row.balance);
+		$("#cardLocation").val(row.location);
+		$("#cardPassword").val(row.password);
+		$("#cardUpdateTime").val(row.updateTime);
+		$("#cardRemark").val(row.remark);
+		$("#addOrEditCardModal").modal();
 	}
 	</script>
 </body>
