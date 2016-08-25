@@ -61,7 +61,7 @@ public class RecordController  extends ActionSupport{
 	  }
 	
 	@RequestMapping("/addOrEditRecordSava.do")
-	public ModelAndView addOrEditRecordSava(Record record,ModelMap model){
+	public ModelAndView addOrEditRecordSava(Record record,ModelMap model) throws Exception{
 		  //修改保存功能
 		  if(record.getId()!=null&&record.getId().length()>0){
 			  staticSer.updateRecord(record); 

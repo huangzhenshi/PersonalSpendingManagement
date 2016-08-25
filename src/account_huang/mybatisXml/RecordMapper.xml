@@ -39,8 +39,6 @@
 
     </select>
     
-    
-    
     <delete id="deleteById" parameterType="java.lang.String">
         delete from expense where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
@@ -53,8 +51,107 @@
        			 party, rent,trafficexp, elsecost, remark, clothes, book, holdername from expense where id=#{id}
     </select>
     
-     
-    <!-- 插入开销记录 自动主键-->  
+   
+	<insert id="save" parameterType="account_huang.entity.Record"> 
+	 <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+              select SEQ_EXPENSE_ID.nextval from dual 
+       </selectKey>    
+	    INSERT INTO expense
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+       				 ID,times,HOLDERNAME,
+		    <if test="incomeTotal != 0" >INCOME_TOTAL,</if>
+		    PROFIT,COST_DAILY,
+		    <if test="eating !=0" >EATING,</if>
+		    <if test="supermarket != 0" >SUPERMARKET,</if>
+		    <if test="party != 0" >PARTY,</if>
+		    <if test="rent != 0" >RENT,</if>
+		    <if test="traffic != 0" >TRAFFICEXP,</if>
+		    <if test="elseCost != 0" >ELSECOST,</if>
+		    <if test="remark != null" >REMARK,</if>
+		    <if test="clothes != 0" >CLOTHES,</if>
+		    <if test="book != 0" >BOOK</if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides="," >
+     			 #{id,jdbcType=DECIMAL},
+	    				to_date(#{times},'yyyy-mm-dd'),#{holderName},
+     		<if test="incomeTotal != 0" >#{incomeTotal},</if>
+		  	#{incomeTotal}-(#{eating}+#{supermarket}+#{party}+ #{rent}+ #{traffic}+#{elseCost}+ #{clothes}+#{book}), 
+		  	#{eating}+#{supermarket}+#{party}+ #{rent}+ #{traffic}+#{elseCost}+ #{clothes}+#{book},
+		    <if test="eating != 0" >     #{eating},</if>
+		    <if test="supermarket != 0" >#{supermarket},</if>
+		    <if test="party != 0" >      #{party},</if>
+		    <if test="rent != 0" >       #{rent},</if>
+		    <if test="traffic != 0" >    #{traffic},</if>
+		    <if test="elseCost != 0" >   #{elseCost},</if>
+		    <if test="remark != null" >     #{remark},</if>
+		    <if test="clothes != 0" >    #{clothes},</if>
+		    <if test="book != 0" >       #{book}</if>
+     </trim> 
+	</insert>
+	
+
+	<!-- 通过反射处理，空值为0处理 -->
+	<update id="update" parameterType="account_huang.entity.Record">
+   		 update expense set times=to_date(#{times},'yyyy-mm-dd')
+			 <if test="incomeTotal !=0">,INCOME_TOTAL=#{incomeTotal} </if> 
+	   		,PROFIT=#{incomeTotal}-(#{eating}+#{supermarket}+#{party}+ #{rent}+ #{traffic}+#{elseCost}+ #{clothes}+#{book})
+	   		,COST_DAILY=#{eating}+#{supermarket}+#{party}+ #{rent}+ #{traffic}+#{elseCost}+ #{clothes}+#{book}
+			 
+			 <if test="eating !=0 ">,EATING=#{eating}</if> 
+			 <if test="eating ==0 ">,EATING=NULL</if> 
+			  
+			  <if test="supermarket ==0 ">,SUPERMARKET=NULL</if> 
+			 <if test="supermarket !=0 ">,SUPERMARKET=#{supermarket}</if> 
+			 
+			  <if test="party ==0 ">,PARTY=NULL</if>
+			  <if test="party !=0 ">,PARTY=#{party}</if>
+			 
+			  
+			 <if test="rent !=0 ">,RENT=#{rent}</if> 
+			  <if test="rent ==0 ">,RENT=NULL</if> 
+			 
+			 
+			 <if test="traffic !=0 ">,TRAFFICEXP=#{traffic}</if> 
+			  <if test="traffic ==0 ">,TRAFFICEXP=NULL</if> 
+			 
+			 <if test="elseCost !=0 ">,ELSECOST=#{elseCost}</if> 
+			  <if test="elseCost ==0 ">,ELSECOST=NULL</if> 
+			 
+			 <if test="remark !=null ">,REMARK=#{remark}</if> 
+			 
+			 <if test="clothes ==0 ">,CLOTHES=NULL</if> 
+			 <if test="clothes !=0 ">,CLOTHES=#{clothes}</if> 
+			
+			 <if test="book ==0 ">,BOOK=NULL</if>
+			 <if test="book !=0 ">,BOOK=#{book}</if>
+   		  where id=#{id}
+	</update>
+	
+	
+	<!-- <update id="updateTotal" parameterType="String">
+   		 update expense set cost_Daily=nvl(eating,0)+nvl(supermarket,0)+nvl(party,0)+nvl(rent,0)+nvl(clothes,0)+nvl(book,0)+nvl(trafficexp,0)+nvl(elseCost,0),
+                			profit=income_total-(nvl(eating,0)+nvl(supermarket,0)+nvl(party,0)+nvl(rent,0)+nvl(clothes,0)+nvl(book,0)+nvl(trafficexp,0)+nvl(elseCost,0))
+                where times=to_date(#{times},'yyyy-mm-dd')
+	</update> -->
+    
+    	<!-- <update id="update" parameterType="account_huang.entity.Record">
+   		 update expense set times=to_date(#{times},'yyyy-mm-dd')
+			 <if test="incomeTotal !=null ">,INCOME_TOTAL=#{incomeTotal} </if> 
+	   		 <if test="profit !=null ">,PROFIT=#{profit}</if> 
+			 <if test="costDaily !=null ">,COST_DAILY=#{costDaily}</if> 
+			 <if test="eating !=null ">,EATING=#{eating}</if> 
+			 <if test="supermarket !=null ">,SUPERMARKET=#{supermarket}</if> 
+			 <if test="party !=null ">,PARTY=#{party}</if> 
+			 <if test="rent !=null ">,RENT=#{rent}</if> 
+			 <if test="traffic !=null ">,TRAFFICEXP=#{traffic}</if> 
+			 <if test="elseCost !=null ">,ELSECOST=#{elseCost}</if> 
+			 <if test="remark !=null ">,REMARK=#{remark}</if> 
+			 <if test="clothes !=null ">,CLOTHES=#{clothes}</if> 
+			 <if test="book !=null ">,BOOK=#{book}</if>
+   		  where id=#{id}
+	</update> -->
+      
+    <!--  
 	<insert id="save" parameterType="account_huang.entity.Record"> 
 	 <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
               select SEQ_EXPENSE_ID.nextval from dual 
@@ -91,31 +188,7 @@
 		    <if test="clothes != null" >    #{clothes},</if>
 		    <if test="book != null" >       #{book}</if>
      </trim> 
-	</insert> 
+	</insert>  -->
 	
-	<update id="update" parameterType="account_huang.entity.Record">
-   		 update expense set times=to_date(#{times},'yyyy-mm-dd')
-			 <if test="incomeTotal !=null ">,INCOME_TOTAL=#{incomeTotal} </if> 
-	   		 <if test="profit !=null ">,PROFIT=#{profit}</if> 
-			 <if test="costDaily !=null ">,COST_DAILY=#{costDaily}</if> 
-			 <if test="eating !=null ">,EATING=#{eating}</if> 
-			 <if test="supermarket !=null ">,SUPERMARKET=#{supermarket}</if> 
-			 <if test="party !=null ">,PARTY=#{party}</if> 
-			 <if test="rent !=null ">,RENT=#{rent}</if> 
-			 <if test="traffic !=null ">,TRAFFICEXP=#{traffic}</if> 
-			 <if test="elseCost !=null ">,ELSECOST=#{elseCost}</if> 
-			 <if test="remark !=null ">,REMARK=#{remark}</if> 
-			 <if test="clothes !=null ">,CLOTHES=#{clothes}</if> 
-			 <if test="book !=null ">,BOOK=#{book}</if>
-   		  where id=#{id}
-	</update>
-	
-	<update id="updateTotal" parameterType="String">
-   		 update expense set cost_Daily=nvl(eating,0)+nvl(supermarket,0)+nvl(party,0)+nvl(rent,0)+nvl(clothes,0)+nvl(book,0)+nvl(trafficexp,0)+nvl(elseCost,0),
-                			profit=income_total-(nvl(eating,0)+nvl(supermarket,0)+nvl(party,0)+nvl(rent,0)+nvl(clothes,0)+nvl(book,0)+nvl(trafficexp,0)+nvl(elseCost,0))
-                where times=to_date(#{times},'yyyy-mm-dd')
-	</update>
-    
-    
     
 </mapper>

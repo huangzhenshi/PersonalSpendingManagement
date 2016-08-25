@@ -108,6 +108,7 @@ function operateFormatter(cellValue, options, rowObject){
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEdit(index,id){
+		debugger;
 		$("#addOrEditRecordForm")[0].reset(); 
 		if(index==0){
 			if("${salary}"){
@@ -118,6 +119,9 @@ function operateFormatter(cellValue, options, rowObject){
 			}
 			if("${eating}"){
 				$("#recordEating").val(${eating});
+			}
+			if("${top10ElseName}"){
+				$("#top10ElseName").html("${top10ElseName}");
 			}
 			$("#recordTimes").val(getDateTodayDayOnly());
 			return;

@@ -1,15 +1,21 @@
 package account_huang.entity;
 
-import java.io.Serializable;
 
-public class ElseDetail implements Serializable{
-	 private static final long serialVersionUID = -5170895077622072639L;
+public class ElseDetail{
 	 private String id;
 	 private String times;
 	 private String columnName;
 	 private Integer value;
 	 private String holderName;
-	 public String getId() {
+	 //specialCol 用来临时保存一些参数，并没有确切的业务意义
+	 private String specialCol;
+	 public String getSpecialCol() {
+		return specialCol;
+	}
+	public void setSpecialCol(String specialCol) {
+		this.specialCol = specialCol;
+	}
+	public String getId() {
 		return id;
 	}
 	public void setId(String id) {

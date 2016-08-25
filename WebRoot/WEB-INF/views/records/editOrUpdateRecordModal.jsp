@@ -60,6 +60,7 @@
 									<div class="form-group">
 										<label for="txtUserName">其他:</label>
 										<input type="text" class="form-control" name="remark" id="recordRemark" />
+										<span id="top10ElseName"></span>
 									</div>
 						</div>
 						

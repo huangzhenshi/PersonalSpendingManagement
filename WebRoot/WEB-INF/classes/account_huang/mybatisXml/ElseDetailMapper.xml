@@ -8,6 +8,7 @@
 		<result property="times" column="times" />
 		<result property="columnName" column="columnName" />
 		<result property="value" column="value" />
+		<result property="specialCol" column="specialCol" />
 	</resultMap>
 	
 	<insert id="save" parameterType="account_huang.entity.ElseDetail">  
@@ -26,6 +27,15 @@
 			</foreach>
     </delete>
     
+     <select id="getTop10ElseName"  parameterType="java.util.HashMap" resultMap="elseResult">
+      SELECT WM_CONCAT(K.COLNAME) as specialCol
+		   FROM (SELECT B.*
+		           FROM (SELECT SUBSTR(COLUMNNAME, 0, 2) AS COLNAME
+		                   FROM ELSEDETAIL A WHERE HOLDERNAME=#{holderName}
+		                  GROUP BY SUBSTR(COLUMNNAME, 0, 2)
+		                  ORDER BY COUNT(*) DESC) B
+		          ${rowmuns}) K
+    </select>
 	 
 	
 	

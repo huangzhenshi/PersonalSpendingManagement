@@ -25,6 +25,12 @@ import java.util.Map;
 
 
 
+
+
+
+
+import javassist.bytecode.analysis.Util;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,6 +46,7 @@ import account_huang.entity.Code;
 import account_huang.entity.ElseDetail;
 import account_huang.entity.Record;
 import account_huang.entity.User;
+import account_huang.utils.Utils;
 
 import com.google.gson.Gson;
 
@@ -53,6 +60,9 @@ public class StaticService {
 	
 	@Resource
 	private CodeService codeService;
+	
+	@Resource
+	private ElseDetailService elseDetailService;
 	
 	@Transactional
 	public void deleteRecordById(String id) {
@@ -124,7 +134,7 @@ public class StaticService {
 	 * 
 	 * @param record
 	 */
-	@Transactional
+	/*@Transactional
 	public void updateRecord(Record record) {
 		elseService.deleteByTimes(record.getTimes());
 		String remarks="";
@@ -155,17 +165,19 @@ public class StaticService {
 		record.setElseCost(elseAll);
 		template.update("account_huang.dao.RecordDao.update", record);
 		template.update("account_huang.dao.RecordDao.updateTotal", record.getTimes());
-	}
+	}*/
 	/**
 	 * 先处理elseDetail的值，保存在else表中，并计算else的总值
 	 * 存入expense表中一条记录含else，然后update 日开销和日结余和日
+	 * @throws Exception 
 	 */
-	@Transactional
-	public void saveRecord(Record record) {
+	/*@Transactional
+	public void saveRecord(Record record) throws Exception {
 		String remarks="";
 		int elseAll=0;
 			//如果remark不为空且有值
-			if(record.getRemark()!=null||record.getRemark().trim().length()>0){
+			if(record.getRemark()!=null&&record.getRemark().trim().length()>0){
+				Integer test2=record.getRemark().trim().length();
 				String remarkss=record.getRemark().trim();
 				String[] arr=remarkss.split(" ");
 				
@@ -192,17 +204,96 @@ public class StaticService {
 		if(elseAll!=+0){
 			record.setElseCost(elseAll);
 		}
+		Record test=new Record();
+		test=record;
+		test=(Record) Utils.mathConvertToZero(test);
 		template.insert("account_huang.dao.RecordDao.save", record);
 		template.update("account_huang.dao.RecordDao.updateTotal", record.getTimes());
 		
 		
+	}*/
+	
+	@Transactional
+	public void saveRecord(Record record) throws Exception {
+		String remarks="";
+		int elseAll=0;
+			//如果remark不为空且有值
+			if(record.getRemark()!=null&&record.getRemark().trim().length()>0){
+				Integer test2=record.getRemark().trim().length();
+				String remarkss=record.getRemark().trim();
+				String[] arr=remarkss.split(" ");
+				
+				ElseDetail detail=new ElseDetail();
+				detail.setHolderName(record.getHolderName());
+				detail.setTimes(record.getTimes());
+				for(int i=0;i<arr.length;i++){
+					//如果trim后有值且满足 **-**格式，则放入list当中;
+					if(arr[i].trim().length()>0){
+						remarks+=arr[i].trim()+",";
+						String[] detailFormat=arr[i].trim().split("-");
+							if(detailFormat.length==2&&StringUtils.isNumeric(detailFormat[1])){
+								detail.setColumnName(detailFormat[0]);
+								detail.setValue(Integer.parseInt(detailFormat[1]));
+								elseService.saveElseDetail(detail);
+								elseAll+=Integer.parseInt(detailFormat[1]);
+							}
+					}
+					
+				}
+			}
+		
+		record.setRemark(remarks==""?remarks:remarks.substring(0,remarks.length()-1));
+		if(elseAll!=+0){
+			record.setElseCost(elseAll);
+		}
+		template.insert("account_huang.dao.RecordDao.save",(Record) Utils.mathConvertToZero(record));
 	}
-
+	
+	@Transactional
+	public void updateRecord(Record record) throws Exception {
+		elseService.deleteByTimes(record.getTimes());
+		String remarks="";
+		int elseAll=0;
+		if(record.getRemark()!=null&&record.getRemark().trim().length()>0){
+			String remarkss=record.getRemark().trim();
+			String[] arr=remarkss.split(" ");
+			
+			ElseDetail detail=new ElseDetail();
+			detail.setHolderName(record.getHolderName());
+			detail.setTimes(record.getTimes());
+			for(int i=0;i<arr.length;i++){
+				//如果trim后有值且满足 **-**格式，则放入list当中;
+				if(arr[i].trim().length()>0){
+					remarks+=arr[i].trim()+" ";
+					String[] detailFormat=arr[i].trim().split("-");
+						if(detailFormat.length==2&&StringUtils.isNumeric(detailFormat[1])){
+							detail.setColumnName(detailFormat[0]);
+							detail.setValue(Integer.parseInt(detailFormat[1]));
+							elseService.saveElseDetail(detail);
+							elseAll+=Integer.parseInt(detailFormat[1]);
+						}
+				}
+				
+			}
+		}
+		record.setRemark(remarks==""?remarks:remarks.substring(0,remarks.length()-1));
+		record.setElseCost(elseAll);
+		template.update("account_huang.dao.RecordDao.update", (Record) Utils.mathConvertToZero(record));
+	}
+/**
+ * 读取码表中配置过的autoFill类型的码值配置，有的话，直接把 code:value的形式存放到 model中
+ * 另外还会获取到该用户常用的 备注名称（方便统计分析），默认取的所有备注中常用的前10个拼接起来的
+ * @param model
+ * @param username
+ */
 	public void setAutoFill(ModelMap model, String username) {
 		List<Code> codes=codeService.findByType(username,"autoFill");
 		for(int i=0;i<codes.size();i++){
 			model.addAttribute(codes.get(i).getCode(), codes.get(i).getValue());
 		}
+		String top10ElseName=elseDetailService.getTop10ElseName(username);
+		model.addAttribute("top10ElseName",top10ElseName);
+		
 	}
 	
 }

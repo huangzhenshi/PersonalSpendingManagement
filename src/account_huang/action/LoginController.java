@@ -47,6 +47,7 @@ public class LoginController
 		  if(userIn!=null&&userIn.getUsername().length()>0){
 			  session.setAttribute("loginUser", userIn);
 			    Record rec=staticSer.getTotalByDate(userIn.getUsername());
+			    staticSer.setAutoFill(model,userIn.getUsername());
 				model.addAttribute("costAll", rec.getCostThisMonth());
 				model.addAttribute("profitAll", rec.getProfitThisMonth());
 			  return new ModelAndView("records/static");  
