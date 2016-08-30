@@ -27,9 +27,9 @@
 			<div class="col-xs-offset-1huang  col-lg-3">
 				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditCashFlow(0)">
 				  <i class="icon-plus"></i>新增</button>
-			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEditCashFlow(1)">
+			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEditCashFlow(1,0,'income')">
 			      <i class="icon-pencil"></i>修改</button>
-			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCashFlowArray()">
+			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCashFlowArray(1)">
 			      <i class="icon-minus"></i>删除</button>
 			</div>
 			
@@ -39,7 +39,7 @@
 		</div>
 		
 </div>
-		    <cui:grid id="2cashFlowGrid${idSuffix}" rownumbers="true" width="auto" height="700" multiselect="true" altRows="true" 
+		    <cui:grid id="incomeCashFlowGrid${idSuffix}" rownumbers="true" width="auto" height="700" multiselect="true" altRows="true" 
 		    	url="${ctx}/cashFlow/getAllCashFlow.do?username=${loginUser.username}&type=0">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
@@ -50,7 +50,24 @@
 		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>
 		    </cui:grid> 
-		    <h3 class="text-center">支出明细</h3>
+		    
+<div class="container-fluid">
+	 <div class="row">
+			<div class="col-xs-offset-1huang  col-lg-3">
+				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditCashFlow(0)">
+				  <i class="icon-plus"></i>新增</button>
+			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEditCashFlow(1)">
+			      <i class="icon-pencil"></i>修改</button>
+			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCashFlowArray(0)">
+			      <i class="icon-minus"></i>删除</button>
+			</div>
+			
+			<div class="col-lg-7">
+				 <h3  class="text-left">支出明细</h3>
+			</div>
+		</div>
+		
+</div>
 		    <cui:grid id="cashFlowGrid${idSuffix}" rownumbers="true" 
 		    	width="auto" height="700" multiselect="true" altRows="true" 
 		    	url="${ctx}/cashFlow/getAllCashFlow.do?username=${loginUser.username}&type=1">
@@ -71,12 +88,13 @@
 		$("#flowNav").parent("ul").children("li").not("#flowNav").removeClass("active");
 	});
 	//格式化操作栏
-function operateFormatter(cellValue, options, rowObject){
-	var result = "";
-		result += " <a href='javascript:addOrEditCashFlow(2,\""+ rowObject.id+"\");' title='修改' class='grideditbtn'></a> ";
-		result += " <a href='javascript:deleteCashFlow(\""+ rowObject.id+ "\");' title='删除' class='griddeletebtn'></a> ";
-	return result;}
-	//删除编码
+	function operateFormatter(cellValue, options, rowObject){
+		var result = "";
+			result += " <a href='javascript:addOrEditCashFlow(2,\""+ rowObject.id+"\");' title='修改' class='grideditbtn'></a> ";
+			result += " <a href='javascript:deleteCashFlow(\""+ rowObject.id+ "\");' title='删除' class='griddeletebtn'></a> ";
+		return result;
+	}
+	//删除记录
 	function deleteCashFlow(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
@@ -87,9 +105,15 @@ function operateFormatter(cellValue, options, rowObject){
 		});
 	}
 	
-	//批量删除
-	function deleteCashFlowArray(){
-		var cashFlowGrid = $("#cashFlowGrid${idSuffix}");
+	
+	//批量删除  index=1 表示 流入表的批量删除，=0表示 流出表的批量删除
+	function deleteCashFlowArray(index){
+		if(index==1){
+			var cashFlowGrid = $("#incomeCashFlowGrid${idSuffix}");
+		}else{
+			var cashFlowGrid = $("#cashFlowGrid${idSuffix}");
+			
+		}
 		var sel = cashFlowGrid.grid("option", "selarrrow");
 		if(sel.length<1){
 			message("请至少选择一条记录！");
@@ -101,14 +125,17 @@ function operateFormatter(cellValue, options, rowObject){
 		}
 		deleteCashFlow(ids);
 	}
-	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
-	function addOrEditCashFlow(index,id){
-		debugger;
+	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改   资金流出列表的处理函数
+	function addOrEditCashFlow(index,id,type){
 		//点击操作选项中修改数据
 		if(index==2){
 			window.location.href=('${ctx}/cashFlow/editOrUpdateCashFlow.do?id='+id);
 		}else if(index==1){
-			var cashFlowGrid = $("#cashFlowGrid${idSuffix}");
+			if(type=="income"){
+				var cashFlowGrid = $("#incomeCashFlowGrid${idSuffix}");
+			}else{
+				var cashFlowGrid = $("#cashFlowGrid${idSuffix}");
+			}
 			var sel = cashFlowGrid.grid("option", "selarrrow");
 			if(sel.length !=1){
 				message("请选择一条记录！");

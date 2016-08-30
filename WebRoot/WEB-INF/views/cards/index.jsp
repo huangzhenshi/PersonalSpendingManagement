@@ -33,6 +33,7 @@
 			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCardArray()">
 			      <i class="icon-minus"></i>删除</button>
 			</div>
+			
 		</div>
 <%@include file="editOrUpdateCardModal.jsp" %>
 		    <cui:grid id="cardGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 

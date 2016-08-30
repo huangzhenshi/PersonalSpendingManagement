@@ -7,7 +7,7 @@
 						<h3 class="modal-title text-center" id="modalDescription">新增银行卡</h3>
 					</div>
 					
-					<form  role="form" id="addOrEditCardForm" action="${ctx}/card/addOrEditCardSava.do?holderName=${loginUser.username}" method="post">
+					<form  role="form" id="addOrEditCardForm" action="${ctx}/cards/addOrEditCardSava.do?holderName=${loginUser.username}" method="post">
 						<input type="text"  hidden="true" name="id" id="cardId" />
 						<div class="modal-body">
 							<div class="form-group">
