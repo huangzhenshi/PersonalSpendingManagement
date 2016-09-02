@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import account_huang.entity.Record;
+import account_huang.entity.Todo;
 import account_huang.entity.User;
 import account_huang.service.LoginService;
 import account_huang.service.StaticService;
+import account_huang.service.TodoService;
 
-import com.google.gson.Gson;
-import com.opensymphony.xwork2.ActionContext;
 
 
 @Controller
@@ -30,7 +30,8 @@ public class LoginController
 	private LoginService logSer;
 	@Resource
 	private StaticService staticSer;
-	private ActionContext actionContext = ActionContext.getContext();
+	@Resource
+	private TodoService todoSer;
 	
 
 	@RequestMapping("/login.do")
@@ -39,55 +40,37 @@ public class LoginController
 			session.removeAttribute("loginUser");
 		   return new ModelAndView("login");  
 	  }
+	/**
+	 * 校验用户名和密码
+	 * 先校验有没有待办事项，如果有待办事项则第一个展示的是 待办事项的jsp，否则就进入我要记账界面
+	 * 
+	 */
 	@RequestMapping("/check.do")
 	  public ModelAndView check(HttpServletRequest request,User user,ModelMap model)
 	  {
 		 HttpSession session=request.getSession();
 		  User userIn=logSer.getUserByMybatis(user);
 		  if(userIn!=null&&userIn.getUsername().length()>0){
+			  String username=userIn.getUsername();
 			  session.setAttribute("loginUser", userIn);
-			    Record rec=staticSer.getTotalByDate(userIn.getUsername());
-			    staticSer.setAutoFill(model,userIn.getUsername());
-				model.addAttribute("costAll", rec.getCostThisMonth());
-				model.addAttribute("profitAll", rec.getProfitThisMonth());
-			  return new ModelAndView("records/static");  
+			  List<Todo> todoList=todoSer.getAllTodo(username);
+				  if(todoList!=null&&todoList.size()>0){
+					  return new ModelAndView("todo/index");
+				  }else{
+					    Record rec=staticSer.getTotalByDate(username);
+					    staticSer.setAutoFill(model,username);
+					    String totalCostThisMonth="0";
+					    String totalProfitThisMonth="0";
+					    if(rec!=null){
+					    	totalCostThisMonth= rec.getCostThisMonth();
+					    	totalProfitThisMonth=rec.getProfitThisMonth();
+					    }
+						model.addAttribute("costAll",totalCostThisMonth);
+						model.addAttribute("profitAll",totalProfitThisMonth );
+					  return new ModelAndView("records/static");
+				  }  
 		  }
 		  return new ModelAndView("login");
 	  }
 	
-	
-	/* //定义实体对象属性，接收表单参数：用户名、密码
-   private User user;
-   public void setUser(User user) {
-       this.user = user;
-   }
-   
-   public User getUser() {
-       return this.user;
-   }
-   private String records;
-   public String getRecords() {
-		return records;
-	}
-
-	public void setRecords(String records) {
-		this.records = records;
-	}
-	private String message;
-
-	private String owner;
-
-	public String getMessage() {
-			return message;
-		}
-		public void setMessage(String message) {
-			this.message = message;
-		}
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}*/
 }

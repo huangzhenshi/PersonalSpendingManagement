@@ -16,6 +16,7 @@
        <ul class="nav navbar-nav">  
          <li id="doRecordNav" class="active"><a href="${ctx}/record/toMainRecordPage.do?username=${loginUser.username}">我要记账</a></li> 
          <li id="recordReviewNav"><a href="${ctx}/record/getRecordReview.do?username=${loginUser.username}">账单回顾</a></li> 
+         <li id="todoNav"><a href="${ctx}/todo/toTodoMainPage.do?username=${loginUser.username}">待办事项</a></li>
          <li  id="smartAnalyseNav"><a href="http://phalcon.framework.dev/Index/touch">智能分析</a></li> 
          <li  id="propertyNav"><a href="${ctx}/property/toPropertyMainPage.do">资产管理</a></li> 
           <li  id="flowNav"><a href="${ctx}/cashFlow/toCashFlowMainPage.do?username=${loginUser.username}&year=2016">资金流转</a></li>  

@@ -4,10 +4,13 @@ package account_huang.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 
 
@@ -45,6 +48,7 @@ import account_huang.dao.RecordDao;
 import account_huang.entity.Code;
 import account_huang.entity.ElseDetail;
 import account_huang.entity.Record;
+import account_huang.entity.Todo;
 import account_huang.entity.User;
 import account_huang.utils.Utils;
 
@@ -294,6 +298,24 @@ public class StaticService {
 		String top10ElseName=elseDetailService.getTop10ElseName(username);
 		model.addAttribute("top10ElseName",top10ElseName);
 		
+	}
+	
+	
+	
+	/**
+	 * 获取在一定天数内未记账的信息（日期 yyyy-mm-dd）
+	 */
+	public List<String> getTodoRecords(String holderName,int days){
+			List<String> all=Utils.getDaysBefore(30);
+			List<String> recTimes = new ArrayList<String>();
+			List<Record> recList=getRecordByDate(holderName,Utils.getDateToString(30), Utils.getDateToString(0));
+				for(int i=0;i<recList.size();i++){
+					recTimes.add(recList.get(i).getTimes());
+				}
+			
+			all.removeAll(recTimes);
+			Collections.reverse(all);
+		return all;
 	}
 	
 }

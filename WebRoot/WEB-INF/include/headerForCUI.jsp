@@ -126,9 +126,7 @@
 <script type="text/javascript" src="<%=headerForCUI %>/jquery-cui/<%=version %>/dev/ui/<%=minFolder %>jquery.coral.loading.<%=min %>js"></script>
 <!-- config resources -->
 <script type="text/javascript" src="<%=headerForCUI %>/jquery-cui/<%=version %>/dev/ui/<%=minFolder %>jquery.config.<%=min %>js"></script>
-<div id="linkCSS">
-	<link href="<%=headerForCUI %>/jquery-cui/<%=version %>/dev/themes/<%=themeFolder %>/cui.theme.css" rel="stylesheet"/>
-</div>
+
 
 
 <script type="text/javascript" src="${ctx}/res/thirdParty/jquery.base64.js"></script>
