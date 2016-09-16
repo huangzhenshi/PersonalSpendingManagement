@@ -6,9 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+
+import account_huang.entity.Record;
 
 public class Utils {
 	//利用反射原理，遍历参数对象的属性，如果类型是Integer的参数值是null或者为“”，则转换为0
@@ -62,5 +66,22 @@ public class Utils {
 		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		 String result=dateFormat.format(date.getTime());
 		 return result;
+	}
+	
+	public static void  setPageElementMap(Map<String,Object> map,PageCoral page){
+		//如果不做分页
+		if(page==null||page.getP_pagesize()==null){
+			return;
+		}
+		int total=page.getTotal();
+		int pageSize=page.getP_pagesize();
+        map.put("pageNumber",page.getP_pageNumber());
+        map.put("pageSize", pageSize);
+        map.put("total", total);
+        if(page.getTotal()%page.getP_pagesize()==0){
+        	  map.put("totalPages",total/pageSize);
+        }else{
+        	 map.put("totalPages",(total/pageSize)+1);
+        }
 	}
 }

@@ -19,6 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import account_huang.entity.Record;
 import account_huang.entity.User;
 import account_huang.service.StaticService;
+import account_huang.utils.PageCoral;
+import account_huang.utils.SearchEntity;
+import account_huang.utils.Utils;
 
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
@@ -37,18 +40,32 @@ public class RecordController  extends ActionSupport{
 		return  new ModelAndView("records/static");
 	}
 	@RequestMapping("/getRecordReview.do")
-	public ModelAndView getRecordReview(ModelMap model,String qssj,String jssj,String username){
-		List<Record> list=staticSer.getRecordByDate(username,qssj,jssj);
+	public ModelAndView getRecordReview(){
+		/*开始用 grid reload来重新加载列表
+		 * List<Record> list=staticSer.getRecordByDate(search,page);
+		String qssj=search.getQssj();
+		String jssj=search.getJssj();
 		Gson gs=new Gson();
 		model.addAttribute("records", gs.toJson(list));
 		if(StringUtils.isNotEmpty(qssj)&&StringUtils.isNotEmpty(jssj)){
 			model.addAttribute("qssj",qssj);
 			model.addAttribute("jssj",jssj);
-		}
+		}*/
 		
 		
 		return  new ModelAndView("records/reviewRecords");
 	}
+	
+	@RequestMapping("/getRecordReviewGrid.do")
+    @ResponseBody
+    public Map<String,Object> getRecordReviewGrid(SearchEntity search,PageCoral page) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        List<Record> list=staticSer.getRecordByDate(search,page);
+        map.put("data",list) ;
+        Utils.setPageElementMap(map, page);
+        return map;
+    }
+	
 	
 	@RequestMapping("/delete.do")
 	public ModelAndView delete(String id,ModelMap model,String username)
@@ -76,12 +93,11 @@ public class RecordController  extends ActionSupport{
 	
 	@RequestMapping("/getRecordByDate.do")
     @ResponseBody
-    public Map<String,Object> getRecordByDate(String username,String qssj,String jssj) {
+    public Map<String,Object> getRecordByDate(SearchEntity search,PageCoral page) {
         Map<String,Object> map = new HashMap<String, Object>();
-        List<Record> list=new ArrayList<Record>();
-        list=staticSer.getRecordByDate(username,qssj,jssj);
+        List<Record> list=staticSer.getRecordByDate(search,page);
         map.put("data",list) ;
-        map.put("total", list.size());
+        Utils.setPageElementMap(map, page);
         return map;
     }
 	

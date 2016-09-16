@@ -30,6 +30,27 @@
         	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
        		order by times DESC
     </select>
+    
+    
+     <select id="getRecordByDatePage" 
+        parameterType="java.util.HashMap" resultMap="recordResult">
+		 SELECT *
+		    FROM (SELECT ROWNUM AS RN, K.*
+		            FROM ( select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
+		       			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername
+		       			 from expense a where holdername=#{holdername}  
+		        	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
+		       		order by times DESC ${pageSql}
+    </select>
+    
+     <select id="getTotalRecordCountByDate" 
+        parameterType="java.util.HashMap" resultMap="recordResult">
+       select id  from expense a where holdername=#{holdername}  
+        	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
+    </select>
+    
+    
+    
     <!-- 根据日期查询这段时间的 总的结余和总的开销 -->
     <select id="getTotalByDate"  parameterType="java.util.HashMap" resultMap="recordResult">
       SELECT SUM(PROFIT) AS PROFITTHISMONTH, SUM(COST_DAILY) AS COSTTHISMONTH
@@ -38,6 +59,7 @@
         							  TO_DATE(#{jssj}, 'yyyy-mm-dd')
 
     </select>
+    
     
     <delete id="deleteById" parameterType="java.lang.String">
         delete from expense where id in

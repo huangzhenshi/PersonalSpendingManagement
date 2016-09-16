@@ -47,8 +47,8 @@
 <!-- 新增修改模态窗口-->
 <%@include file="editOrUpdateRecordModal.jsp" %>
 		
-		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
-		    	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}" rowNum="31">
+		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
+		    	url="${ctx}/record/getRecordReviewGrid.do?username=${loginUser.username}" rowNum="20">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
@@ -66,6 +66,7 @@
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>
+		    	<cui:gridPager gridId="recordGrid${idSuffix}" />
 		    </cui:grid> 
 		    
 	<script>

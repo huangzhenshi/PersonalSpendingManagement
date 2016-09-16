@@ -32,6 +32,8 @@ import java.util.Map;
 
 
 
+
+
 import javassist.bytecode.analysis.Util;
 
 import javax.annotation.Resource;
@@ -50,6 +52,8 @@ import account_huang.entity.ElseDetail;
 import account_huang.entity.Record;
 import account_huang.entity.Todo;
 import account_huang.entity.User;
+import account_huang.utils.PageCoral;
+import account_huang.utils.SearchEntity;
 import account_huang.utils.Utils;
 
 import com.google.gson.Gson;
@@ -80,10 +84,12 @@ public class StaticService {
 	 *qssj不为空，jssj为空，获取指定月份的记录
 	 *qssj和jssj都不为空，获取指定日期间的记录
 	 */
-	public List<Record> getRecordByDate(String username, String qssj, String jssj)
+	public List<Record> getRecordByDate(SearchEntity search,PageCoral page)
 	  {
+			String qssj=search.getQssj();
+			String jssj=search.getJssj();
 		        Map<String, Object> params =new HashMap<String, Object>();
-		        params.put("holdername", username);
+		        params.put("holdername", search.getUsername());
 		        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		        //如果是当前月
 		        if(qssj==null||qssj.length()==0){
@@ -104,9 +110,21 @@ public class StaticService {
 		        }
 		        params.put("qssj", qssj);
 	        	params.put("jssj", jssj);
-	        	params.put("count"," and rownum <20");
-		      
-		        List<Record> list=template.selectList("account_huang.dao.RecordDao.getRecordByDate",params);
+	        	List<Record> list=new ArrayList<Record>();
+	        	//如果是不做分页的查询
+	        	if(page.getP_pagesize()==null||page.getP_pagesize()<1){
+			        list=template.selectList("account_huang.dao.RecordDao.getRecordByDate",params);
+	        	}else{
+	        		//分页查询的话，需要先求出所有满足条件的total，再对应求出需要的数据list
+	        		List<Record> listForTotalCount= list=template.selectList("account_huang.dao.RecordDao.getTotalRecordCountByDate",params);
+	        		page.setTotal(listForTotalCount.size());
+	        		int pageNumber=page.getP_pageNumber();
+	    			int pageSize=page.getP_pagesize();
+	        		String pageSql=") K WHERE ROWNUM < "+(pageNumber*pageSize+1)+") where RN>"+(pageNumber-1)*pageSize;
+	        		params.put("pageSql",pageSql);
+	        		list=template.selectList("account_huang.dao.RecordDao.getRecordByDatePage",params);
+	        	}
+	        	
 			 return list;
 			 
 	  }
@@ -303,12 +321,16 @@ public class StaticService {
 	
 	
 	/**
-	 * 获取在一定天数内未记账的信息（日期 yyyy-mm-dd）
+	 * 获取在一定天数内未记账的信息（日期 yyyy-mm-dd）后期再修改
 	 */
 	public List<String> getTodoRecords(String holderName,int days){
 			List<String> all=Utils.getDaysBefore(30);
 			List<String> recTimes = new ArrayList<String>();
-			List<Record> recList=getRecordByDate(holderName,Utils.getDateToString(30), Utils.getDateToString(0));
+			SearchEntity search=new SearchEntity();
+			search.setUsername(holderName);
+			search.setQssj(Utils.getDateToString(30));
+			search.setJssj( Utils.getDateToString(0));
+			List<Record> recList=getRecordByDate(search,new PageCoral());
 				for(int i=0;i<recList.size();i++){
 					recTimes.add(recList.get(i).getTimes());
 				}

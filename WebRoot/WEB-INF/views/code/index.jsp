@@ -43,7 +43,7 @@
 <%@include file="editOrUpdateCodeModal.jsp" %>
 </div>
 		
-	    <cui:grid id="codeGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 
+	    <cui:grid id="codeGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true" 
 	    	data="${codes}" datatype="local" rowNum="130">
 	    	<cui:gridCols>
 	    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>

@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		
-		    <cui:grid id="propertyGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 
+		    <cui:grid id="propertyGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true" 
 		    	url="${ctx}/property/getAllProperty.do?username=${loginUser.username}">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>

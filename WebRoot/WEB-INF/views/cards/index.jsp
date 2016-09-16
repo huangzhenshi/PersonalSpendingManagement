@@ -36,7 +36,7 @@
 			
 		</div>
 <%@include file="editOrUpdateCardModal.jsp" %>
-		    <cui:grid id="cardGrid${idSuffix}" rownumbers="true" width="auto" height="750" multiselect="true" altRows="true" 
+		    <cui:grid id="cardGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true" 
 		    	url="${ctx}/cards/getAllCard.do?username=${loginUser.username}">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" align="center">id</cui:gridCol>

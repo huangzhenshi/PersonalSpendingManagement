@@ -89,8 +89,8 @@
 	        </div>
      </div>
     
-      <cui:grid id="recordGrid${idSuffix}" rownumbers="true" width="auto" height="750" altRows="true"   
-		    	data="${records}" datatype="local" rowNum="130"  >
+      <cui:grid id="recordGrid${idSuffix}" rownumbers="true" fitStyle="fill" altRows="true"   
+		    	  	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}" rowNum="20" >
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
@@ -106,8 +106,9 @@
 		    		<cui:gridCol name="traffic" width="80" align="center">交通</cui:gridCol>
 		    		<cui:gridCol name="elseCost" width="80" align="center">其他</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
-		</cui:gridCols>
-		    </cui:grid> 
+		      </cui:gridCols>
+	 		  <cui:gridPager gridId="recordGrid${idSuffix}" />
+	 </cui:grid> 
 <!-- 引入layer插件 -->
 <script src="${ctx}/res/resource/style/js/layer/layer.js"></script>
 <script src="${ctx}/res/resource/style/js/layer/laydate/laydate.js"></script>		    
@@ -140,10 +141,20 @@
 		}
 	});
 	function  getRecordByMonth(){
+		debugger;
 		var year=$("#sel_year").val();
 		var month=$("#sel_month").val();
 		var result=year+"-"+month+"-01";
-		window.location.href=('${ctx}/record/getRecordReview.do?username=${loginUser.username}&qssj='+result);
+		var baseSearch = "${ctx}/record/getRecordReview.do?username=${loginUser.username}&qssj="+result;
+		var reviewGrid=$("#recordGrid${idSuffix}");
+		reviewGrid.grid("option","url",baseSearch);
+		reviewGrid.grid("reload"); 
+			
+	  /*  var articleGrid = $("#articleGrid${idSuffix}");
+	articleGrid.grid("option","postData",params);
+	articleGrid.grid("option","url",baseSearch);
+	articleGrid.grid("reload");*/
+		
 	}
 	</script>
 </body>
