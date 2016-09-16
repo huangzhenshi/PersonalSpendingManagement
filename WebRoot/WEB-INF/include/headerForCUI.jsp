@@ -128,12 +128,12 @@
 <script type="text/javascript" src="<%=headerForCUI %>/jquery-cui/<%=version %>/dev/ui/<%=minFolder %>jquery.config.<%=min %>js"></script>
 
 
-
 <script type="text/javascript" src="${ctx}/res/thirdParty/jquery.base64.js"></script>
 <script type="text/javascript" src="${ctx }/res/resource/style/js/sessionCheck.js"></script>
+
 <script src="${ctx}/res/resource/style/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script src="${ctx}/res/resource/style/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="${ctx}/res/resource/style/js/jquery.validate.min.js"></script>
 <script src="${ctx}/res/resource/style/js/messages_zh.js"></script>
 <script src="${ctx}/mainJs/function.js"></script>

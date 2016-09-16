@@ -89,8 +89,9 @@
 	        </div>
      </div>
     
-      <cui:grid id="recordGrid${idSuffix}" rownumbers="true" fitStyle="fill" altRows="true"   
-		    	  	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}" rowNum="20" >
+      <cui:grid id="articleGrid${idSuffix}" rownumbers="true" fitStyle="fill"  multiselect="true" altRows="true"   
+		    	  	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}" rowNum="20"
+		    	  	afterSortableRows="gridSortableRows"  >
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
@@ -107,17 +108,29 @@
 		    		<cui:gridCol name="elseCost" width="80" align="center">其他</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
 		      </cui:gridCols>
-	 		  <cui:gridPager gridId="recordGrid${idSuffix}" />
+	 		  <cui:gridPager gridId="articleGrid${idSuffix}" />
 	 </cui:grid> 
-<!-- 引入layer插件 -->
+
 <script src="${ctx}/res/resource/style/js/layer/layer.js"></script>
 <script src="${ctx}/res/resource/style/js/layer/laydate/laydate.js"></script>		    
 		    
 	<script>
+	function changeGrid(){
+		var baseSearch="${ctx}/record/getRecordByDate.do"	
+		var articleGrid = $("#articleGrid${idSuffix}");
+		articleGrid.grid("option","url",baseSearch);
+		articleGrid.grid("reload");
+	}
 	
 	$(function() {
 		$("#recordReviewNav").addClass("active");
 		$("#recordReviewNav").parent("ul").children("li").not("#recordReviewNav").removeClass("active");
+
+		$("#jqgh_recordGrid_times").click(); 
+		var years=['2016','2017'];
+		for(var i=0;i<years.length;i++){
+			$("#sel_year").append("<option value='"+years[i]+"'>"+years[i]+"年"+"</option>");
+		}
 	});
 	$('.form_date').datetimepicker({
         language:  'zh-CN',
@@ -133,29 +146,34 @@
 	$().ready(function() {
 		$("#dateChooseForm").validate();
 	});
-	$(function() {
-		$("#jqgh_recordGrid_times").click(); 
-		var years=['2016','2017'];
-		for(var i=0;i<years.length;i++){
-			$("#sel_year").append("<option value='"+years[i]+"'>"+years[i]+"年"+"</option>");
-		}
-	});
 	function  getRecordByMonth(){
 		debugger;
 		var year=$("#sel_year").val();
 		var month=$("#sel_month").val();
 		var result=year+"-"+month+"-01";
-		var baseSearch = "${ctx}/record/getRecordReview.do?username=${loginUser.username}&qssj="+result;
-		var reviewGrid=$("#recordGrid${idSuffix}");
+		
+		var baseSearch = "${ctx}/record/getRecordByDate.do?username=${loginUser.username}&qssj="+result;
+		var reviewGrid=$("#articleGrid${idSuffix}");
 		reviewGrid.grid("option","url",baseSearch);
 		reviewGrid.grid("reload"); 
-			
-	  /*  var articleGrid = $("#articleGrid${idSuffix}");
-	articleGrid.grid("option","postData",params);
-	articleGrid.grid("option","url",baseSearch);
-	articleGrid.grid("reload");*/
+	 		
 		
 	}
+	
+	/* function  getRecordByMonth(){
+		debugger;
+		var year=$("#sel_year").val();
+		var month=$("#sel_month").val();
+		var result=year+"-"+month+"-01";
+		
+		
+		var baseSearch="${ctx}/record/getRecordByDate.do"	
+			var articleGrid = $("#articleGrid${idSuffix}");
+			articleGrid.grid("option","url",baseSearch);
+			articleGrid.grid("reload");
+
+		
+	} */
 	</script>
 </body>
 </html>

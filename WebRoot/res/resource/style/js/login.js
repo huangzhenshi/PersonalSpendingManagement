@@ -1,4 +1,4 @@
-/*function login(){
+function login(){
 			$("#mesBox").hide().empty();
 			if(!$("#username").val()){
 				$("#mesBox").append("<span><img src='"+ctx+"/res/resource/style/images/login/fail.png'/></span><span>用户名不能为空！</span>").show();
@@ -22,4 +22,4 @@
 			$("#password").val(pwd)
 			$('#loginForm').submit();
 
-		}*/
+		}
