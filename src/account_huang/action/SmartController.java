@@ -2,6 +2,7 @@ package account_huang.action;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 
 import account_huang.entity.ElseDetail;
 import account_huang.entity.Record;
+import account_huang.entity.EchartEntity;
 import account_huang.service.SmartService;
 import account_huang.service.StaticService;
 import account_huang.utils.PageCoral;
@@ -41,17 +43,30 @@ public class SmartController {
     @ResponseBody
     public Map<String,Object> getSmartByMonthGrid(SearchEntity search) {
         Map<String,Object> map = new HashMap<String, Object>();
-        List<Record> list=smartSer.getMonth(search.getUsername());
+        List<Record> list=smartSer.getMonth(search);
         map.put("data",list) ;
         return map;
     }
 	  @RequestMapping(value = "/gotoDetail.do")
-	    public ModelAndView gotoDetail(SearchEntity search,ModelMap model) {
+	    public ModelAndView gotoDetail(SearchEntity search,ModelMap model) throws Exception {
+		  Gson gs=new Gson();
+		  List<Record> listRecord=smartSer.getMonth(search);
+		  List<String> names=new ArrayList<String>();
+		  List<String> values=new ArrayList<String>();
+		  List<ElseDetail> listByGroup=smartSer.getDetailByDateAndAmount(search);
+		 if(listRecord!=null){ 
+			 smartSer.processFilterValuesToShowByRecordAndElseDetail(model,listRecord.get(0),listByGroup);
+			 model.addAttribute("all", listRecord.get(0).getCostDaily());
+				
+		 }
 		   List<ElseDetail> list=smartSer.getDetailByDate(search);
-		   	Gson gs=new Gson();
 			model.addAttribute("elseList", gs.toJson(list));
 		  	model.addAttribute("times", search.getQssj());
+		  	model.addAttribute("month", search.getTimes());
+		  	
 			model.addAttribute("elseTotal", search.getUtil());
+			model.addAttribute("names", names);
+			model.addAttribute("values", values);
 	        return new ModelAndView("smart/smartDetail");
 	    }
 	

@@ -49,7 +49,7 @@ function operateFormatter(cellValue, options, rowObject){
 function formateEnterAccess(cellValue, options, rowObject){
 	var username=$("#holderName").val();
 	var qssj=rowObject.times+"-01";
-	var url="${ctx}/smart/gotoDetail.do?username="+username+"&qssj="+qssj+"&util="+rowObject.elseCost;
+	var url="${ctx}/smart/gotoDetail.do?username="+username+"&qssj="+qssj+"&util="+rowObject.elseCost+"&times="+rowObject.times;
 	var result="<span onclick='refreshCenter(\""+url+"\")' style='color:blue;'>"+cellValue+"</span>"
 	return result;
 }

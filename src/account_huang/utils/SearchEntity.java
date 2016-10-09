@@ -5,6 +5,13 @@ public class SearchEntity {
 	private String jssj;
 	private String username;
 	private String util;
+	private String times;
+	public String getTimes() {
+		return times;
+	}
+	public void setTimes(String times) {
+		this.times = times;
+	}
 	public String getUtil() {
 		return util;
 	}
