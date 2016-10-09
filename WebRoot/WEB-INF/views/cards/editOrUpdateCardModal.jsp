@@ -9,6 +9,7 @@
 					
 					<form  role="form" id="addOrEditCardForm" action="${ctx}/cards/addOrEditCardSava.do?holderName=${loginUser.username}" method="post">
 						<input type="text"  hidden="true" name="id" id="cardId" />
+						<input type="text"  hidden="true" name="holderName" value="${loginUser.username}"  id="cardHolderName"  />
 						<div class="modal-body">
 							<div class="form-group">
 								<label for="txtUserName">银行名称:</label>
@@ -48,7 +49,7 @@
 							
 						</div>
 						<div class="modal-footer">
-							<button class="btn btn-primary" type="submit">
+							<button class="btn btn-primary"  data-dismiss="modal" onclick="submitAddOrEditCard()">
 								保存
 							</button>
 							<button class="btn btn-primary" data-dismiss="modal">
@@ -73,4 +74,34 @@
 			$().ready(function() {
 					$("#addOrEditCardForm").validate();
 				});
+			
+			function submitAddOrEditCard(){			
+				$.ajax({
+					type : 'post',
+					url : ctx + '/cards/addOrEditCardSava.do',
+					dataType : "json",
+					data : {
+						id : $("#cardId").val(),
+						holderName : $("#cardHolderName").val(),
+						bankName : $("#cardBankName").val(),
+						accountNumber: $("#cardAccountNumber").val(),
+						balance: $("#cardBalance").val(),
+						location: $("#cardLocation").val(),
+						password: $("#cardPassword").val(),
+						updateTime: $("#cardUpdateTime").val(),
+						remark: $("#cardRemark").val()
+						
+					},
+					success : function(data) {
+						$("#addOrEditCardModal").modal('hide');
+						message(data.msg);
+						$("#cardGrid${idSuffix}").grid("reload"); 
+					},
+					error : function(e) {
+						$("#addOrEditCardModal").modal('hide');
+						message("Operation Fail!");
+						$("#cardGrid${idSuffix}").grid("reload"); 
+					}
+				}); 
+			}
 </script>

@@ -93,9 +93,14 @@ function dialog(selector,options,buttons){
 	return $(selector);
 }
 
-function refreshCenter(url){
+/*function refreshCenter(url){
 	panel = $("#coralui-layout").layout("panel","center");
 	url = addSiteIdParameter(url);
+	panel.panel("refresh", url);
+}
+*/
+function refreshCenter(url){
+	panel = $("#coralui-layout").layout("panel","center");
 	panel.panel("refresh", url);
 }
 

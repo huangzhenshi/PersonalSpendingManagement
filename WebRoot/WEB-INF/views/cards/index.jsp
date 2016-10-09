@@ -5,24 +5,11 @@
 <%@taglib prefix="cui" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
-<div style="display: none;">login</div>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta http-equiv="pragma" content="no-cache"> 
-<meta http-equiv="cache-control" content="no-store, must-revalidate"> 
-<meta http-equiv="expires" content="Thu, 01 Jan 1970 00:00:01 GMT"> 
-<meta http-equiv="expires" content="0">
-
-
-<%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
 <style>.error{color:red;}</style>
 </head>
 <body>
-
-	<!-- 导航栏 -->
- 	<%@include file="../common/navbar.jsp" %>
 	 <div class="row">
 			<div class="btn-group span5 col-xs-offset-1huang">
 				<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
@@ -35,7 +22,8 @@
 			</div>
 			
 		</div>
-<%@include file="editOrUpdateCardModal.jsp" %>
+
+<%-- <%@include file="editOrUpdateCardModal.jsp" %> --%>
 		    <cui:grid id="cardGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true" 
 		    	url="${ctx}/cards/getAllCard.do?username=${loginUser.username}">
 		    	<cui:gridCols>
@@ -68,7 +56,7 @@ function operateFormatter(cellValue, options, rowObject){
 	function deleteCard(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				window.location.href=('${ctx}/cards/delete.do?id='+id);
+				refreshCenter('${ctx}/cards/delete.do?id='+id);
 			} else {
 				message("取消");
 			}
@@ -91,7 +79,6 @@ function operateFormatter(cellValue, options, rowObject){
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEditCard(index,id){
-		debugger;
 		$("#addOrEditCardForm")[0].reset(); 
 		if(index==0){
 			$("#cardUpdateTime").val(getDateTodayDayOnly());

@@ -4,12 +4,12 @@
 				<div class="modal-content">
 				
 					<div class="modal-header">
-						<h3 class="modal-title text-center" id="modalDescription">新增记账记录</h3>
+						<h3 class="modal-title text-center" id="recordModalDescription">新增记账记录</h3>
 					</div>
 					
 					<form  role="form" id="addOrEditRecordForm" action="${ctx}/record/addOrEditRecordSava.do" method="post">
 								<input type="text"  hidden="true" name="id" id="recordId" />
-								<input type="text"  hidden="true" name="holderName" value="${loginUser.username}" />
+								<input type="text"  hidden="true" name="holderName" value="${loginUser.username}"  id="recordHolderName"  />
 					    <div class="modal-body">
 									<div class="form-group">
 										 <label >日期:</label>
@@ -65,7 +65,11 @@
 						</div>
 						
 						<div class="modal-footer">
-							<button class="btn btn-primary" type="submit">
+							<!-- <button class="btn btn-primary" type="submit">
+								保存
+							</button> -->
+							
+							<button class="btn btn-primary"   data-dismiss="modal" onclick="submitAddOrEditRecord()">
 								保存
 							</button>
 							<button class="btn btn-primary" data-dismiss="modal">
@@ -90,5 +94,42 @@
 			$().ready(function() {
 					$("#addOrEditRecordForm").validate();
 				});
+			
+			
+			function submitAddOrEditRecord(){			
+				$.ajax({
+					type : 'post',
+					url : ctx + '/record/addOrEditRecordSava.do',
+					dataType : "json",
+					data : {
+						
+						id : $("#recordId").val(),
+						holderName : $("#recordHolderName").val(),
+						times: $("#recordTimes").val(),
+						incomeTotal: $("#recordIncomeTotal").val(),
+						times: $("#recordTimes").val(),
+						eating: $("#recordEating").val(),
+						supermarket: $("#recordSupermarket").val(),
+						party: $("#recordParty").val(),
+						rent: $("#recordRent").val(),
+						book: $("#recordBook").val(),
+						clothes: $("#recordClothes").val(),
+						traffic: $("#recordTraffic").val(),
+						remark: $("#recordRemark").val()
+					},
+					success : function(data) {
+						$("#addOrEditRecordModal").modal('hide');
+						$("#costAllSpan").html(data.costAll);
+						$("#profitAllSpan").html(data.profitAll);
+						message(data.msg);
+						$("#recordGrid${idSuffix}").grid("reload"); 
+					},
+					error : function(e) {
+						$("#addOrEditRecordModal").modal('hide');
+						message("操作失败!");
+						$("#recordGrid${idSuffix}").grid("reload"); 
+					}
+				}); 
+			}
 		
 		</script>

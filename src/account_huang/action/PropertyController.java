@@ -62,7 +62,9 @@ public class PropertyController {
 		  }else{
 			  propertySer.saveProperty(property); 
 		  }
-		  return  new ModelAndView("property/index");
+		  model.addAttribute("navTag","account");
+		  model.addAttribute("menuTag","propertyNav");
+		  return  new ModelAndView("main/index");
 	  }
 	
 	

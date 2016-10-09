@@ -20,9 +20,6 @@
 <style>.error{color:red;}</style>
 </head>
 <body>
-
-<!-- 导航栏 -->
-<%@include file="../common/navbar.jsp" %>>
 <%@include file="recordTodoModal.jsp" %>
 		    <cui:grid id="todoGrid${idSuffix}" rownumbers="true" fitStyle="fill"
 		    	url="${ctx}/todo/getAllTodo.do?username=${loginUser.username}">

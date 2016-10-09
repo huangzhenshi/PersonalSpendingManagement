@@ -15,14 +15,11 @@
 <meta http-equiv="expires" content="0">
 
 
-<%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
+<%@ include file="../../include/headerForCUI.jsp"%>
 <style>.error{color:red;}</style>
 </head>
 <body>
-
-<!-- 导航栏 -->
-<%@include file="../common/navbar.jsp" %>
 <div class="container-fluid">
 	 <div class="row ">					
 		<div class="col-xs-offset-1huang col-lg-3" >
@@ -35,18 +32,17 @@
 			  <i class="icon-minus"></i>删除</button>
 			  
 		</div>
-		
 		<div class="col-lg-7">
-			<h2 class="text-left">本月累计开销${costAll}元，累计结余${profitAll}元</h3>
+			<h2 class="text-left">本月累计开销<span id="costAllSpan">${costAll}</span>元，累计结余<span id="profitAllSpan">${profitAll}</span>元</h3>
 		</div>
 			          
 	 </div>	
 </div>
-			
-
-<!-- 新增修改模态窗口-->
-<%@include file="editOrUpdateRecordModal.jsp" %>
 		
+			<input type="text" name="holderName" id="holderName"  hidden="true" value="${loginUser.username}"/>
+			<input type="text" id="salaryRecord"  hidden="true" value="${salary}"/>
+			<input type="text" id="rentRecord"  hidden="true" value="${rent}"/>
+			<input type="text" id="eatingRecord"  hidden="true" value="${eating}"/>
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
 		    	url="${ctx}/record/getRecordReviewGrid.do?username=${loginUser.username}" rowNum="20">
 		    	<cui:gridCols>
@@ -71,11 +67,6 @@
 		    
 	<script>
 	
-	$(function() {
-		$("#doRecordNav").addClass("active");
-		$("#doRecordNav").parent("ul").children("li").not("#doRecordNav").removeClass("active");
-	});
-	
 	//格式化操作栏
 function operateFormatter(cellValue, options, rowObject){
 	var result = "";
@@ -86,7 +77,7 @@ function operateFormatter(cellValue, options, rowObject){
 	function deleteRecord(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				window.location.href=('${ctx}/record/delete.do?id='+id+'&username=${loginUser.username}');
+				refreshCenter('${ctx}/record/delete.do?id='+id+'&username='+$("#holderName").val());
 			} else {
 				message("取消");
 			}
@@ -109,21 +100,14 @@ function operateFormatter(cellValue, options, rowObject){
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEdit(index,id){
-		debugger;
 		$("#addOrEditRecordForm")[0].reset(); 
+		if("${top10ElseName}"){
+			$("#top10ElseName").html("${top10ElseName}");
+		}
 		if(index==0){
-			if("${salary}"){
-				$("#recordIncomeTotal").val(${salary});
-			}
-			if("${rent}"){
-				$("#recordRent").val(${rent});
-			}
-			if("${eating}"){
-				$("#recordEating").val(${eating});
-			}
-			if("${top10ElseName}"){
-				$("#top10ElseName").html("${top10ElseName}");
-			}
+			$("#recordIncomeTotal").val($("#salaryRecord").val());
+			$("#recordRent").val($("#rentRecord").val());
+			$("#recordEating").val($("#eatingRecord").val());
 			$("#recordTimes").val(getDateTodayDayOnly());
 			return;
 		}
@@ -139,7 +123,7 @@ function operateFormatter(cellValue, options, rowObject){
 		}else if(index==2){
 			var row = $("#recordGrid${idSuffix}").grid("getRowData",id);
 		}
-		$("#modalDescription").html("修改记账");
+		$("#recordModalDescription").html("修改记账");
 		$("#recordId").val(row.id);
 		$("#recordTimes").val(row.times);
 		$("#recordIncomeTotal").val(row.incomeTotal);

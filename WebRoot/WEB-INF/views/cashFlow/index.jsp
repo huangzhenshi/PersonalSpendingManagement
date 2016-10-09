@@ -15,13 +15,10 @@
 <meta http-equiv="expires" content="0">
 
 
-<%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
 </head>
 <body>
-
-	<!-- 导航栏 -->
- 	<%@include file="../common/navbar.jsp" %>
+<input type="text" name="holderName" id="holderName"  hidden="true" value="${loginUser.username}"/>
 <div class="container-fluid">
 	 <div class="row">
 			<div class="col-xs-offset-1huang  col-lg-3">
@@ -83,10 +80,6 @@
 		   
 		    
 	<script>
-	$(function() {
-		$("#flowNav").addClass("active");
-		$("#flowNav").parent("ul").children("li").not("#flowNav").removeClass("active");
-	});
 	//格式化操作栏
 	function operateFormatter(cellValue, options, rowObject){
 		var result = "";
@@ -98,7 +91,7 @@
 	function deleteCashFlow(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				window.location.href=('${ctx}/cashFlow/delete.do?id='+id+'&holderName=${loginUser.username}');
+				refreshCenter('${ctx}/cashFlow/delete.do?id='+id+'&holderName='+$("#holderName").val());
 			} else {
 				message("取消");
 			}
@@ -129,7 +122,7 @@
 	function addOrEditCashFlow(index,id,type){
 		//点击操作选项中修改数据
 		if(index==2){
-			window.location.href=('${ctx}/cashFlow/editOrUpdateCashFlow.do?id='+id);
+			refreshCenter('${ctx}/cashFlow/editOrUpdateCashFlow.do?id='+id);
 		}else if(index==1){
 			if(type=="income"){
 				var cashFlowGrid = $("#incomeCashFlowGrid${idSuffix}");
@@ -142,9 +135,9 @@
 				return;
 			}
 			var idUpdate = cashFlowGrid.grid("getRowData",sel).id;
-			window.location.href=('${ctx}/cashFlow/editOrUpdateCashFlow.do?id='+idUpdate+'&holderName=${loginUser.username}');
+			refreshCenter('${ctx}/cashFlow/editOrUpdateCashFlow.do?id='+idUpdate+'&holderName=${loginUser.username}');
 		}else{
-			window.location.href=('${ctx}/cashFlow/editOrUpdateCashFlow.do?holderName=${loginUser.username}');
+			refreshCenter('${ctx}/cashFlow/editOrUpdateCashFlow.do?holderName=${loginUser.username}');
 		}
 	}
 	</script>

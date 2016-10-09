@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="account_huang.dao.SmartDao">
+	 <resultMap id="recordResult" type="account_huang.entity.Record">
+		<result property="id" column="id" />
+		<result property="times" column="timestr" />
+		<result property="incomeTotal" column="INCOME_TOTAL" />
+		<result property="profit" column="profit" />
+		<result property="costDaily" column="COST_DAILY" />
+		<result property="eating" column="eating" />
+		<result property="supermarket" column="supermarket" />
+		<result property="party" column="party" />
+		<result property="rent" column="rent" />
+		<result property="book" column="book" />
+		<result property="clothes" column="clothes" />
+		<result property="traffic" column="TRAFFICEXP" />
+		<result property="elseCost" column="elseCost" />
+		<result property="remark" column="remark" />
+		<result property="holderName" column="holderName" />	
+		<result property="profitThisMonth" column="profitThisMonth" />
+		<result property="costThisMonth" column="costThisMonth" />
+	</resultMap>
+	
+	<resultMap id="elseResult" type="account_huang.entity.ElseDetail">
+		<result property="times" column="timestr" />
+		<result property="columnName" column="columnName" />
+		<result property="value" column="value" />
+	</resultMap>
+	
+	
+	
+	
+    <select id="getMonth" resultMap="recordResult">
+		 SELECT TO_CHAR(TIMES, 'yyyy-mm') AS timestr,
+		        SUM(INCOME_TOTAL) AS INCOME_TOTAL,
+		        SUM(PROFIT) AS PROFIT,
+		        SUM(COST_DAILY) AS COST_DAILY,
+		        SUM(EATING) + SUM(SUPERMARKET) AS EATING,
+		        SUM(RENT) AS RENT,
+		        SUM(CLOTHES) AS CLOTHES,
+		        SUM(BOOK) AS BOOK,
+		        SUM(TRAFFICEXP) AS TRAFFICEXP,
+		        SUM(ELSECOST) AS ELSECOST
+		   FROM EXPENSE
+		  WHERE holdername=#{holdername}  
+		  GROUP BY TO_CHAR(TIMES, 'yyyy-mm')
+		  ORDER BY TO_CHAR(TIMES, 'yyyy-mm') DESC
+    </select>
+    
+    <select id="getDetailByDate" resultMap="elseResult">
+    	SELECT to_char(times,'yyyy-mm-dd') as timestr, COLUMNNAME, VALUE
+		  FROM ELSEDETAIL
+		 WHERE
+		   holdername=#{holdername}   AND
+		  TIMES BETWEEN to_date(#{qssj},'yyyy-mm-dd') 
+		 	         AND to_date(#{jssj},'yyyy-mm-dd') 
+		 ORDER BY SUBSTR(COLUMNNAME, 0, 2), VALUE DESC
+    </select>
+    
+
+    
+	 
+	
+	
+    
+    
+    
+</mapper>

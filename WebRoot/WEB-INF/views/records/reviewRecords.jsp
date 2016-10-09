@@ -15,20 +15,12 @@
 <meta http-equiv="expires" content="Thu, 01 Jan 1970 00:00:01 GMT"> 
 <meta http-equiv="expires" content="0">
 
-
-<%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
 
-<link href="${ctx}/res/resource/style/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-
-	
-   
+<link href="${ctx}/res/resource/style/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">   
 
 </head>
 <body>
-
-	<!-- 导航栏 -->
- 	<%@include file="../common/navbar.jsp" %>
 	 <div class="row">
 	        <div class="col-sm-5 col-xs-offset-1huang">
 	          <div class="panel  panel-success">
@@ -61,8 +53,7 @@
 	        <div class="col-sm-5 col-xs-offset-1huang">
 	          <div class="panel panel-success">
 	            <div class="panel-body">
-						<form class="form-horizontal" id="dateChooseForm" role="form"
-							action="${ctx}/record/getRecordReview.do?username=${loginUser.username}" method="post">
+						<form class="form-horizontal" id="dateChooseForm" role="form">
 							 <div class="form-group has-success">
 				                  <label class="col-lg-2 control-label">起始日期</label>
 				                  <div class="col-lg-10">
@@ -79,7 +70,7 @@
 				                  </div>
 				             </div>
 				             <div class="form-actions">
-					                <button  type="submit" class="btn btn-lg btn-primary">
+					                <button  type="button" class="btn btn-lg btn-primary"  onclick="getRecordByDate()">
 				 			 			<i class="icon-search"></i>按天查询
 				 				 	</button>
 					         </div>
@@ -115,13 +106,6 @@
 <script src="${ctx}/res/resource/style/js/layer/laydate/laydate.js"></script>		    
 		    
 	<script>
-	function changeGrid(){
-		var baseSearch="${ctx}/record/getRecordByDate.do"	
-		var articleGrid = $("#articleGrid${idSuffix}");
-		articleGrid.grid("option","url",baseSearch);
-		articleGrid.grid("reload");
-	}
-	
 	$(function() {
 		$("#recordReviewNav").addClass("active");
 		$("#recordReviewNav").parent("ul").children("li").not("#recordReviewNav").removeClass("active");
@@ -147,33 +131,28 @@
 		$("#dateChooseForm").validate();
 	});
 	function  getRecordByMonth(){
-		debugger;
 		var year=$("#sel_year").val();
 		var month=$("#sel_month").val();
 		var result=year+"-"+month+"-01";
-		
+		var params = {};
 		var baseSearch = "${ctx}/record/getRecordByDate.do?username=${loginUser.username}&qssj="+result;
-		var reviewGrid=$("#articleGrid${idSuffix}");
-		reviewGrid.grid("option","url",baseSearch);
-		reviewGrid.grid("reload"); 
-	 		
-		
+		reloadGrid(params,baseSearch);
+	}
+	function  getRecordByDate(){
+		var params = {};
+		params["qssj"]=$("#qssj").val();
+		params["jssj"]=$("#jssj").val();
+		var baseSearch = "${ctx}/record/getRecordByDate.do?username=${loginUser.username}";
+		reloadGrid(params,baseSearch);
 	}
 	
-	/* function  getRecordByMonth(){
-		debugger;
-		var year=$("#sel_year").val();
-		var month=$("#sel_month").val();
-		var result=year+"-"+month+"-01";
-		
-		
-		var baseSearch="${ctx}/record/getRecordByDate.do"	
-			var articleGrid = $("#articleGrid${idSuffix}");
-			articleGrid.grid("option","url",baseSearch);
-			articleGrid.grid("reload");
-
-		
-	} */
+	function reloadGrid(params,baseSearch){
+		var reviewGrid=$("#articleGrid${idSuffix}");
+		reviewGrid.grid("option","postData",params);
+		reviewGrid.grid("option","url",baseSearch);
+		reviewGrid.grid("reload"); 
+	}
+	
 	</script>
 </body>
 </html>

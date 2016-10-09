@@ -32,7 +32,6 @@ public class LoginController
 	private StaticService staticSer;
 	@Resource
 	private TodoService todoSer;
-	
 
 	@RequestMapping("/login.do")
 	public ModelAndView login(HttpServletRequest request){
@@ -53,10 +52,10 @@ public class LoginController
 		  if(userIn!=null&&userIn.getUsername().length()>0){
 			  String username=userIn.getUsername();
 			  session.setAttribute("loginUser", userIn);
-			  List<Todo> todoList=todoSer.getAllTodo(username);
+			  /*List<Todo> todoList=todoSer.getAllTodo(username);
 				  if(todoList!=null&&todoList.size()>0){
 					  return new ModelAndView("todo/index");
-				  }else{
+				  }else{*/
 					    Record rec=staticSer.getTotalByDate(username);
 					    staticSer.setAutoFill(model,username);
 					    String totalCostThisMonth="0";
@@ -67,8 +66,8 @@ public class LoginController
 					    }
 						model.addAttribute("costAll",totalCostThisMonth);
 						model.addAttribute("profitAll",totalProfitThisMonth );
-					  return new ModelAndView("records/static");
-				  }  
+					  return new ModelAndView("main/index");
+				/*  }  */
 		  }
 		  return new ModelAndView("login");
 	  }

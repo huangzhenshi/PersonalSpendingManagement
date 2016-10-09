@@ -1,0 +1,58 @@
+package account_huang.action;
+
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+
+import account_huang.entity.ElseDetail;
+import account_huang.entity.Record;
+import account_huang.service.SmartService;
+import account_huang.service.StaticService;
+import account_huang.utils.PageCoral;
+import account_huang.utils.SearchEntity;
+import account_huang.utils.Utils;
+
+@Controller
+@RequestMapping("/smart")
+public class SmartController {
+	
+	@Resource
+	private SmartService smartSer;
+	
+	@RequestMapping("/getMonthMainPage.do")
+	public String getMonthMainPage(){
+		return "smart/accountMonth";
+	}
+	
+	@RequestMapping("/getSmartByMonthGrid.do")
+    @ResponseBody
+    public Map<String,Object> getSmartByMonthGrid(SearchEntity search) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        List<Record> list=smartSer.getMonth(search.getUsername());
+        map.put("data",list) ;
+        return map;
+    }
+	  @RequestMapping(value = "/gotoDetail.do")
+	    public ModelAndView gotoDetail(SearchEntity search,ModelMap model) {
+		   List<ElseDetail> list=smartSer.getDetailByDate(search);
+		   	Gson gs=new Gson();
+			model.addAttribute("elseList", gs.toJson(list));
+		  	model.addAttribute("times", search.getQssj());
+			model.addAttribute("elseTotal", search.getUtil());
+	        return new ModelAndView("smart/smartDetail");
+	    }
+	
+}

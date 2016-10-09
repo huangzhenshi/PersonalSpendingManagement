@@ -35,8 +35,11 @@ public class RecordController  extends ActionSupport{
 	public ModelAndView toMainRecordPage(ModelMap model,String username){
 		Record rec=staticSer.getTotalByDate(username);
 		staticSer.setAutoFill(model,username);
-		model.addAttribute("costAll", rec.getCostThisMonth());
-		model.addAttribute("profitAll", rec.getProfitThisMonth());
+		if(rec!=null){
+			model.addAttribute("costAll", rec.getCostThisMonth());
+			model.addAttribute("profitAll", rec.getProfitThisMonth());
+		}
+		
 		return  new ModelAndView("records/static");
 	}
 	@RequestMapping("/getRecordReview.do")
@@ -51,8 +54,6 @@ public class RecordController  extends ActionSupport{
 			model.addAttribute("qssj",qssj);
 			model.addAttribute("jssj",jssj);
 		}*/
-		
-		
 		return  new ModelAndView("records/reviewRecords");
 	}
 	
@@ -71,13 +72,46 @@ public class RecordController  extends ActionSupport{
 	public ModelAndView delete(String id,ModelMap model,String username)
 	  {
 		 staticSer.deleteRecordById(id);
+		 staticSer.setAutoFill(model,username);
 		 Record rec=staticSer.getTotalByDate(username);
 			model.addAttribute("costAll", rec.getCostThisMonth());
 			model.addAttribute("profitAll", rec.getProfitThisMonth());
 		 return  new ModelAndView("records/static");
 	  }
+
 	
+	
+	//异步新增和修改
 	@RequestMapping("/addOrEditRecordSava.do")
+    @ResponseBody
+	public Map<String,Object> addOrEditRecordSava(Record record) throws Exception{
+		  //修改保存功能
+		  if(record.getId()!=null&&record.getId().length()>0){
+			  staticSer.updateRecord(record); 
+		  }else{
+			  staticSer.saveRecord(record); 
+		  }
+		  Map<String,Object> map = new HashMap<String, Object>();
+		  map.put("msg","Operation Success!");
+		  Record rec=staticSer.getTotalByDate(record.getHolderName());
+		  map.put("costAll", rec.getCostThisMonth());
+		  map.put("profitAll", rec.getProfitThisMonth());
+		  return map;
+	  }
+	
+	
+	@RequestMapping("/getRecordByDate.do")
+    @ResponseBody
+    public Map<String,Object> getRecordByDate(SearchEntity search,PageCoral page) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        List<Record> list=staticSer.getRecordByDate(search,page);
+        map.put("data",list) ;
+        Utils.setPageElementMap(map, page);
+        return map;
+    }
+	
+	
+/*	@RequestMapping("/addOrEditRecordSava.do")
 	public ModelAndView addOrEditRecordSava(Record record,ModelMap model) throws Exception{
 		  //修改保存功能
 		  if(record.getId()!=null&&record.getId().length()>0){
@@ -89,16 +123,22 @@ public class RecordController  extends ActionSupport{
 			model.addAttribute("costAll", rec.getCostThisMonth());
 			model.addAttribute("profitAll", rec.getProfitThisMonth());
 		  return  new ModelAndView("records/static");
-	  }
-	
-	@RequestMapping("/getRecordByDate.do")
-    @ResponseBody
-    public Map<String,Object> getRecordByDate(SearchEntity search,PageCoral page) {
-        Map<String,Object> map = new HashMap<String, Object>();
-        List<Record> list=staticSer.getRecordByDate(search,page);
-        map.put("data",list) ;
-        Utils.setPageElementMap(map, page);
-        return map;
-    }
+	  }*/
+	//全部刷新
+/*	@RequestMapping("/addOrEditRecordSava.do")
+	public ModelAndView addOrEditRecordSava(Record record,ModelMap model) throws Exception{
+		  //修改保存功能
+		  if(record.getId()!=null&&record.getId().length()>0){
+			  staticSer.updateRecord(record); 
+		  }else{
+			  staticSer.saveRecord(record); 
+		  }
+		  	Record rec=staticSer.getTotalByDate(record.getHolderName());
+			model.addAttribute("costAll", rec.getCostThisMonth());
+			model.addAttribute("profitAll", rec.getProfitThisMonth());
+			model.addAttribute("navTag","account");
+			model.addAttribute("menuTag","doRecordNav");
+		  return  new ModelAndView("main/index");
+	  }*/
 	
 }

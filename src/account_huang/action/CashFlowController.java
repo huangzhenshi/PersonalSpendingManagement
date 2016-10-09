@@ -64,7 +64,9 @@ public class CashFlowController {
 		  
 		  String total=cashSer.getTotalIncomeByYear(cash.getHolderName(),"2016");
 			model.addAttribute("total","2016年工资累计收入"+total+"元");
-		  return  new ModelAndView("cashFlow/index");
+			  model.addAttribute("navTag","account");
+			  model.addAttribute("menuTag","flowNav");
+			  return  new ModelAndView("main/index");
 	  }
 	
 	

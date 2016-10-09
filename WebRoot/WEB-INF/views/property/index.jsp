@@ -15,13 +15,9 @@
 <meta http-equiv="expires" content="0">
 
 
-<%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
 </head>
 <body>
-
-	<!-- 导航栏 -->
- 	<%@include file="../common/navbar.jsp" %>
 	 <div class="row">
 			<div class="btn-group span5 col-xs-offset-1huang">
 				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditProperty(0)">
@@ -41,6 +37,7 @@
 		    		<cui:gridCol name="total" width="80" align="center">Total</cui:gridCol>
 		    		<cui:gridCol name="card1"  align="center">招商银行</cui:gridCol>
 		    		<cui:gridCol name="card2"  align="center">中国银行</cui:gridCol>
+		    		<cui:gridCol name="card3"  align="center">浦发银行</cui:gridCol>
 		    		<cui:gridCol name="cash"  align="center">现金</cui:gridCol>
 		    		<cui:gridCol name="alipay" align="center">支付宝</cui:gridCol>
 		    		<cui:gridCol name="creditCard" align="center">信用卡</cui:gridCol>
@@ -69,7 +66,7 @@ function operateFormatter(cellValue, options, rowObject){
 	function deleteProperty(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				window.location.href=('${ctx}/property/delete.do?id='+id);
+				refreshCenter('${ctx}/property/delete.do?id='+id);
 			} else {
 				message("取消");
 			}
@@ -92,10 +89,9 @@ function operateFormatter(cellValue, options, rowObject){
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEditProperty(index,id){
-		debugger;
 		//点击操作选项中修改数据
 		if(index==2){
-			window.location.href=('${ctx}/property/editOrUpdateProperty.do?id='+id);
+			refreshCenter('${ctx}/property/editOrUpdateProperty.do?id='+id);
 		}else if(index==1){
 			var propertyGrid = $("#propertyGrid${idSuffix}");
 			var sel = propertyGrid.grid("option", "selarrrow");
@@ -104,9 +100,9 @@ function operateFormatter(cellValue, options, rowObject){
 				return;
 			}
 			var idUpdate = propertyGrid.grid("getRowData",sel).id;
-			window.location.href=('${ctx}/property/editOrUpdateProperty.do?id='+idUpdate+'&holderName=${loginUser.username}');
+			refreshCenter('${ctx}/property/editOrUpdateProperty.do?id='+idUpdate+'&holderName=${loginUser.username}');
 		}else{
-			window.location.href=('${ctx}/property/editOrUpdateProperty.do?holderName=${loginUser.username}');
+			refreshCenter('${ctx}/property/editOrUpdateProperty.do?holderName=${loginUser.username}');
 		}
 	}
 	</script>

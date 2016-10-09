@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import account_huang.entity.Card;
+import account_huang.entity.Record;
 import account_huang.service.CardService;
 
 @Controller
@@ -50,7 +51,7 @@ public class CardController {
 		  model.addAttribute("message", message);
 		  return  new ModelAndView("cards/editOrUpdateCard"); 
 	  }
-	
+/*	
 	@RequestMapping("/addOrEditCardSava.do")
 	public ModelAndView addOrEditCardSava(Card card,ModelMap model,String holderName){
 		  //修改保存功能
@@ -62,7 +63,21 @@ public class CardController {
 		  }
 		  return  new ModelAndView("cards/index");
 	  }
+	*/
 	
+	@RequestMapping("/addOrEditCardSava.do")
+	@ResponseBody
+	public  Map<String,Object> addOrEditCardSava(Card card,ModelMap model){
+		  //修改保存功能
+		  if(card.getId()!=null&&card.getId().length()>0){
+			  cardSer.updateCard(card); 
+		  }else{
+			  cardSer.saveCard(card); 
+		  }
+		  Map<String,Object> map = new HashMap<String, Object>();
+		  map.put("msg","Operation Success!");
+		  return map;
+	  }
 	
 	@RequestMapping("/delete.do")
 	public ModelAndView delete(String id)

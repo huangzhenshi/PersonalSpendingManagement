@@ -1,0 +1,135 @@
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<div class="modal fade " id="addOrEditPropertyModal" data-backdrop="static">
+			<div class="modal-dialog modal-lg" >
+				<div class="modal-content">
+				
+					<div class="modal-header">
+						<h3 class="modal-title text-center" id="propertyModalDescription">新增资产明细</h3>
+					</div>
+					
+					<form  role="form" id="addOrEditPropertyForm" action="${ctx}/property/addOrEditPropertySava.do" method="post">
+						<input type="text"  hidden="true" name="id" id="propertyId" />
+						<input type="text"  hidden="true" name="holderName" value="${loginUser.username}"  id="propertyHolderName"  />
+						<div class="modal-body">
+							<div class="form-group">
+								 <label >日期:</label>
+							     <input type="text" class="form-control date form_date required" id="propertyTimes" name="times" data-date="" data-date-format="yyyy-mm-dd" />
+						     </div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">招商银行:</label>
+								<input type="text" class="form-control" name="card1" id="propertyCard1"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">中国银行:</label>
+								<input type="text" class="form-control" name="card2" id="propertyCard2"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">浦发银行:</label>
+								<input type="text" class="form-control" name="card3" id="propertyCard3"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">现金:</label>
+								<input type="text" class="form-control" name="cash" id="propertyCash"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">支付宝:</label>
+								<input type="text" class="form-control" name="alipay" id="propertyAlipay"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">信用卡:</label>
+								<input type="text" class="form-control" name="creditCard" id="propertyCreditCard"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">贷款:</label>
+								<input type="text" class="form-control" name="mortgage" id="propertyMortgage"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">公积金:</label>
+								<input type="text" class="form-control" name="housingFund" id="propertyHousingFund"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">房租折算:</label>
+								<input type="text" class="form-control" name="rent" id="propertyRent"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">别人欠我:</label>
+								<input type="text" class="form-control" name="loan1" id="propertyLoan1"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">我欠别人:</label>
+								<input type="text" class="form-control" name="loan2" id="propertyLoan2"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="txtPassWord">备注:</label>
+								<input type="text" class="form-control" name="remark" id="propertyRemark"/>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary"  data-dismiss="modal" onclick="submitAddOrEditProperty()">
+								保存
+							</button>
+							<button class="btn btn-primary" data-dismiss="modal">
+								取消
+							</button>
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+<script>
+		$('.form_date').datetimepicker({
+		    language:  'zh-CN',
+		    weekStart: 1,
+		    todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		});
+			$().ready(function() {
+					$("#addOrEditPropertyForm").validate();
+				});
+			
+			function submitAddOrEditProperty(){			
+				$.ajax({
+					type : 'post',
+					url : ctx + '/property/addOrEditPropertySava.do',
+					dataType : "json",
+					data : {
+						id : $("#propertyId").val(),
+						holderName : $("#propertyHolderName").val(),
+						bankName : $("#propertyBankName").val(),
+						accountNumber: $("#propertyAccountNumber").val(),
+						balance: $("#propertyBalance").val(),
+						location: $("#propertyLocation").val(),
+						password: $("#propertyPassword").val(),
+						updateTime: $("#propertyUpdateTime").val(),
+						remark: $("#propertyRemark").val()
+						
+					},
+					success : function(data) {
+						$("#addOrEditPropertyModal").modal('hide');
+						message(data.msg);
+						$("#propertyGrid${idSuffix}").grid("reload"); 
+					},
+					error : function(e) {
+						$("#addOrEditPropertyModal").modal('hide');
+						message("Operation Fail!");
+						$("#propertyGrid${idSuffix}").grid("reload"); 
+					}
+				}); 
+			}
+</script>

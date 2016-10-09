@@ -15,14 +15,10 @@
 <meta http-equiv="expires" content="0">
 
 
-<%@ include file="../../include/headerForCUI.jsp"%>
 <title>黄大大财务管理软件</title>
 <style>.error{color:red;}</style>
 </head>
 <body>
-
-	<!-- 导航栏 -->
- 	<%@include file="../common/navbar.jsp" %>
  <div class="container">
 	 <div class="row">					
 		<div class="form-group  btn-group  col-xs-offset-1huang">
@@ -82,7 +78,7 @@
 	function deleteCode(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				window.location.href=('${ctx}/code/delete.do?id='+id+'&holderName=${loginUser.username}');
+				refreshCenter('${ctx}/code/delete.do?id='+id);
 			} else {
 				message("取消");
 			}

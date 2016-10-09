@@ -4,6 +4,13 @@ public class SearchEntity {
 	private String qssj;
 	private String jssj;
 	private String username;
+	private String util;
+	public String getUtil() {
+		return util;
+	}
+	public void setUtil(String util) {
+		this.util = util;
+	}
 	public String getQssj() {
 		return qssj;
 	}

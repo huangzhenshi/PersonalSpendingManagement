@@ -31,9 +31,8 @@ public class PropertyService {
 		template.update("account_huang.dao.PropertyDao.update", property);
 		Integer id=template.selectOne("account_huang.dao.PropertyDao.getMaxKey");
 		Integer updateId=Integer.parseInt(property.getId());
-		if(id==updateId){
+		
 			synchronCards(property);
-		}
 		template.update("account_huang.dao.PropertyDao.updateTotal", property);
 	}
 	@Transactional
@@ -65,6 +64,13 @@ public class PropertyService {
 		params.put("cardNum","card2");
 		template.update("account_huang.dao.PropertyDao.updateCards", params);
 		}
+		
+		if(property.getCard3()!=null){
+			//更新第二张银行卡
+			params.put("balance",property.getCard3());
+			params.put("cardNum","card3");
+			template.update("account_huang.dao.PropertyDao.updateCards", params);
+			}
 		
 		if(property.getHousingFund()!=null){
 		//更新住房公积金

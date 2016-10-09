@@ -245,7 +245,7 @@ ul.PanelMenu li:hover{
 	height:35px;
 	line-height:35px;
 	padding-left:22px;
-	font-family:"微软雅黑";
+	font-family:"寰蒋闆呴粦";
 	font-size:14px;
 	font-weight:normal;
 	color:#707070;
@@ -326,7 +326,7 @@ ul.PanelMenu li:hover{
 }
 .BoxNav a{ 
 	color:#a0a0a0;
-    font-family: "宋体";
+    font-family: "瀹嬩綋";
 	}
 .BoxNav a:hover{
 	text-decoration:none;
@@ -357,7 +357,7 @@ ul.PanelMenu li:hover{
 }
 .PanelCon{
 	width:100%;
-	/* height:300px;具体高度会动态计算 */
+	/* height:300px;鍏蜂綋楂樺害浼氬姩鎬佽绠�*/
 	padding: 10px 10px 1px 10px;
 	overflow:auto;
 }
@@ -418,19 +418,6 @@ ul.PanelMenu li:hover{
 	padding-left:8px;
 	margin-left:8px;
 	width:300px;
-}
-.btn,.btn01{
-	background:url(../images/btn01.png) no-repeat;
-	width:93px;
-	height:27px;
-	float:left;
-	margin:0 5px;
-	font-family:"微软雅黑";
-	font-size:14px;
-	font-weight:normal;
-	color:#707070;
-	text-align:center;
-	line-height:27px;
 }
 .btn01{background:url(../images/btn02.png) no-repeat;}
 
@@ -568,7 +555,7 @@ div.attInfolist p{width:100%;border-bottom:1px dotted #ccc;font:12px/25px "simSu
     border: 1px solid #ddd;
     border-radius: 4px 0;
     color: #9da0a4;
-    content: "小贴士";
+    content: "灏忚创澹�;
     font-size: 12px;
     font-weight: bold;
     left: -1px;
@@ -645,7 +632,7 @@ color: #ccc;
 .ApplicationBox{
 	float:right;
 }
-/**图片剪裁 应用按钮**/
+/**鍥剧墖鍓 搴旂敤鎸夐挳**/
 .applicateBtn{
 	background: #1fb5ad;
 	border-color: #1C9E97;
@@ -978,7 +965,7 @@ color: #ccc;
 	padding:0px 10px;
 	border-radius: 3px;
 	font-size: 12px;
-	font-family: '宋体';
+	font-family: '瀹嬩綋';
 }
 .PanelSelect .coral-radiolist td {
 	padding: 0px;

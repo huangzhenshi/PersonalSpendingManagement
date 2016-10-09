@@ -56,7 +56,7 @@
 	
 	<update id="updateTotal" parameterType="account_huang.entity.Property">
 		update property b set b.total=(
-			SELECT NVL(A.CARD1, 0) + NVL(A.CARD2, 0) + NVL(A.CASH, 0) +
+			SELECT NVL(A.CARD1, 0) + NVL(A.CARD2, 0) + NVL(A.CARD3, 0) + NVL(A.CASH, 0) +
                           NVL(A.HOUSINGFUND, 0) + NVL(A.ALIPAY, 0) +
                           NVL(A.CREDITCARD, 0) + NVL(A.RENT, 0) +
                           NVL(A.MORTGAGE, 0) + NVL(A.LOAN1, 0) +
@@ -76,6 +76,7 @@
 			 <if test="alipay !=null ">,alipay=#{alipay}</if> 
 			 <if test="creditCard !=null ">,creditCard=#{creditCard}</if> 
 			 <if test="rent !=null ">,rent=#{rent}</if> 
+			 <if test="housingFund != null">,housingFund=#{housingFund}</if>
 			 <if test="mortgage !=null ">,mortgage=#{mortgage}</if> 
 	   		 <if test="loan2 !=null ">,loan2=#{loan2}</if> 
 			 <if test="loan1 !=null ">,loan1=#{loan1}</if> 
