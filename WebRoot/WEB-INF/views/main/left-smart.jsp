@@ -10,10 +10,7 @@
         <div class="clear"></div>
         <div class="menuLeftFirst">
 			<ul>
-		         <li id="accountSmartNav" class="hit" onclick="refreshCenter('${ctx}/smart/toMainSmartPage.do?username=${loginUser.username}');" >
-		        	 <span>财务分析</span>
-		         </li> 
-		          <li id="accountSmartNav" onclick="refreshCenter('${ctx}/smart/getMonthMainPage.do?username=${loginUser.username}');" >
+		          <li id="accountSmartNav" class="hit"  onclick="refreshCenterAndAddUsername('${ctx}/smart/getMonthMainPage.do?');" >
 		        	 <span>月度分析</span>
 		         </li> 
 		         

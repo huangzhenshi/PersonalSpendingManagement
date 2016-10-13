@@ -22,11 +22,11 @@
 <div>
 <%-- <h2 class="text-center">${times}本月累计其他开销${elseTotal}元</h2> --%>
 	<input type="text" id="holderName"  hidden="true" value="${username}"/>
-	<div id="pie" style="width:800px;height:600px;">  </div>
+	<div id="pie" style="width:1000px;height:450px;">  </div>
 
 
 	    <cui:grid id="elseGrid${idSuffix}" rownumbers="true" width="auto" height="900"
-	    		data="${elseList}" datatype="local" rowNum="50">
+	    		url="${ctx}/smart/getElseDetailGrid.do?username=${loginUser.username}&qssj=${times}" rowNum="50">
 	    	<cui:gridCols>
 	    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
 	    		<cui:gridCol name="columnName"  align="center">开销名称</cui:gridCol>
@@ -99,6 +99,7 @@
 			};
 			return option;
 		}
+
 	
 	</script>
 

@@ -22,11 +22,12 @@
 <div class="container-fluid">
 	 <div class="row">
 			<div class="col-xs-offset-1huang  col-lg-3">
-				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditCashFlow(0)">
+				<br>
+				<button type="button" class="btn  btn-primary" onclick="addOrEditCashFlow(0)">
 				  <i class="icon-plus"></i>新增</button>
-			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEditCashFlow(1,0,'income')">
+			    <button type="button" class="btn  btn-success" onclick="addOrEditCashFlow(1,0,'income')">
 			      <i class="icon-pencil"></i>修改</button>
-			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCashFlowArray(1)">
+			    <button type="button" class="btn btn-danger" onclick="deleteCashFlowArray(1)">
 			      <i class="icon-minus"></i>删除</button>
 			</div>
 			
@@ -51,11 +52,12 @@
 <div class="container-fluid">
 	 <div class="row">
 			<div class="col-xs-offset-1huang  col-lg-3">
-				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditCashFlow(0)">
+			<br>
+				<button type="button" class="btn  btn-primary" onclick="addOrEditCashFlow(0)">
 				  <i class="icon-plus"></i>新增</button>
-			    <button type="button" class="btn btn-lg btn-success" onclick="addOrEditCashFlow(1)">
+			    <button type="button" class="btn btn-success" onclick="addOrEditCashFlow(1)">
 			      <i class="icon-pencil"></i>修改</button>
-			    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCashFlowArray(0)">
+			    <button type="button" class="btn btn-danger" onclick="deleteCashFlowArray(0)">
 			      <i class="icon-minus"></i>删除</button>
 			</div>
 			

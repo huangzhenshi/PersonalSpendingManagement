@@ -7,7 +7,7 @@
 						<h3 class="modal-title text-center" id="modalDescription">新增码表值</h3>
 					</div>
 					
-					<form  role="form" id="addOrEditCodeForm" action="${ctx}/code/addOrEditCodeSava.do?holderName=${loginUser.username}" method="post">
+					<form  role="form" id="addOrEditCodeForm">
 						<input type="text"  hidden="true" name="id" id="codeId" />
 						<div class="modal-body">
 							<div class="form-group">
@@ -40,7 +40,7 @@
 						    </div>
 						</div>
 						<div class="modal-footer">
-							<button class="btn btn-primary" type="submit">
+							<button class="btn btn-primary"   data-dismiss="modal" onclick="submitAddOrEditCode()">
 								保存
 							</button>
 							<button class="btn btn-primary" data-dismiss="modal">
@@ -55,4 +55,31 @@
 			$().ready(function() {
 					$("#addOrEditCodeForm").validate();
 				});
+			
+			function submitAddOrEditCode(){			
+				$.ajax({
+					type : 'post',
+					url : ctx + '/code/addOrEditCodeSava.do',
+					dataType : "json",
+					data : {
+						id : $("#codeId").val(),
+						holderName : $("#username").val(),
+						type: $("#codeType").val(),
+						code: $("#code").val(),
+						value: $("#codeValue").val(),
+						description: $("#description").val(),
+						isAll: $("#isAll").val()
+					},
+					success : function(data) {
+						$("#addOrEditCodeModal").modal('hide');
+						message(data);
+						$("#codeGrid${idSuffix}").grid("reload"); 
+					},
+					error : function(e) {
+						$("#addOrEditCodeModal").modal('hide');
+						message("操作失败!");
+						$("#codeGrid${idSuffix}").grid("reload"); 
+					}
+				}); 
+			}
 		</script>

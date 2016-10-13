@@ -7,7 +7,7 @@
 						<h3 class="modal-title text-center" id="recordModalDescription">新增记账记录</h3>
 					</div>
 					
-					<form  role="form" id="addOrEditRecordForm" action="${ctx}/record/addOrEditRecordSava.do" method="post">
+					<form  role="form" id="addOrEditRecordForm">
 								<input type="text"  hidden="true" name="id" id="recordId" />
 								<input type="text"  hidden="true" name="holderName" value="${loginUser.username}"  id="recordHolderName"  />
 					    <div class="modal-body">

@@ -36,11 +36,10 @@
 		</div>		          
 	 </div>
 	 
-<%@include file="editOrUpdateCodeModal.jsp" %>
 </div>
 		
 	    <cui:grid id="codeGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true" 
-	    	data="${codes}" datatype="local" rowNum="130">
+	    	url="${ctx}/code/getCodeGrid.do?username=${loginUser.username}" rowNum="130">
 	    	<cui:gridCols>
 	    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 	    		<cui:gridCol name="holderName" hidden="true">holderName</cui:gridCol>
@@ -54,10 +53,11 @@
 	    </cui:grid> 
 		    
 	<script>
-	$(function() {
-		$("#codeNav").addClass("active");
-		$("#codeNav").parent("ul").children("li").not("#codeNav").removeClass("active");
-	});
+	$(function(){
+		if("${message}"){
+			$.message("${message}");
+		}
+	})
 	//格式化操作栏
 	function operateFormatter(cellValue, options, rowObject){
 		var result = "";
@@ -101,6 +101,7 @@
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function AddOrEditCode(index,id){
+		debugger;
 		$("#addOrEditCodeForm")[0].reset(); 
 		if(index==0){
 			return;
@@ -117,7 +118,7 @@
 			var row = $("#codeGrid${idSuffix}").grid("getRowData",id);
 		}
 		$("#modalDescription").html("修改码表值");
-		$("#codeId").val(id);
+		$("#codeId").val(row.id);
 		$("#codeType").val(row.type);
 		$("#code").val(row.code);
 		$("#codeValue").val(row.value);
@@ -125,7 +126,12 @@
 		$("#addOrEditCodeModal").modal();
 	}
 	function search(){
-		window.location.href=("${ctx}/code/getAllCodes.do?username=${loginUser.username}&index="+$("#searchInfo").val());
+		debugger;
+		var username=$("#username").val();
+		var baseSearch = "${ctx}/code/getCodeGrid.do?username="+username+"&text="+$("#searchInfo").val();
+		var codeGrid=$("#codeGrid${idSuffix}");
+		codeGrid.grid("option","url",baseSearch);
+		codeGrid.grid("reload"); 
 	}
 	</script>
 </body>

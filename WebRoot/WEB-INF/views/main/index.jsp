@@ -17,6 +17,7 @@
 <%@ include file="../../include/headerForCUI.jsp"%>
 <%@include file="../cards/editOrUpdateCardModal.jsp" %>
 <%@include file="../records/editOrUpdateRecordModal.jsp" %>
+<%@include file="../code/editOrUpdateCodeModal.jsp" %>
 
 <style>
 html,body {
@@ -26,6 +27,7 @@ html,body {
 </style>
 </head>
 <body>
+<input type="text" id="username"  hidden="true" value="${loginUser.username}"/>
 	<cui:layout id="coralui-layout" fit="true">
 			<cui:layoutRegion region="north" split="false" style="height:60px;border:none">
 			<%@ include file="head.jsp"%>

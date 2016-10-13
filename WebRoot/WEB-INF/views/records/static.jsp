@@ -22,13 +22,14 @@
 <body>
 <div class="container-fluid">
 	 <div class="row ">					
-		<div class="col-xs-offset-1huang col-lg-3" >
-			<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
+		<div class="col-lg-3" >
+		<br>
+			<button type="button" class="btn btn-primary" data-toggle="modal" 
    				data-target="#addOrEditRecordModal" onclick="addOrEdit(0)">
 			  <i class="icon-plus"></i>新增</button>
-		    <button type="button" class="btn btn-lg btn-success" onclick="addOrEdit(1)">
+		    <button type="button" class="btn btn-success" onclick="addOrEdit(1)">
 		      <i class="icon-pencil"></i>修改</button>
-		    <button type="button" class="btn btn-lg btn-danger" onclick="deleteRecordArray()">
+		    <button type="button" class="btn btn-danger" onclick="deleteRecordArray()">
 			  <i class="icon-minus"></i>删除</button>
 			  
 		</div>

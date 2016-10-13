@@ -15,7 +15,7 @@
     						<li id="todoNav" onclick="toDisplay('Content')" title="待办事项"><i class="gl"></i><span>待办事项</span></li>
     						<li id="habitNav" onclick="toDisplay('Content')" title="习惯养成"><i class="gl"></i><span>习惯养成</span></li>
     						<li id="excelNav" onclick="toDisplay('Content')" title="导入导出"><i class="gl"></i><span>导入导出</span></li>
-    						<li id="codeNav" onclick="toDisplay('Content')" title="系统配置"><i class="gl"></i><span>系统配置</span></li>
+    						<li id="codeNav" onclick="toDisplay('config')" title="系统配置"><i class="gl"></i><span>系统配置</span></li>
     				</ul>
     			</div>
     		</div>
@@ -25,6 +25,7 @@
 <script type="text/javascript">
 var pannel="";
 	function toDisplay(name,menuTag){
+		var username=$("#username").val();
 		if(!name)return;
 		if(typeof(menuName)!=undefined){
 			menuName = name;
@@ -39,9 +40,17 @@ var pannel="";
 		panel.panel("option","onResize",initTreebox);
 
 		panel = $("#coralui-layout").layout("panel","west");
-		panel.panel("refresh", ctx+"/main/"+name+"/getLeftMenu.do?menuTag="+menuTag);
+		panel.panel("refresh", ctx+"/main/"+name+"/getLeftMenu.do?menuTag="+menuTag+"&username="+username);
 		panel = $("#coralui-layout").layout("panel","center");
-		panel.panel("refresh", ctx+"/record/toMainRecordPage.do?username=huang");
+		var baseUrl="";
+		if(name=="smart"){
+			baseUrl='${ctx}/smart/getMonthMainPage.do?username='+username;
+		}else if(name=='account'){
+			baseUrl='${ctx}/record/toMainRecordPage.do?username='+username;
+		}else if(name=="config"){
+			baseUrl='${ctx}/code/toMainRecordPage.do?username='+username;
+		}
+		panel.panel("refresh", baseUrl);
 		
 	}
 	//页面加载完毕后获取下拉框的value值
