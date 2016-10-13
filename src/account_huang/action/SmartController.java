@@ -35,10 +35,13 @@ public class SmartController {
 	private SmartService smartSer;
 	
 	@RequestMapping("/getMonthMainPage.do")
-	public String getMonthMainPage(){
-		return "smart/accountMonth";
+	public  ModelAndView getMonthMainPage(SearchEntity search,ModelMap model){
+		List<EchartEntity> list=smartSer.getNetAssertByMonth(search);
+		smartSer.setEchartLineValues(model,list);
+		return new  ModelAndView("smart/accountMonth");
 	}
 	
+
 	@RequestMapping("/getSmartByMonthGrid.do")
     @ResponseBody
     public Map<String,Object> getSmartByMonthGrid(SearchEntity search) {
@@ -59,8 +62,6 @@ public class SmartController {
 			 model.addAttribute("all", listRecord.get(0).getCostDaily());
 				
 		 }
-		   List<ElseDetail> list=smartSer.getDetailByDate(search);
-			model.addAttribute("elseList", gs.toJson(list));
 		  	model.addAttribute("times", search.getQssj());
 		  	model.addAttribute("month", search.getTimes());
 		  	
@@ -68,6 +69,15 @@ public class SmartController {
 			model.addAttribute("names", names);
 			model.addAttribute("values", values);
 	        return new ModelAndView("smart/smartDetail");
+	    }
+	  
+	    @RequestMapping("/getElseDetailGrid.do")
+	    @ResponseBody
+	    public Map<String,Object> getElseDetailGrid(SearchEntity search) {
+	        Map<String,Object> map = new HashMap<String, Object>();
+	        List<ElseDetail> list=smartSer.getDetailByDate(search);
+	        map.put("data",list) ;
+	        return map;
 	    }
 	
 }

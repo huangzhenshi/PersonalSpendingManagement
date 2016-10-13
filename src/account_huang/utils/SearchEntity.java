@@ -6,8 +6,15 @@ public class SearchEntity {
 	private String username;
 	private String util;
 	private String times;
+	private String text;
 	public String getTimes() {
 		return times;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
 	}
 	public void setTimes(String times) {
 		this.times = times;

@@ -1,18 +1,23 @@
 package account_huang.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
+
+
 
 import account_huang.entity.Code;
 import account_huang.service.CodeService;
+import account_huang.utils.SearchEntity;
 
 @Controller
 @RequestMapping("/code")
@@ -20,38 +25,60 @@ public class CodeController {
 	@Resource
 	private CodeService codeSer;
 	
-	@RequestMapping("/getAllCodes.do")
-	public ModelAndView getAllCodes(ModelMap model,String index,String username){
-		List<Code> list=codeSer.getAllCodes(username,index);
-		model.addAttribute("codes", new Gson().toJson(list));
-		return  new ModelAndView("code/index");
+	@RequestMapping("/toMainRecordPage.do")
+	public ModelAndView getAllCodes(String message,ModelMap model){
+		model.addAttribute("message",message);
+		return new ModelAndView("code/index");
 	}
+	
+	@RequestMapping("/getCodeGrid.do")
+    @ResponseBody
+    public Map<String,Object> getCodeGrid(SearchEntity search) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        List<Code> list=codeSer.getAllCodes(search);
+        map.put("data",list) ;
+        return map;
+    }
+	
+	
 	/**
 	 * 修改码表值的时候不能修改holdername所以前台不需要传递 holdername参数，但是新增的时候必须塞给code
 	 * @return
 	 */
 	@RequestMapping("/addOrEditCodeSava.do")
-	public ModelAndView addOrEditCodeSava(Code code,ModelMap model,String holderName){
+	@ResponseBody
+	public Map<String,Object> addOrEditCodeSava(Code code){
+			String message="";
 		  //修改保存功能
 		  if(code.getId()!=null&&code.getId().length()>0){
-			  codeSer.updateCode(code); 
+			  message="Update Success!";
+			  int result= codeSer.updateCode(code); 
+			  if(result<1){
+					message="Update Fail!";
+				}
 		  }else{
-			  code.setHolderName(holderName);
-			  codeSer.saveCode(code); 
+			  message="Add Success!";
+			  int result=codeSer.saveCode(code); 
+			  if(result<1){
+					message="Add Fail!";
+				}
 		  }
-		  List<Code> list=codeSer.getAllCodes(holderName,"");
-		  model.addAttribute("codes", new Gson().toJson(list));
-		  return  new ModelAndView("code/index");
+		  Map<String,Object> map = new HashMap<String, Object>();
+		  map.put("message",message);
+		  return map;
 	  }
 	
 	
 	@RequestMapping("/delete.do")
-	public ModelAndView delete(ModelMap model,String id,String holderName)
+	public ModelAndView delete(ModelMap model,String id)
 	  {
-		  codeSer.deleteCodeById(id);
-		  List<Code> list=codeSer.getAllCodes(holderName,"");
-		  model.addAttribute("codes", new Gson().toJson(list));
-		 return  new ModelAndView("code/index");
+		String message="delete fail!";
+		 int result=codeSer.deleteCodeById(id);
+		 if(result>0){
+			 message="delete Success!";
+		 }
+		 return new ModelAndView("redirect:/code/toMainRecordPage.do?message="+message);
 	  }
+	
 	
 }

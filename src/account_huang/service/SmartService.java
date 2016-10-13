@@ -110,6 +110,22 @@ public class SmartService {
 		 List<ElseDetail> list=template.selectList("account_huang.dao.SmartDao.getDetailByDateAndAmount",params);
 		 return list;
 	}
+	
+	public List<EchartEntity> getNetAssertByMonth(SearchEntity search){
+		 List<EchartEntity> list=template.selectList("account_huang.dao.SmartDao.getNetAssertByMonth",search.getUsername());
+		 return list;
+	}
+	public void	setEchartLineValues(ModelMap model,List<EchartEntity> list){
+		Gson gs=new Gson();
+		List<String> times=new ArrayList<String>();
+		List<Integer> values=new ArrayList<Integer>();
+		for(int i=0;i<list.size();i++){
+			times.add(list.get(i).getName());
+			values.add(list.get(i).getValue());
+		}
+		model.addAttribute("times", gs.toJson(times));
+		model.addAttribute("values", gs.toJson(values));
+	}
 	/**
 	 * 1）通过查询出当月的 求和的开销实体类 record，过滤掉为0的开销，给前台的 echart展示
 	 * 2）把分组后的其他开销，取前3个开销加到 names 和values里面给前台单独展示出来
@@ -122,40 +138,40 @@ public class SmartService {
 		Record target=(Record) Utils.mathConvertToZero(record);
 		 if(target.getEating()>0){
 			 EchartEntity echart=new EchartEntity();
-			 echart.setName("吃饭购物"+target.getEating());
+			 echart.setName("吃饭购物:"+target.getEating());
 			 echart.setValue(target.getEating());
 			 echartlist.add(echart);
-			 details.add("吃饭购物"+target.getEating());
+			 details.add("吃饭购物:"+target.getEating());
 			 all=all-echart.getValue();
 		 }
 		 if(target.getRent()>0){
 			 EchartEntity echart=new EchartEntity();
-			 echart.setName("房租"+target.getRent());
-			 details.add("房租"+target.getRent());
+			 echart.setName("房租:"+target.getRent());
+			 details.add("房租:"+target.getRent());
 			  echart.setValue(target.getRent() );
 			  echartlist.add(echart);
 			  all=all-echart.getValue();
 		 }
 		 if(target.getTraffic()>0){
 			 EchartEntity echart=new EchartEntity();
-			 echart.setName("交通"+target.getTraffic());
-			 details.add("交通"+target.getTraffic());
+			 echart.setName("交通:"+target.getTraffic());
+			 details.add("交通:"+target.getTraffic());
 			  echart.setValue(target.getTraffic() );
 			  echartlist.add(echart);
 			  all=all-echart.getValue();
 		 }
 		 if(target.getClothes()>0){
 			 EchartEntity echart=new EchartEntity();
-			 echart.setName("买衣服"+target.getClothes());
-			 details.add("买衣服"+target.getClothes());
+			 echart.setName("买衣服:"+target.getClothes());
+			 details.add("买衣服:"+target.getClothes());
 			  echart.setValue(target.getClothes());
 			  echartlist.add(echart);
 			  all=all-echart.getValue();
 		 }
 		 if(target.getBook()>0){
 			 EchartEntity echart=new EchartEntity();
-			 echart.setName("买书"+target.getBook());
-			 details.add("买书"+target.getBook());
+			 echart.setName("买书:"+target.getBook());
+			 details.add("买书:"+target.getBook());
 			  echart.setValue(target.getBook() );
 			  echartlist.add(echart);
 			  all=all-echart.getValue();
@@ -164,8 +180,8 @@ public class SmartService {
 		 for (ElseDetail detail : list) {  
 				 if(index<3){
 					EchartEntity echart=new EchartEntity();
-				    echart.setName(detail.getColumnName()+detail.getValue());
-				    details.add(detail.getColumnName()+detail.getValue());
+				    echart.setName(detail.getColumnName()+":"+detail.getValue());
+				    details.add(detail.getColumnName()+":"+detail.getValue());
 				    echart.setValue(detail.getValue());
 				    echartlist.add(echart);
 				    all=all-echart.getValue();
@@ -174,14 +190,33 @@ public class SmartService {
 			} 
 		 if(all>0){
 				 EchartEntity echart=new EchartEntity();
-				 echart.setName("其他"+all);
-				 details.add("其他"+all);
+				 echart.setName("其他:"+all);
+				 details.add("其他:"+all);
 			     echart.setValue(all);
 			     echartlist.add(echart);
 			 }
 		  Gson gs=new Gson();
-		   model.addAttribute("echartList", gs.toJson(echartlist));
-		   model.addAttribute("details",gs.toJson(details));
+		  List<String> orderList=orderByValue(details);
+		  model.addAttribute("echartList", gs.toJson(echartlist));
+		   model.addAttribute("details",gs.toJson(orderList));
+	}
+	
+	public List<String> orderByValue(List<String> list){
+		int size=list.size();
+		for(int i=0;i<size;i++){
+			String[] target=list.get(i).split(":");
+			int max=Integer.parseInt(target[target.length-1]);
+			for(int j=i+1;j<size;j++){
+				int value2=Integer.parseInt(list.get(j).split(":")[target.length-1]);
+				if(max<value2){
+					max=value2;
+					String store=list.set(i, list.get(j));
+					list.set(j, store);
+				}
+			}
+		}
+		return list;
+		
 	}
 	
 }

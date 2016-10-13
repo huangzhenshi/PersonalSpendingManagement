@@ -39,7 +39,7 @@
 	</update>
 	
     <select id="getAllCodeInfoByHoldername" parameterType="java.util.HashMap" resultMap="CodeResult">
-   		select ID, TYPE, code, VALUE, DESCRIPTION, holdername, isall from codes where holdername=#{holdername} or holdername is null 
+   		select ID, TYPE, code, VALUE, DESCRIPTION, holdername, isall from codes where (holdername=#{holdername} or holdername is null) 
 	     		<if test="type !=null "> and (type like #{type} or description like #{description})</if> 	
    		order by type,value
     </select>

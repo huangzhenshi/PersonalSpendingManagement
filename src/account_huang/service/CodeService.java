@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import account_huang.entity.Code;
+import account_huang.utils.SearchEntity;
 
 @Service
 public class CodeService {
@@ -22,10 +23,10 @@ public class CodeService {
 		return list;
 	}*/
 	@Transactional
-	public void deleteCodeById(String id) {
+	public int deleteCodeById(String id) {
 		String[] ids=id.split(",");
-		template.delete("account_huang.dao.CodeDao.deleteById",ids);
-		
+		int result=template.delete("account_huang.dao.CodeDao.deleteById",ids);
+		return result;
 	}
 
 	public Code findById(String id) {
@@ -42,22 +43,24 @@ public class CodeService {
 	}
 	
 	@Transactional
-	public void updateCode(Code Code) {
-		template.update("account_huang.dao.CodeDao.update", Code);
+	public int updateCode(Code Code) {
+		int result=template.update("account_huang.dao.CodeDao.update", Code);
+		return result;
 	}
 	@Transactional
-	public void saveCode(Code Code) {
-		template.insert("account_huang.dao.CodeDao.save", Code);
-		
+	public int saveCode(Code Code) {
+		int result=template.insert("account_huang.dao.CodeDao.save", Code);
+		return result;
 	}
 	
-	public List<Code> getAllCodes(String username, String index) {
+	public List<Code> getAllCodes(SearchEntity search) {
 		Map<String,Object> params=new HashMap<String,Object>();
-			params.put("holdername", username);
+			params.put("holdername", search.getUsername());
+			String text=search.getText();
 			//如果搜索框有输入值，则对 type和 描述进行like查询
-			if(index!=null&&index.length()>0){
-				params.put("type", "%"+index+"%");
-				params.put("description","%"+index+"%");
+			if(text!=null&&text.length()>0){
+				params.put("type", "%"+text+"%");
+				params.put("description","%"+text+"%");
 			}
 		List<Code> list=template.selectList("account_huang.dao.CodeDao.getAllCodeInfoByHoldername",params);
 		return list;

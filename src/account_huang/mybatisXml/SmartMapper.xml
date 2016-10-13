@@ -33,6 +33,10 @@
 		<result property="value" column="money" />
 	</resultMap>
 	
+	<resultMap id="echartEntityResult" type="account_huang.entity.EchartEntity">
+		<result property="name" column="times" />
+		<result property="value" column="total" />
+	</resultMap>
 	
 	
 	
@@ -65,13 +69,23 @@
     </select>
     
      <select id="getDetailByDateAndAmount" resultMap="elseResultModified">
-         SELECT sum(value) as money, SUBSTR(COLUMNNAME, 0, 2) as title
+         SELECT sum(value) as money, case count(*) when 1 then max(COLUMNNAME) else SUBSTR(COLUMNNAME, 0, 2) end title
 	       FROM ELSEDETAIL
 	      where 
 	        <if  test="times != null">to_char(times,'yyyy-mm')=#{times} and </if> 
 	          holdername = #{holdername} 
 	      group by SUBSTR(COLUMNNAME, 0, 2)
 	      order by sum(value) desc
+       </select>
+    
+     <select id="getNetAssertByMonth" resultMap="echartEntityResult">  
+		  select times, total
+		    from (select times,
+		                 total,
+		                 row_number() over(partition by substr(times, 0, 7) order by times) rn
+		            from property
+		           where  holdername = #{holdername} )
+		   where rn = 1
        </select>
     
     
