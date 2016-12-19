@@ -110,8 +110,7 @@
   
    </div>
 </div>
-</body>
-</html>
+
 <script type="text/javascript">
 	$(function(){
 		//绑定回车登陆
@@ -139,3 +138,5 @@
 
 		}
 </script>
+</body>
+</html>

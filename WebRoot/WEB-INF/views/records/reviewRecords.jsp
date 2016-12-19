@@ -21,13 +21,15 @@
 
 </head>
 <body>
-	 <div class="row">
-	        <div class="col-sm-5 col-xs-offset-1huang">
-	          <div class="panel  panel-success">
-	            <div class="panel-body">	
-					            <select id="sel_year"  class="form-control"></select>
-							<br/>
-				             <select id="sel_month"  class="form-control">
+<div class="container-fluid" id="searchPanel">
+	 <div class="row" >
+		    <form id="searchDateForm" class="form-inline " role="form">
+		    
+	     			<label class="input-lg control-label">选择年份:</label>
+				    <select id="sel_year"  class="form-control  input-lg" style="width:30%"></select>
+				    
+			 		<label class="input-lg control-label">选择月份:</label>
+					<select id="sel_month"  class="form-control  input-lg" style="width:30%">
 								    <option value="01">1月</option>
 								    <option value="02">2月</option>
 								    <option value="03">3月</option>
@@ -40,45 +42,36 @@
 								    <option value="10">10月</option>
 								    <option value="11">11月</option>
 								    <option value="12">12月</option>
-							</select>
-							<p>  </p>
-							<button type="button" class="btn btn-lg btn-primary" onclick="getRecordByMonth()">
-				 			 	<i class="icon-search"></i>按月查询
-				 			 </button>
-			
-	            </div>
-	          </div>
-	        </div>
-	        
-	        <div class="col-sm-5 col-xs-offset-1huang">
-	          <div class="panel panel-success">
-	            <div class="panel-body">
-						<form class="form-horizontal" id="dateChooseForm" role="form">
-							 <div class="form-group has-success">
-				                  <label class="col-lg-2 control-label">起始日期</label>
-				                  <div class="col-lg-10">
-				                    <input id="qssj" class="form-control date form_date required"
+				   </select>
+				   <button type="button" class="input-group btn btn-lg btn-primary" onclick="getRecordByMonth()">
+					 			 	<i class="icon-search"></i>按月查询
+				   </button>
+		    </form>
+    </div>
+</div>
+<br>
+<div class="container-fluid" id="searchPanel">
+	 <div class="row" >
+		    <form id="searchDateForm" class="form-inline form-group-lg" role="form">
+		    
+		     			<label class="input-lg control-label">开始日期:</label>
+					   <input id="qssj" class="form-control date form_date required" style="width:30%"
 				                         data-date="" data-date-format="yyyy-mm-dd" name="qssj"
 				                         placeholder="起始时间" type="text" value="${qssj}" />
-				                  </div>
-				             </div>
-				              <div class="form-group has-success">
-				                  <label class="col-lg-2 control-label">结束日期</label>
-				                  <div class="col-lg-10">
-				                    <input id="jssj" class="form-control date form_date required"  name="jssj"
+					    
+			 		<label class="input-lg control-label">结束日期:</label>
+					 <input id="jssj" class="form-control date form_date required"  name="jssj" style="width:30%"
 				                    	data-date="" data-date-format="yyyy-mm-dd" placeholder="结束时间" type="text" value="${jssj}" />
-				                  </div>
-				             </div>
-				             <div class="form-actions">
-					                <button  type="button" class="btn btn-lg btn-primary"  onclick="getRecordByDate()">
-				 			 			<i class="icon-search"></i>按天查询
-				 				 	</button>
-					         </div>
-						</form>
-	            </div>
-	          </div>
-	        </div>
-     </div>
+				                  
+				
+				<button type="button" class="input-group btn btn-lg btn-primary" onclick="getRecordByMonth()">
+				 			 	<i class="icon-search"></i>按天查询
+				 			 </button>
+				 			 
+				
+		    </form>
+    </div>
+</div>·
     
       <cui:grid id="articleGrid${idSuffix}" rownumbers="true" fitStyle="fill"  multiselect="true" altRows="true"   
 		    	  	url="${ctx}/record/getRecordByDate.do?username=${loginUser.username}" rowNum="20"
