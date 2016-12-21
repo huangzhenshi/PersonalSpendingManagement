@@ -74,8 +74,10 @@ public class RecordController  extends ActionSupport{
 		 staticSer.deleteRecordById(id);
 		 staticSer.setAutoFill(model,username);
 		 Record rec=staticSer.getTotalByDate(username);
-			model.addAttribute("costAll", rec.getCostThisMonth());
-			model.addAttribute("profitAll", rec.getProfitThisMonth());
+		 if(rec!=null){
+			 model.addAttribute("costAll", rec.getCostThisMonth());
+			 model.addAttribute("profitAll", rec.getProfitThisMonth());
+		 }
 		 return  new ModelAndView("records/static");
 	  }
 

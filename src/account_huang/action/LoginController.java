@@ -32,6 +32,7 @@ public class LoginController
 	private StaticService staticSer;
 	@Resource
 	private TodoService todoSer;
+	//只开放通过   http://localhost:8080/PersonalSpendingManagement/ 
 
 	@RequestMapping("/login.do")
 	public ModelAndView login(HttpServletRequest request){
@@ -45,13 +46,14 @@ public class LoginController
 	 * 
 	 */
 	@RequestMapping("/check.do")
-	  public ModelAndView check(HttpServletRequest request,User user,ModelMap model)
+	  public ModelAndView check(HttpSession httpSession,HttpServletRequest request,User user,ModelMap model)
 	  {
 		 HttpSession session=request.getSession();
 		  User userIn=logSer.getUserByMybatis(user);
 		  if(userIn!=null&&userIn.getUsername().length()>0){
+			  httpSession.setAttribute("username",user.getUsername());
+			  httpSession.setAttribute("loginUser",userIn);
 			  String username=userIn.getUsername();
-			  session.setAttribute("loginUser", userIn);
 			  /*List<Todo> todoList=todoSer.getAllTodo(username);
 				  if(todoList!=null&&todoList.size()>0){
 					  return new ModelAndView("todo/index");

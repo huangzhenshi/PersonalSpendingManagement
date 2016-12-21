@@ -938,9 +938,10 @@ function zeroFormat(cellValue){
 	return cellValue;
 }
 
-function refreshCenterAndAddUsername(url){
-	var username=$("#username").val();
-	url=url+"username="+username;
-	refreshCenter(url);
+function isEmpty(testValue){
+	if(testValue==null||testValue==""){
+		return true;
+	}
+	return false;
 }
 

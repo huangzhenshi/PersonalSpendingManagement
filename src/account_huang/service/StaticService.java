@@ -149,6 +149,11 @@ public class StaticService {
 		return  record;
 	}
 	
+	public List<Record> getAllRecordByUserName(String username)
+	  {
+		 return template.selectList("account_huang.dao.RecordDao.getAllRecordByUserName",username);
+	  }
+	
 	/**
 	 * 如果修改后的record不为
 	 * 1开始为空 改为空  2开始为空 改为值  3开始不为空改为空  4开始不为空改为别的值

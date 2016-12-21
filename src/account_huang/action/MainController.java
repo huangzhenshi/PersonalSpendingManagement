@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/main")
 public class MainController {
 	
-	  @RequestMapping(value = "{module}/getLeftMenu.do")
-	    public ModelAndView getLeftMenu(@PathVariable("module")String module,String menuTag,ModelMap model) {
+	  @RequestMapping("/getLeftMenu.do")
+	    public ModelAndView getLeftMenu(String module,String menuTag,ModelMap model) {
     		model.addAttribute("menuTag", menuTag);
 	        return new ModelAndView("main/left-"+module);
 	    }

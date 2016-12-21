@@ -11,7 +11,7 @@
         <div class="clear"></div>
         <div class="menuLeftFirst">
 			<ul>
-		          <li id="configCodeNav" class="hit"  onclick="refreshCenterAndAddUsername('${ctx}/code/toMainRecordPage.do?');" >
+		          <li id="configCodeNav" class="hit"  onclick="refreshCenter('${ctx}/code/toMainRecordPage.do?username=${username}');" >
 		        	 <span>码表配置</span>
 		         </li> 
 		         

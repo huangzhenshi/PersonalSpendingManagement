@@ -22,12 +22,18 @@
 		<result property="costThisMonth" column="costThisMonth" />
 	</resultMap>
 	
-    <select id="getRecordByDate" 
-        parameterType="java.util.HashMap" resultMap="recordResult">
+    <select id="getRecordByDate" parameterType="java.util.HashMap" resultMap="recordResult">
         select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
        			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername
-       			 from expense a where holdername=#{holdername}  
-        	and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
+       			 from expense  where holdername=#{holdername}  
+       				 and times BETWEEN to_date(#{qssj},'yyyy-mm-dd') AND to_date(#{jssj},'yyyy-mm-dd') 
+       		order by times DESC
+    </select>
+    
+     <select id="getAllRecordByUserName" resultMap="recordResult">
+        select ID, to_char(times,'yyyy-mm-dd') timestr, income_total, profit, cost_daily, eating, supermarket, 
+       			 party, rent, trafficexp, elsecost, remark, clothes, book, holdername
+       			 from expense  where holdername=#{holdername}  
        		order by times DESC
     </select>
     
