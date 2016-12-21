@@ -5,16 +5,18 @@
 	<div class="PanelLeft F-left">
     	<div class="BoxLeft">
         	<img src="${ctx}/res/resource/style/images/icon01Hit.png" width="40" height="38" alt="" />
-            <h4><b>智能分析</b></h4>
+            <h4><b>功能组件</b></h4>
         </div>
         <div class="clear"></div>
         <div class="menuLeftFirst">
 			<ul>
-		          <li id="accountSmartNav" class="hit"  onclick="refreshCenter('${ctx}/smart/getMonthMainPage.do?username=${username}');" >
-		        	 <span>月度分析</span>
+		         <li id="doRecordNav" class="hit" onclick="refreshCenter('${ctx}/excel/toMainExcelPage.do?username=${username}');" >
+		        	 <span>account export</span>
 		         </li> 
 		         
-	   
+		         <li id="recordReviewNav" onclick="refreshCenter('${ctx}/record/getRecordReview.do?username=${username}');" >
+		  		    <span>habit export</span>
+		  		 </li>  
 			 </ul>
 		</div>
 	</div>
@@ -25,4 +27,5 @@
 			$("#${menuTag}").click();
 		}
 	});
+	
 </script>

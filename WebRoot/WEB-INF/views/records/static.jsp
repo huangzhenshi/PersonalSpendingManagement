@@ -45,7 +45,7 @@
 			<input type="text" id="rentRecord"  hidden="true" value="${rent}"/>
 			<input type="text" id="eatingRecord"  hidden="true" value="${eating}"/>
 		    <cui:grid id="recordGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true"  afterSortableRows="gridSortableRows" 
-		    	url="${ctx}/record/getRecordReviewGrid.do?username=${loginUser.username}" rowNum="20">
+		    	url="${ctx}/record/getRecordReviewGrid.do?username=${username}" rowNum="20">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="times" align="center">日期</cui:gridCol>
@@ -54,7 +54,7 @@
 		    		<cui:gridCol name="incomeTotal" width="80" align="center">工资</cui:gridCol>
 		    		<cui:gridCol name="eating" width="80" align="center">饮食</cui:gridCol>
 		    		<cui:gridCol name="supermarket" width="80" align="center">超市</cui:gridCol>
-		    		<cui:gridCol name="party" width="80" align="center">聚餐</cui:gridCol>
+	<%-- 	    		<cui:gridCol name="party" width="80" align="center">聚餐</cui:gridCol> --%>
 		    		<cui:gridCol name="rent" width="80" align="center">房租</cui:gridCol>
 		    		<cui:gridCol name="book" width="80" align="center">买书</cui:gridCol>
 		    		<cui:gridCol name="clothes" width="80" align="center">买衣服</cui:gridCol>

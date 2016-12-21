@@ -10,22 +10,22 @@
         <div class="clear"></div>
         <div class="menuLeftFirst">
 			<ul>
-		         <li id="doRecordNav" class="hit" onclick="refreshCenterAndAddUsername('${ctx}/record/toMainRecordPage.do?');" >
+		         <li id="doRecordNav" class="hit" onclick="refreshCenter('${ctx}/record/toMainRecordPage.do?username=${username}');" >
 		        	 <span>我要记账</span>
 		         </li> 
 		         
-		         <li id="recordReviewNav" onclick="refreshCenterAndAddUsername('${ctx}/record/getRecordReview.do?');" >
+		         <li id="recordReviewNav" onclick="refreshCenter('${ctx}/record/getRecordReview.do?username=${username}');" >
 		  		    <span>账单回顾</span>
 		  		 </li> 
-		         <li  id="propertyNav"  onclick="refreshCenterAndAddUsername('${ctx}/property/toPropertyMainPage.do?');">
+		         <li  id="propertyNav"  onclick="refreshCenter('${ctx}/property/toPropertyMainPage.do?username=${username}');">
 		         	<span>资产管理</span>
 		         </li> 
 		         
-		          <li  id="flowNav" onclick="refreshCenterAndAddUsername('${ctx}/cashFlow/toCashFlowMainPage.do?year=2016&');">
+		          <li  id="flowNav" onclick="refreshCenter('${ctx}/cashFlow/toCashFlowMainPage.do?year=2016&username=${username}');">
 		          	<span>资金流转</span>
 		          </li>  
 		          
-		         <li  id="cardNav" onclick="refreshCenterAndAddUsername('${ctx}/cards/toCardMainPage.do?');">
+		         <li  id="cardNav" onclick="refreshCenter('${ctx}/cards/toCardMainPage.do?username=${username}');">
 		        	 <span>银行卡管理</span>
 		         </li>     
 			 </ul>

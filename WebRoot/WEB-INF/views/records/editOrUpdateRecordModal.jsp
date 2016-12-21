@@ -32,10 +32,10 @@
 										<input type="isInteger" class="form-control" name="supermarket" id="recordSupermarket" />
 									</div>
 									
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label for="txtUserName">聚餐:</label>
 										<input type="isInteger" class="form-control" name="party" id="recordParty" />
-									</div>
+									</div> -->
 									
 									<div class="form-group">
 										<label for="txtUserName">Rent:</label>
@@ -104,7 +104,7 @@
 					data : {
 						
 						id : $("#recordId").val(),
-						holderName : $("#recordHolderName").val(),
+						holderName :'${username}',
 						times: $("#recordTimes").val(),
 						incomeTotal: $("#recordIncomeTotal").val(),
 						times: $("#recordTimes").val(),

@@ -64,7 +64,7 @@
 				                    	data-date="" data-date-format="yyyy-mm-dd" placeholder="结束时间" type="text" value="${jssj}" />
 				                  
 				
-				<button type="button" class="input-group btn btn-lg btn-primary" onclick="getRecordByMonth()">
+				<button type="button" class="input-group btn btn-lg btn-primary" onclick="getRecordByDate()">
 				 			 	<i class="icon-search"></i>按天查询
 				 			 </button>
 				 			 
@@ -128,14 +128,14 @@
 		var month=$("#sel_month").val();
 		var result=year+"-"+month+"-01";
 		var params = {};
-		var baseSearch = "${ctx}/record/getRecordByDate.do?username=${loginUser.username}&qssj="+result;
+		var baseSearch = "${ctx}/record/getRecordByDate.do?username=${username}&qssj="+result;
 		reloadGrid(params,baseSearch);
 	}
 	function  getRecordByDate(){
 		var params = {};
 		params["qssj"]=$("#qssj").val();
 		params["jssj"]=$("#jssj").val();
-		var baseSearch = "${ctx}/record/getRecordByDate.do?username=${loginUser.username}";
+		var baseSearch = "${ctx}/record/getRecordByDate.do?username=${username}";
 		reloadGrid(params,baseSearch);
 	}
 	

@@ -5,7 +5,8 @@
 <!--head begin-->
     	<div class="w-head clearfix">
     		<div class="w-h-l">
-    			<img src="${ctx}/res/resource/style/css/images/logo.png" class="logo">
+    			<%-- <img src="${ctx}/res/resource/style/css/images/logo.png" class="logo"> --%>
+    			<h4 style="color:white;">we are gonna be rich men!</h4>
     		</div>
     		<div class="w-h-M">
     			<div class="w-h-m-c">
@@ -14,7 +15,7 @@
     						<li id="smartAnalyseNav" onclick="toDisplay('smart')" title="智能分析"><i class="gl"></i><span>智能分析</span></li>
     						<li id="todoNav" onclick="toDisplay('Content')" title="待办事项"><i class="gl"></i><span>待办事项</span></li>
     						<li id="habitNav" onclick="toDisplay('Content')" title="习惯养成"><i class="gl"></i><span>习惯养成</span></li>
-    						<li id="excelNav" onclick="toDisplay('Content')" title="导入导出"><i class="gl"></i><span>导入导出</span></li>
+    						<li id="excelNav" onclick="toDisplay('excel')" title="导入导出"><i class="gl"></i><span>导入导出</span></li>
     						<li id="codeNav" onclick="toDisplay('config')" title="系统配置"><i class="gl"></i><span>系统配置</span></li>
     				</ul>
     			</div>
@@ -40,7 +41,7 @@ var pannel="";
 		panel.panel("option","onResize",initTreebox);
 
 		panel = $("#coralui-layout").layout("panel","west");
-		panel.panel("refresh", ctx+"/main/"+name+"/getLeftMenu.do?menuTag="+menuTag+"&username="+username);
+		panel.panel("refresh", ctx+"/main/getLeftMenu.do?module="+name+"&menuTag="+menuTag+"&username="+username);
 		panel = $("#coralui-layout").layout("panel","center");
 		var baseUrl="";
 		if(name=="smart"){

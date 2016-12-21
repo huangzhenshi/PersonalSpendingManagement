@@ -15,10 +15,10 @@
 <meta http-equiv="expires" content="0">
 
 
-<%@ include file="../include/headerForCUI.jsp"%>
-<title>黄大大财务管理软件-登录</title>
-<script src="${ctx}/res/resource/style/js/md5.min.js"></script>
-<script src="${ctx}/res/resource/style/js/sha1.js"></script>
+<title>黄大大生活管理软件-登录</title>
+<script type="text/javascript" src="${ctx }/res/jquery-cui/4.0.2/dev/ui/jquery-1.9.1.min.js"></script>
+<script src="${ctx}/res/resource/style/js/login.js"></script>
+<link href="${ctx}/res/resource/style/css/inforGlobal.css" type="text/css" rel="stylesheet" />
 <script src="${ctx}/res/thirdParty/jqfloat.min.js"></script>
 <link href="${ctx}/res/resource/style/css/login.css" type="text/css" rel="stylesheet" />
 <style type="text/css">
@@ -70,7 +70,7 @@
     <div class="logo-login"></div>
     <%--判断用户名、密码、验证码是否为空，以及根据服务器返回的error码来反馈相应的错误信息 --%>
     <div class="loginbox">
-    	<cui:form id="loginForm"  action="${ctx}/login/check.do" method="POST">
+    	<form id="loginForm"  action="${ctx}/login/check.do" method="POST">
     		<div class="exitmessage">
 				<div id="mesBox">
 					<span>
@@ -105,7 +105,7 @@
 	      <div class="loginbtnteam">
 	        <span class="loginBtnOk"><a id="loginBtn" href="javascript:login();">登录系统</a></span>
 	      </div>
-      </cui:form>
+      </form>
     </div>
   
    </div>

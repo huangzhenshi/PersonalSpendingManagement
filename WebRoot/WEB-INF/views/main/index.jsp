@@ -27,7 +27,7 @@ html,body {
 </style>
 </head>
 <body>
-<input type="text" id="username"  hidden="true" value="${loginUser.username}"/>
+<input type="text" id="username"  hidden="true" value="${username}"/>
 	<cui:layout id="coralui-layout" fit="true">
 			<cui:layoutRegion region="north" split="false" style="height:60px;border:none">
 			<%@ include file="head.jsp"%>
@@ -35,9 +35,9 @@ html,body {
 			<cui:layoutRegion  region='center' split="false" onLoad="layoutCenterResize" onResize="layoutCenterResize">
 				
 			</cui:layoutRegion>
-			<cui:layoutRegion  region='south' split="false" style="height:25px" onLoad="layoutCenterResize" onResize="layoutCenterResize">
-				<div>hello,kitty</div>
-			</cui:layoutRegion>
+<%-- 			<cui:layoutRegion  region='south' split="false" style="height:25px" onLoad="layoutCenterResize" onResize="layoutCenterResize">
+				<div>  we are gonna be rich people</div>
+			</cui:layoutRegion> --%>
 	</cui:layout>
 </body>
 </html>
