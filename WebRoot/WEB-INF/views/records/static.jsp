@@ -68,6 +68,11 @@
 		    
 	<script>
 	
+	$(function(){
+		if('${message}'){
+			message('${message}');
+		}
+	})
 	//格式化操作栏
 function operateFormatter(cellValue, options, rowObject){
 	var result = "";
@@ -110,6 +115,11 @@ function operateFormatter(cellValue, options, rowObject){
 			$("#recordRent").val($("#rentRecord").val());
 			$("#recordEating").val($("#eatingRecord").val());
 			$("#recordTimes").val(getDateTodayDayOnly());
+			//周一到周五 交通费用 才自动填充
+			var today=new Date().getDay();
+			if(today<6){
+				$("#recordTraffic").val('${traffic}');
+			}
 			return;
 		}
 		if(index==1){

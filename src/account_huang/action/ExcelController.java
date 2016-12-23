@@ -29,8 +29,8 @@ public class ExcelController {
 	}
 	
 	@RequestMapping("/downloadAccount.do")
-	public void downloadAccount(HttpServletResponse response,String username){
-		excelService.downloadExpense(username, response);
+	public void downloadAccount(HttpServletResponse response,String username,String items){
+		excelService.downloadAccount(username, response,items);
 	}
 	
 	

@@ -18,6 +18,7 @@
 <title>黄大大财务管理软件</title>
 </head>
 <body>
+<div style="margin:5px 0"></div>
 	 <div class="row">
 			<div class="btn-group span5 col-xs-offset-1huang">
 				<button type="button" class="btn btn-lg btn-primary" onclick="addOrEditProperty(0)">
@@ -28,6 +29,7 @@
 			      <i class="icon-minus"></i>删除</button>
 			</div>
 		</div>
+<div style="margin:5px 0"></div>
 		
 		    <cui:grid id="propertyGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true" 
 		    	url="${ctx}/property/getAllProperty.do?username=${loginUser.username}">

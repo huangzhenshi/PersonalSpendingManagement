@@ -10,6 +10,7 @@
 <style>.error{color:red;}</style>
 </head>
 <body>
+<div style="margin:5px 0"></div>
 	 <div class="row">
 			<div class="btn-group span5 col-xs-offset-1huang">
 				<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" 
@@ -22,6 +23,7 @@
 			</div>
 			
 		</div>
+<div style="margin:5px 0"></div>
 
 <%-- <%@include file="editOrUpdateCardModal.jsp" %> --%>
 		    <cui:grid id="cardGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true" 

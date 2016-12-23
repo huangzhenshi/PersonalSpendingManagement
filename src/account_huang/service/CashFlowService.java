@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import account_huang.entity.CashFlow;
 import account_huang.entity.Record;
@@ -18,14 +19,15 @@ public class CashFlowService {
 	@Resource
     private SqlSessionTemplate template;
 
-	public List<CashFlow> getAllCashFlow(String holderName, String type) {
+	public List<CashFlow> getAllCashFlowByType(String holderName, String type) {
 		Map<String,Object> params=new HashMap<String,Object>();
 		params.put("holdername",holderName);
-		params.put("type",type);
-		 List<CashFlow> list=template.selectList("account_huang.dao.CashFlowDao.getAllCashFlowInfoByHoldername",params);
-		 
-		return list;
+		if(!StringUtils.isEmpty(type)){
+			params.put("type",type);
+		} 
+		return template.selectList("account_huang.dao.CashFlowDao.getAllCashFlowInfoByHoldername",params);
 	}
+	
 	@Transactional
 	public void deleteCashFlowById(String id) {
 		String[] ids=id.split(",");

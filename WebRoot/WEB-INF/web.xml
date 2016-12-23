@@ -46,7 +46,7 @@
 		
 		    <init-param>
 		        <param-name>redirectPath</param-name><!-- 未通过跳转到登录界面 -->
-		        <param-value>/login.jsp</param-value>
+		        <param-value>/util.jsp</param-value>
 		    </init-param>
 	</filter>
 	

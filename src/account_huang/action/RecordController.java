@@ -32,14 +32,16 @@ public class RecordController  extends ActionSupport{
 	@Resource
 	private StaticService staticSer;
 	@RequestMapping("/toMainRecordPage.do")
-	public ModelAndView toMainRecordPage(ModelMap model,String username){
+	public ModelAndView toMainRecordPage(ModelMap model,String username,String message){
 		Record rec=staticSer.getTotalByDate(username);
 		staticSer.setAutoFill(model,username);
 		if(rec!=null){
 			model.addAttribute("costAll", rec.getCostThisMonth());
 			model.addAttribute("profitAll", rec.getProfitThisMonth());
 		}
-		
+		if(!StringUtils.isEmpty(message)){
+			model.addAttribute("message", message);
+		}
 		return  new ModelAndView("records/static");
 	}
 	@RequestMapping("/getRecordReview.do")
@@ -86,18 +88,21 @@ public class RecordController  extends ActionSupport{
 	//异步新增和修改
 	@RequestMapping("/addOrEditRecordSava.do")
     @ResponseBody
-	public Map<String,Object> addOrEditRecordSava(Record record) throws Exception{
-		  //修改保存功能
-		  if(record.getId()!=null&&record.getId().length()>0){
-			  staticSer.updateRecord(record); 
-		  }else{
-			  staticSer.saveRecord(record); 
-		  }
-		  Map<String,Object> map = new HashMap<String, Object>();
-		  map.put("msg","Operation Success!");
-		  Record rec=staticSer.getTotalByDate(record.getHolderName());
-		  map.put("costAll", rec.getCostThisMonth());
-		  map.put("profitAll", rec.getProfitThisMonth());
+	public Map<String,Object> addOrEditRecordSava(Record record){
+		 Map<String,Object> map = new HashMap<String, Object>();
+		 Boolean message=true;
+		 try{
+			  //修改保存功能
+			  if(record.getId()!=null&&record.getId().length()>0){
+				  staticSer.updateRecord(record); 
+			  }else{
+				  staticSer.saveRecord(record); 
+			  }
+		 }
+		   catch (Exception e) {  
+			   message=false;
+		 }
+		  map.put("msg",message);
 		  return map;
 	  }
 	

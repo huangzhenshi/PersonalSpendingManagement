@@ -6,7 +6,7 @@
     	<div class="w-head clearfix">
     		<div class="w-h-l">
     			<%-- <img src="${ctx}/res/resource/style/css/images/logo.png" class="logo"> --%>
-    			<h4 style="color:white;">we are gonna be rich men!</h4>
+    			<h4 style="color:white;">we are gonna be rich!</h4>
     		</div>
     		<div class="w-h-M">
     			<div class="w-h-m-c">
@@ -50,6 +50,8 @@ var pannel="";
 			baseUrl='${ctx}/record/toMainRecordPage.do?username='+username;
 		}else if(name=="config"){
 			baseUrl='${ctx}/code/toMainRecordPage.do?username='+username;
+		}else if(name=="excel"){
+			baseUrl='${ctx}/excel/toMainExcelPage.do?username='+username;
 		}
 		panel.panel("refresh", baseUrl);
 		

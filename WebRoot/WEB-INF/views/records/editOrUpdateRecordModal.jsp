@@ -9,7 +9,7 @@
 					
 					<form  role="form" id="addOrEditRecordForm">
 								<input type="text"  hidden="true" name="id" id="recordId" />
-								<input type="text"  hidden="true" name="holderName" value="${loginUser.username}"  id="recordHolderName"  />
+								<input type="text"  hidden="true" name="holderName" value="${username}"  id="recordHolderName"  />
 					    <div class="modal-body">
 									<div class="form-group">
 										 <label >日期:</label>
@@ -65,22 +65,42 @@
 						</div>
 						
 						<div class="modal-footer">
-							<!-- <button class="btn btn-primary" type="submit">
-								保存
-							</button> -->
-							
-							<button class="btn btn-primary"   data-dismiss="modal" onclick="submitAddOrEditRecord()">
-								保存
-							</button>
-							<button class="btn btn-primary" data-dismiss="modal">
-								取消
-							</button>
+							<span onclick="submitRecord();" class="btn btn-lg" style="background-color:#3686E8;color:white">保存</span>
+							<span onclick="closeRecord();" class="btn btn-lg" style="background-color:#3686E8;color:white">取消</span>
 						</div>
 					</form>	
 				</div>
 			</div>
 		</div>
 		<script>
+		function closeRecord(){
+			$("#addOrEditRecordModal").modal("hide")
+		}
+
+		//异步新增和修改
+		function submitRecord(){
+			var recordGrid=$("#recordGrid${idSuffix}");
+			if($("#addOrEditRecordForm").valid()){
+				$.ajax({
+					type : 'post',
+					url : ctx + '/record/addOrEditRecordSava.do',
+					data : $("#addOrEditRecordForm").serialize(),
+					success : function(data) {
+						debugger;
+						if(data.msg){
+							$("#addOrEditRecordModal").modal("hide")
+							refreshCenter('${ctx}/record/toMainRecordPage.do?username=${username}&message='+"add Success!");
+						}else{
+							alert("操作失败!主键冲突或者程序异常");
+						}
+					},
+					error : function(e) {
+						message(e.msg);
+						error(e);
+					}
+				});
+			}
+		}
 		$('.form_date').datetimepicker({
 		    language:  'zh-CN',
 		    weekStart: 1,
@@ -91,45 +111,9 @@
 			minView: 2,
 			forceParse: 0
 		});
+		
 			$().ready(function() {
 					$("#addOrEditRecordForm").validate();
 				});
-			
-			
-			function submitAddOrEditRecord(){			
-				$.ajax({
-					type : 'post',
-					url : ctx + '/record/addOrEditRecordSava.do',
-					dataType : "json",
-					data : {
-						
-						id : $("#recordId").val(),
-						holderName :'${username}',
-						times: $("#recordTimes").val(),
-						incomeTotal: $("#recordIncomeTotal").val(),
-						times: $("#recordTimes").val(),
-						eating: $("#recordEating").val(),
-						supermarket: $("#recordSupermarket").val(),
-						party: $("#recordParty").val(),
-						rent: $("#recordRent").val(),
-						book: $("#recordBook").val(),
-						clothes: $("#recordClothes").val(),
-						traffic: $("#recordTraffic").val(),
-						remark: $("#recordRemark").val()
-					},
-					success : function(data) {
-						$("#addOrEditRecordModal").modal('hide');
-						$("#costAllSpan").html(data.costAll);
-						$("#profitAllSpan").html(data.profitAll);
-						message(data.msg);
-						$("#recordGrid${idSuffix}").grid("reload"); 
-					},
-					error : function(e) {
-						$("#addOrEditRecordModal").modal('hide');
-						message("操作失败!");
-						$("#recordGrid${idSuffix}").grid("reload"); 
-					}
-				}); 
-			}
 		
 		</script>

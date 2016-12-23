@@ -34,7 +34,7 @@ public class CashFlowController {
     public Map<String,Object> getAllCashFlow(String username,String type){
         Map<String,Object> map = new HashMap<String, Object>();
         List<CashFlow> list=new ArrayList<CashFlow>();
-        list=cashSer.getAllCashFlow(username,type);
+        list=cashSer.getAllCashFlowByType(username,type);
         map.put("data",list) ;
         map.put("total", list.size());
         return map;

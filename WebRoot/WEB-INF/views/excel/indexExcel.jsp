@@ -27,7 +27,7 @@
 		
 		<div class="checkbox">
 		  <label>
-		    <input type="checkbox" name="checkbox" value="assert">资产信息
+		    <input type="checkbox" name="checkbox" value="property">资产信息
 		  </label>
 		</div>
 		

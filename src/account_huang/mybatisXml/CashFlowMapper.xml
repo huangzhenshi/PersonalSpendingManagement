@@ -43,9 +43,10 @@
 	
     <select id="getAllCashFlowInfoByHoldername" parameterType="java.util.HashMap" resultMap="cashFlowResult">
    		select ID, to_char(times,'yyyy-mm-dd') as timesString, item, money, remark, holdername from CashFlow 
-   		where holdername=#{holdername}  and type=#{type} ORDER BY times desc
+   		where holdername=#{holdername} 
+   		<if test="type!=null">and type=#{type} </if> 
+   		 ORDER BY times desc
     </select>
-    
     <select id="getTotalIncomeByYear" parameterType="java.util.HashMap" resultMap="cashFlowResult" >
     	SELECT sum(money) AS money FROM cashflow  WHERE holdername=#{holdername} and to_char(times,'yyyy')=#{year} and item LIKE '工资%'   
     </select>

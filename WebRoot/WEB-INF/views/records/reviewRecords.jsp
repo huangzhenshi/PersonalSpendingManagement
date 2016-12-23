@@ -21,6 +21,7 @@
 
 </head>
 <body>
+<div style="margin:10px 0"></div>
 <div class="container-fluid" id="searchPanel">
 	 <div class="row" >
 		    <form id="searchDateForm" class="form-inline " role="form">
