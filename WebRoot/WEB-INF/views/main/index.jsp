@@ -16,8 +16,10 @@
 
 <%@ include file="../../include/headerForCUI.jsp"%>
 <%@include file="../cards/editOrUpdateCardModal.jsp" %>
+<%@include file="../sleep/editOrUpdateSleepModal.jsp" %>
 <%@include file="../records/editOrUpdateRecordModal.jsp" %>
 <%@include file="../code/editOrUpdateCodeModal.jsp" %>
+<%@include file="../cashFlow/editOrUpdateCashFlowModal.jsp" %>
 <link rel="stylesheet" type="text/css" href="${ctx}/res/thirdParty/jquery-lightbox-0.5/css/jquery.lightbox-0.5.css">
 <script src="${ctx}/res/thirdParty/jquery-lightbox-0.5/js/jquery.lightbox-0.5.js"></script> 
 

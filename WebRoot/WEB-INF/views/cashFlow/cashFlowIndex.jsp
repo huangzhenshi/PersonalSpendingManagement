@@ -23,7 +23,8 @@
 	 <div class="row">
 			<div class="col-xs-offset-1huang  col-lg-3">
 				<br>
-				<button type="button" class="btn  btn-primary" onclick="addOrEditCashFlow(0)">
+				<button type="button" class="btn  btn-primary"  data-toggle="modal" 
+	   				data-target="#addOrEditCashFlowModal" onclick="addOrEditCashFlow(0)">
 				  <i class="icon-plus"></i>新增</button>
 			    <button type="button" class="btn  btn-success" onclick="addOrEditCashFlow(1,0,'income')">
 			      <i class="icon-pencil"></i>修改</button>
@@ -32,7 +33,7 @@
 			</div>
 			
 			<div class="col-lg-7">
-				 <h3  class="text-left">收入明细(${total})</h3>
+				 <h3  class="text-left" id="yearIncomeTotal">收入明细(${total})</h3>
 			</div>
 		</div>
 		
@@ -45,7 +46,6 @@
 		    		<cui:gridCol name="item" align="center">收入大类</cui:gridCol>
 		    		<cui:gridCol name="money" align="center">流转金额</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
-		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>
 		    </cui:grid> 
 		    
@@ -53,7 +53,8 @@
 	 <div class="row">
 			<div class="col-xs-offset-1huang  col-lg-3">
 			<br>
-				<button type="button" class="btn  btn-primary" onclick="addOrEditCashFlow(0)">
+				<button type="button" class="btn  btn-primary" data-toggle="modal" 
+	   				data-target="#addOrEditCashFlowModal"  onclick="addOrEditCashFlow(0)">
 				  <i class="icon-plus"></i>新增</button>
 			    <button type="button" class="btn btn-success" onclick="addOrEditCashFlow(1)">
 			      <i class="icon-pencil"></i>修改</button>
@@ -76,24 +77,48 @@
 		    		<cui:gridCol name="item" align="center">支出大类</cui:gridCol>
 		    		<cui:gridCol name="money" align="center">流转金额</cui:gridCol>
 		    		<cui:gridCol name="remark" width="380">备注</cui:gridCol>
-		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">操作选项</cui:gridCol>
 		    	</cui:gridCols>
 		    </cui:grid> 
 		   
 		    
 	<script>
-	//格式化操作栏
-	function operateFormatter(cellValue, options, rowObject){
-		var result = "";
-			result += " <a href='javascript:addOrEditCashFlow(2,\""+ rowObject.id+"\");' title='修改' class='grideditbtn'></a> ";
-			result += " <a href='javascript:deleteCashFlow(\""+ rowObject.id+ "\");' title='删除' class='griddeletebtn'></a> ";
-		return result;
-	}
-	//删除记录
+	/* //删除记录
 	function deleteCashFlow(id){
 		$.confirm("确定删除吗？", function(r) {
 			if (r) {
-				refreshCenter('${ctx}/cashFlow/delete.do?id='+id+'&holderName='+$("#holderName").val());
+				refreshCenter('${ctx}/cashFlow/delete.do?id='+id+'&holderName=${username}');
+			} else {
+				message("取消");
+			}
+		});
+	} */
+	
+	
+	function deleteCashFlow(ids){
+		$.confirm("确定删除选中记录吗？", function(r) {
+			if (r) {
+				loading("删除中，请稍候...");
+				$.ajax({
+						type : 'post',
+						url : ctx + '/cashFlow/delete.do?id='+ids+'&holderName=${username}',
+						success : function(data) {
+							if(data.msg){
+								hide();
+								message("删除成功！");
+								$("#yearIncomeTotal").html('收入明细('+data.total+')')
+								$("#incomeCashFlowGrid${idSuffix}").grid("reload");
+								$("#cashFlowGrid${idSuffix}").grid("reload");
+							}else{
+								hide();
+								error(e);
+							}
+						},
+						error : function(e) {
+							hide();
+							error(e);
+						}
+				});
+				
 			} else {
 				message("取消");
 			}
@@ -122,26 +147,39 @@
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改   资金流出列表的处理函数
 	function addOrEditCashFlow(index,id,type){
-		//点击操作选项中修改数据
-		if(index==2){
-			refreshCenter('${ctx}/cashFlow/editOrUpdateCashFlow.do?id='+id);
-		}else if(index==1){
+		debugger;
+		$("#addOrEditCashFlowForm")[0].reset(); 
+		if(index==1){
 			if(type=="income"){
 				var cashFlowGrid = $("#incomeCashFlowGrid${idSuffix}");
 			}else{
 				var cashFlowGrid = $("#cashFlowGrid${idSuffix}");
 			}
-			var sel = cashFlowGrid.grid("option", "selarrrow");
+			var sel=cashFlowGrid.grid("option", "selarrrow");
+			var row = cashFlowGrid.grid("getRowData",sel);
 			if(sel.length !=1){
 				message("请选择一条记录！");
 				return;
 			}
-			var idUpdate = cashFlowGrid.grid("getRowData",sel).id;
-			refreshCenter('${ctx}/cashFlow/editOrUpdateCashFlow.do?id='+idUpdate+'&holderName=${loginUser.username}');
+			$("#cashFlowModalDescription").html("Update cashFlow");
+			
+			$("#cashFlowId").val(row.id);
+			$("#cashFlowTimes").val(row.times);
+			$("#cashFlowItem").val(row.item);
+			$("#cashFlowMoney").val(row.money);
+			$("#cashFlowRemark").val(row.remark);
+			$("#addOrEditCashFlowModal").modal();
 		}else{
-			refreshCenter('${ctx}/cashFlow/editOrUpdateCashFlow.do?holderName=${loginUser.username}');
+			$("#cashFlowModalDescription").html("Record new cashFlow");
 		}
 	}
+	
+	$(function(){
+		if('${message}'){
+			message('${message}');
+		}
+	})
+		
 	</script>
 </body>
 </html>

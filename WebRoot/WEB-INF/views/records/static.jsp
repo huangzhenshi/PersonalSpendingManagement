@@ -120,6 +120,7 @@ function operateFormatter(cellValue, options, rowObject){
 			if(today<6){
 				$("#recordTraffic").val('${traffic}');
 			}
+			$("#recordModalDescription").html("Record new cost");
 			return;
 		}
 		if(index==1){
@@ -134,7 +135,7 @@ function operateFormatter(cellValue, options, rowObject){
 		}else if(index==2){
 			var row = $("#recordGrid${idSuffix}").grid("getRowData",id);
 		}
-		$("#recordModalDescription").html("修改记账");
+		$("#recordModalDescription").html("Update cost");
 		$("#recordId").val(row.id);
 		$("#recordTimes").val(row.times);
 		$("#recordIncomeTotal").val(row.incomeTotal);

@@ -23,7 +23,7 @@
 			         <input type="text" class="form-control" id="firstname" name="times" value="${cashFlow.times}">
 			      </div>
 			      
-			      <label for="firstname" class="col-sm-2 control-label">流转大类:</label>
+			      <label for="firstname" class="col-sm-2 control-label">category:</label>
 			      <div class="col-sm-10">
 			         <input type="text" class="form-control" id="firstname" name="item" value="${cashFlow.item}">
 			      </div>
