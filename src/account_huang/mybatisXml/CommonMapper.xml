@@ -6,4 +6,12 @@
     <select id="findAllColumnByTableNameWithoutID"   resultType="java.lang.String">
 	   select COLUMN_NAME from user_tab_cols where table_name = upper(#{tableName}) and COLUMN_NAME !='ID'
     </select>
+    
+    <delete id="deleteById"  parameterType="java.util.HashMap">
+	      delete from  ${tableName} where id in (${ids})
+	</delete>  
+	
+	 <select id="queryCount"   resultType="java.lang.Integer">
+      	select count(*) from ${tableName} where HOLDERNAME= #{username}
+    </select>
 </mapper>

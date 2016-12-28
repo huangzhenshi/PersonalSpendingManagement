@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="account_huang.dao.DiaryMapper" >
+  <resultMap id="mainResultMap" type="account_huang.entity.Diary" >
+    <result column="ID" property="id" />
+    <result column="TITLE" property="title" />
+    <result column="TAG_TIME" property="tagTime" />
+    <result column="LAST_TIME" property="lastTime" />
+    <result column="HOLDERNAME" property="holdername" />
+    <result column="CONTENT" property="content" />
+  </resultMap>
+
+  <sql id="All_Column_List" >
+    ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT
+  </sql>
+
+  <select id="findAllPage" resultMap="mainResultMap" >
+  	select * from (
+	        	select ROW_NUMBER() OVER(order by TAG_TIME desc ) as RN,a.* from DIARY  a where holdername=#{username})
+		 where RN between #{startNumber} and #{endNumber}
+  </select>
+
+  <select id="findById" resultMap="mainResultMap" >
+    select ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT
+    from DIARY
+    where ID = #{id}
+  </select>
+
+  <insert id="save" parameterType="account_huang.entity.Diary" >
+    insert into DIARY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >        TITLE,      </if>
+      <if test="tagTime != null" >        TAG_TIME,      </if>
+      <if test="lastTime != null" >        LAST_TIME,      </if>
+      <if test="holdername != null" >        HOLDERNAME,      </if>
+      <if test="content != null" >        CONTENT,      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >        #{title},      </if>
+      <if test="tagTime != null" >        #{tagTime},      </if>
+      <if test="lastTime != null" >        #{lastTime},      </if>
+      <if test="holdername != null" >        #{holdername},      </if>
+      <if test="content != null" >        #{content},      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="account_huang.entity.Diary" >
+    update DIARY
+    <set >
+      <if test="title != null" >        TITLE = #{title},      </if>
+      <if test="tagTime != null" >        TAG_TIME = #{tagTime},      </if>
+      <if test="lastTime != null" >        LAST_TIME = #{lastTime},      </if>
+      <if test="holdername != null" >        HOLDERNAME = #{holdername},      </if>
+      <if test="content != null" >        CONTENT = #{content}      </if>
+    </set>
+    where ID = #{id}
+  </update>
+
+</mapper>

@@ -5,4 +5,6 @@ public final class Constants {
 	public static final String ToDoType_Record="record";
 	//设置待办的记账天数默认是只查询近30天有没有未记账记录
 	public static final int ToDoDays_Record=30;
+	public static final String TABLENAME_SLEEP="SLEEP";
+	
 }
