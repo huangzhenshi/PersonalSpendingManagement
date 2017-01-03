@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -16,52 +14,62 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import account_huang.entity.Sleep;
-import account_huang.entity.User;
-import account_huang.service.SleepService;
-import account_huang.service.StaticService;
+import account_huang.entity.Diary;
+import account_huang.service.DiaryService;
 import account_huang.utils.PageCoral;
-import account_huang.utils.SearchEntity;
 import account_huang.utils.Utils;
 
-import com.google.gson.Gson;
-import com.opensymphony.xwork2.ActionSupport;
 
 @Controller
-@RequestMapping("/sleep")
-public class SleepController{
+@RequestMapping("/diary")
+public class DiaryController{
 	@Resource
-	private SleepService sleepSer;
-	@RequestMapping("/toMainSleepPage.do")
-	public ModelAndView toMainSleepPage(ModelMap model,String username,String message){
+	private DiaryService diaryService;
+	@RequestMapping("/toMainDiaryPage.do")
+	public ModelAndView toMainDiaryPage(ModelMap model,String username,String message){
 		if(!StringUtils.isEmpty(message)){
 			model.addAttribute("message", message);
 		}
-		return  new ModelAndView("sleep/sleepIndex");
+		return  new ModelAndView("diary/diaryIndex");
+	}
+	
+	@RequestMapping("/toCkeditorPage.do")
+	public ModelAndView toCkeditorPage(ModelMap model,String id){
+		if(!StringUtils.isEmpty(id)){
+			Diary diary=diaryService.findById(id);
+			diary.setContent(diary.getContent().replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
+			model.addAttribute("diary", diary);
+		}
+		
+		return  new ModelAndView("diary/diaryCkeditorPage");
 	}
 
-	@RequestMapping("/getSleepGrid.do")
+	@RequestMapping("/getDiaryGrid.do")
     @ResponseBody
-    public Map<String,Object> getSleepGrid(String username,PageCoral page) {
+    public Map<String,Object> getDiaryGrid(String username,PageCoral page) {
         Map<String,Object> map = new HashMap<String, Object>();
-       List<Sleep> list=sleepSer.getAllSleepByPageAndSumTotal(page, username);
+       List<Diary> list=diaryService.getAllDiaryByPageAndSumTotal(page, username);
         map.put("data",list) ;
         Utils.setPageElementMap(map, page);
         return map;
     }
 	
+	
+	
+	
 	//异步新增和修改
-		@RequestMapping("/addOrEditSleepSava.do")
+		@RequestMapping("/addOrEditDiarySava.do")
 	    @ResponseBody
-		public Map<String,Object> addOrEditSleepSava(Sleep sleep){
+		public Map<String,Object> addOrEditDiarySava(Diary diary){
+			diary.setLastTime(Utils.getCurrentTime());
 			 Map<String,Object> map = new HashMap<String, Object>();
 			 Boolean message=true;
 			 try{
 				  //修改保存功能
-				  if(sleep.getId()!=null&&sleep.getId().length()>0){
-					  sleepSer.updateSleep(sleep); 
+				  if(diary.getId()!=null&&diary.getId().length()>0){
+					  diaryService.updateDiary(diary); 
 				  }else{
-					  sleepSer.saveSleep(sleep); 
+					  diaryService.saveDiary(diary); 
 				  }
 			 }
 			   catch (Exception e) {  
@@ -80,7 +88,7 @@ public class SleepController{
 			 Map<String,Object> map = new HashMap<String, Object>();
 			 Boolean message=true;
 			try{
-					sleepSer.deleteSleep(id);
+					diaryService.deleteDiary(id);
 				}
 			   catch (Exception e) {  
 				   message=false;

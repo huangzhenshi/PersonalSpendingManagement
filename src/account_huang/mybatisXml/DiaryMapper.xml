@@ -27,32 +27,15 @@
   </select>
 
   <insert id="save" parameterType="account_huang.entity.Diary" >
-    insert into DIARY
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="title != null" >        TITLE,      </if>
-      <if test="tagTime != null" >        TAG_TIME,      </if>
-      <if test="lastTime != null" >        LAST_TIME,      </if>
-      <if test="holdername != null" >        HOLDERNAME,      </if>
-      <if test="content != null" >        CONTENT,      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="title != null" >        #{title},      </if>
-      <if test="tagTime != null" >        #{tagTime},      </if>
-      <if test="lastTime != null" >        #{lastTime},      </if>
-      <if test="holdername != null" >        #{holdername},      </if>
-      <if test="content != null" >        #{content},      </if>
-    </trim>
+	  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+		              select SEQ_DIARY_ID.nextval from dual 
+		       </selectKey> 
+    insert into DIARY(ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT) 
+    	values(#{id}, #{title},#{tagTime},  #{lastTime},#{holdername},#{content} )
   </insert>
 
   <update id="update" parameterType="account_huang.entity.Diary" >
-    update DIARY
-    <set >
-      <if test="title != null" >        TITLE = #{title},      </if>
-      <if test="tagTime != null" >        TAG_TIME = #{tagTime},      </if>
-      <if test="lastTime != null" >        LAST_TIME = #{lastTime},      </if>
-      <if test="holdername != null" >        HOLDERNAME = #{holdername},      </if>
-      <if test="content != null" >        CONTENT = #{content}      </if>
-    </set>
+    update DIARY set TITLE = #{title}, TAG_TIME = #{tagTime}, LAST_TIME = #{lastTime}, HOLDERNAME = #{holdername},CONTENT = #{content}
     where ID = #{id}
   </update>
 
