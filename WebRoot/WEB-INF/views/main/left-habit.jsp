@@ -14,8 +14,8 @@
 		        	 <span>sleep</span>
 		         </li> 
 		         
-		         <li id="recordReviewNav" onclick="refreshCenter('${ctx}/record/getRecordReview.do?username=${username}');" >
-		  		    <span>habit export</span>
+		         <li id="recordReviewNav" onclick="refreshCenter('${ctx}/diary/toMainDiaryPage.do?username=${username}');" >
+		  		    <span>diary</span>
 		  		 </li>  
 			 </ul>
 		</div>
