@@ -1,41 +1,12 @@
 # PersonalSpendingManagement
-经过将近一个月的改造，已经是一个有商业价值的软件了！基本满足个人的记账和财务管理的功能了！
 
-功能：个人的记账管理软件
-
-已经实现的功能：登录（huang/000000）、记账的增删改查功能、历史账单回顾（支持按月搜索，和指定日期间搜索）、银行卡管理（更新资产管理的银行余额时会自动更新此表中银行卡余额）、资产管理、资金流动管理（记录你的收入和支出）
-
-有待添加的功能：智能分析（按月、按年生成财务报表）等等、Excel导入导出备份、Echart趋势图展示功能、码表配置、记账提醒功能
-
-技术上有待更新的：界面样式（虽然也能看，但是不够精美），dialog的引入
-
-后台框架：Spring mvc mybatis
+已经实现的功能：每日记账功能、账单回顾、智能分析（生成月度的开销报表和明细）、银行卡管理、资产管理、写日记、账单Excel导出、码表配置、日常作息管理
+后台技术：Spring mvc mybatis POI
 
 
-前台框架：jquery、bootstrap、Coral
+前台框架：jquery、bootstrap、Coral、CKEditor、Echart.js
 
-数据库：oracle、mysql（在/WebRoot/oracleFile_dmp/ 下 有 oracle的dmp文件，也有基本表 基本数据的sql文件）
-
-技术上：框架和基本功能都初步实现（log4j后台打印sql、spring的 注解事务控制），能实现增删改查功能和指定月份或者日期之间的查询功能。
+数据库：oracle（在/WebRoot/table_structure/ 下 有 oracle的sql文件，也有基本表 基本数据的sql文件）
 
 
 
-
-后期考虑改造成 hibernate 做record这个功能，可以简化太多太多，而且既然定位是个人应用，而且表表关联不紧密的话，支持多数据库，更适合hibernate
-
-分页功能，和特定条数查询 要补充起来
-
-bootstrap深究一下，input框的 日期增加都没有required=true设置
-
-新增和修改功能要做成dialog，而不是刷界面
-
-配置成maven管理的形式，方便复用
-
-后期再考虑扩展多用户管理功能
-
-
-大后期考虑做的功能：
-
-1）日记功能，考虑引入CKEditor
-
-2）健身记录功能
