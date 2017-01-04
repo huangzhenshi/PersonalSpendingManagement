@@ -16,7 +16,11 @@
 
 
 <title>黄大大财务管理软件</title>
-<style>.error{color:red;}</style>
+<style>
+.error{
+	color:red;
+}
+</style>
 </head>
 <body>
 <div style="margin:10px 0"></div>
@@ -30,7 +34,7 @@
 		      <i class="icon-pencil"></i>修改</button>
 		    <button type="button" class="btn btn-lg btn-danger" onclick="deleteCodeArray()">
 			  <i class="icon-minus"></i>删除</button>
-			<div class="input-group  col-sm-4 pull-right">
+			<div class="input-group  col-sm-4" style="float: right; margin:0 60px 0 0;">
 		   		<input type="text" class="form-control input-lg" id="searchInfo" placeholder="输入类型或者描述值搜索">
 		   		<span class="input-group-addon btn btn-lg btn-primary icon-search" onclick="search();">搜索</span>
 			</div>
@@ -127,7 +131,6 @@
 		$("#addOrEditCodeModal").modal();
 	}
 	function search(){
-		debugger;
 		var username=$("#username").val();
 		var baseSearch = "${ctx}/code/getCodeGrid.do?username="+username+"&text="+$("#searchInfo").val();
 		var codeGrid=$("#codeGrid${idSuffix}");

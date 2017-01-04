@@ -8,34 +8,41 @@
     <result column="LAST_TIME" property="lastTime" />
     <result column="HOLDERNAME" property="holdername" />
     <result column="CONTENT" property="content" />
+     <result column="TYPE" property="type" />
   </resultMap>
 
   <sql id="All_Column_List" >
-    ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT
+    ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT,TYPE
   </sql>
 
-  <select id="findAllPage" resultMap="mainResultMap" >
+  <select id="findAllPage" resultMap="mainResultMap">
   	select * from (
-	        	select ROW_NUMBER() OVER(order by TAG_TIME desc ) as RN,a.* from DIARY  a where holdername=#{username})
+	        	select ROW_NUMBER() OVER(order by TAG_TIME desc ) as RN,
+	        	 a.ID, a.TITLE, a.TAG_TIME, a.LAST_TIME, a.HOLDERNAME, a.CONTENT,b.code as TYPE
+						from ARTICLE  a  left join codes b on a.type=b.value
+	        	where a.holdername=#{username} and b.type='article'
+	        	<if test="type !=null "> AND a.type=#{type} AND a.TITLE like '%'||#{title}||'%'</if> 	
+	        	)
 		 where RN between #{startNumber} and #{endNumber}
   </select>
 
   <select id="findById" resultMap="mainResultMap" >
-    select ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT
-    from DIARY
+    select ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT,TYPE
+    from ARTICLE
     where ID = #{id}
   </select>
 
   <insert id="save" parameterType="account_huang.entity.Diary" >
 	  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
-		              select SEQ_DIARY_ID.nextval from dual 
+		              select SEQ_ARTICLE_ID.nextval from dual 
 		       </selectKey> 
-    insert into DIARY(ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT) 
-    	values(#{id}, #{title},#{tagTime},  #{lastTime},#{holdername},#{content} )
+    insert into ARTICLE(ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT,TYPE) 
+    	values(#{id}, #{title},#{tagTime},  #{lastTime},#{holdername},#{content},#{type} )
   </insert>
 
   <update id="update" parameterType="account_huang.entity.Diary" >
-    update DIARY set TITLE = #{title}, TAG_TIME = #{tagTime}, LAST_TIME = #{lastTime}, HOLDERNAME = #{holdername},CONTENT = #{content}
+    update ARTICLE set TITLE = #{title}, TAG_TIME = #{tagTime}, LAST_TIME = #{lastTime}, HOLDERNAME = #{holdername}
+    ,CONTENT = #{content},TYPE = #{type}
     where ID = #{id}
   </update>
 

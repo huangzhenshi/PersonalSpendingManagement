@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+
+import org.springframework.util.StringUtils;
 
 import account_huang.entity.Diary;
 import account_huang.utils.Constants;
@@ -29,14 +32,22 @@ public class DiaryService {
 	private CommonService commonService;
 	
 	
-	public List<Diary> getAllDiaryByPageAndSumTotal(PageCoral page,String username) {
+	public List<Diary> getAllDiaryByPageAndSumTotal(PageCoral page,Diary diary) {
 		 int pageNumber=page.getP_pageNumber();
 		 int pageSize=page.getP_pagesize();
 		 Map<String, Object> params =new HashMap<String, Object>();
 		 params.put("startNumber",(pageNumber-1)*pageSize+1);
 		 params.put("endNumber", pageNumber*pageSize+1);
-		 params.put("username",username);
-		 params.put("tableName",Constants.TABLENAME_DIARY);
+		 params.put("username",diary.getHoldername());
+		 if(!StringUtils.isEmpty(diary.getType())){
+			 params.put("type",diary.getType());
+			 if(!StringUtils.isEmpty(diary.getTitle())){
+				 params.put("title",diary.getTitle()); 
+			 }else{
+				 params.put("title",""); 
+			 }
+		 }
+		 params.put("tableName",Constants.TABLENAME_ARTICLE);
 		 int  total= template.selectOne("account_huang.dao.CommonDao.queryCount",params);
 		 page.setTotal(total);
 		 List<Diary> list = template.selectList("account_huang.dao.DiaryMapper.findAllPage",params);
@@ -60,7 +71,7 @@ public class DiaryService {
 	
 	@Transactional
    public void deleteDiary(String ids){
-		commonService.deleteById(Constants.TABLENAME_SLEEP,ids);
+		commonService.deleteById(Constants.TABLENAME_ARTICLE,ids);
 	  }
 }
 

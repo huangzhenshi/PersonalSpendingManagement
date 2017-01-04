@@ -71,5 +71,14 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jtds-1.3.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.11.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.11.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jboss-logging-3.1.4.GA.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jboss-vfs-3.2.11.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mail-1.4.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CKFinderPlugin-FileEditor-2.6.2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CKFinderPlugin-ImageResize-2.6.2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CKFinderPlugin-Watermark-2.6.2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CKFinder-2.2.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

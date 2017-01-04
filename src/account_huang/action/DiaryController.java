@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import account_huang.entity.Code;
 import account_huang.entity.Diary;
+import account_huang.service.CodeService;
 import account_huang.service.DiaryService;
+import account_huang.utils.Constants;
 import account_huang.utils.PageCoral;
 import account_huang.utils.Utils;
 
@@ -25,16 +28,21 @@ import account_huang.utils.Utils;
 public class DiaryController{
 	@Resource
 	private DiaryService diaryService;
+	
+	@Resource
+	private CodeService codeService;
 	@RequestMapping("/toMainDiaryPage.do")
 	public ModelAndView toMainDiaryPage(ModelMap model,String username,String message){
-		if(!StringUtils.isEmpty(message)){
-			model.addAttribute("message", message);
-		}
+		List<Code> codeList=codeService.findByType(username, Constants.CODETYPE_ARTICLE);
+		model.addAttribute("codeList", codeList);
 		return  new ModelAndView("diary/diaryIndex");
 	}
 	
 	@RequestMapping("/toCkeditorPage.do")
-	public ModelAndView toCkeditorPage(ModelMap model,String id){
+	public ModelAndView toCkeditorPage(ModelMap model,String id,String username){
+		List<Code> codeList=codeService.findByType(username, Constants.CODETYPE_ARTICLE);
+		model.addAttribute("codeList", codeList);
+		
 		if(!StringUtils.isEmpty(id)){
 			Diary diary=diaryService.findById(id);
 			diary.setContent(diary.getContent().replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
@@ -46,9 +54,9 @@ public class DiaryController{
 
 	@RequestMapping("/getDiaryGrid.do")
     @ResponseBody
-    public Map<String,Object> getDiaryGrid(String username,PageCoral page) {
+    public Map<String,Object> getDiaryGrid(PageCoral page,Diary diary) {
         Map<String,Object> map = new HashMap<String, Object>();
-       List<Diary> list=diaryService.getAllDiaryByPageAndSumTotal(page, username);
+       List<Diary> list=diaryService.getAllDiaryByPageAndSumTotal(page, diary);
         map.put("data",list) ;
         Utils.setPageElementMap(map, page);
         return map;

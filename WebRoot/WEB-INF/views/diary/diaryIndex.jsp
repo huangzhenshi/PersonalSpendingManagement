@@ -22,17 +22,27 @@
 <div style="margin:5px 0"></div>
 <div class="container-fluid">
 	 <div class="row ">		
-		 <div class="btn-group span5 col-xs-offset-1huang">
+		 <div class="btn-group col-xs-offset-1huang">
 				<button type="button" class="btn btn-lg  btn-primary" data-toggle="modal" 
 	   				data-target="#DiaryAddOrEditModal" onclick="addOrEditDiary(0)">
 				  <i class="icon-plus"></i>Add</button>
 			    <button type="button" class="btn btn-lg  btn-success" onclick="addOrEditDiary(1)">
 			      <i class="icon-pencil"></i>Edit</button>
-			      <button type="button" class="btn btn-lg  btn-primary" onclick="previewDiary()">
-				    <i class="icon-search3"></i>Preview</button>
 			    <button type="button" class="btn btn-lg  btn-danger" onclick="deleteDiaryArray()">
 				  <i class="icon-minus"></i>Delete</button>
-				  
+				  	
+				<div class="input-group  col-sm-4" style="float: right; margin:0 30px 0 0;">
+			   		<input type="text" class="form-control input-lg" id="searchInfo" placeholder="输入类型或者描述值搜索">
+			   		<span class="input-group-addon btn btn-lg btn-primary icon-search" onclick="search();">搜索</span>
+				</div>
+				  <div class="input-group  col-sm-1" style="float: right;">
+				  	<select id="articleType"   name="type" class="form-control input-lg">
+								 <c:forEach items="${codeList}" var="code">
+											<option value="${code.value}">${code.code}</option>
+								 </c:forEach>
+						</select>
+				 </div>
+				
 				  
 			</div>
 	 </div>
@@ -40,38 +50,56 @@
 <div style="margin:5px 0"></div>
 
 		    <cui:grid id="diaryGrid${idSuffix}" rownumbers="true" fitStyle="fill" multiselect="true" altRows="true"   
-		    	url="${ctx}/diary/getDiaryGrid.do?username=${username}" rowNum="20">
+		    	url="${ctx}/diary/getDiaryGrid.do?holdername=${username}" rowNum="20">
 		    	<cui:gridCols>
 		    		<cui:gridCol name="id" hidden="true">id</cui:gridCol>
 		    		<cui:gridCol name="tagTime" width="80" align="center">TagTime</cui:gridCol>
+		    		<cui:gridCol name="type" width="80"  align="center" formatter="formateType">Type</cui:gridCol>
 		    		<cui:gridCol name="title" width="400" formatter="formatePreview">Title</cui:gridCol>
 		    		<cui:gridCol name="lastTime" width="80" align="center">LastTime</cui:gridCol>
-		    		<cui:gridCol name="op" fixed="true" width="80" align="center" formatter="operateFormatter">Operation</cui:gridCol>
 		    	</cui:gridCols>
 		    	<cui:gridPager gridId="diaryGrid${idSuffix}" />
 		    </cui:grid> 
 		    
 	<script>
+	function search(){
+		var baseSearch = "${ctx}/diary/getDiaryGrid.do?holdername=${username}&type="+$("#articleType").val()+"&title="+$("#searchInfo").val();
+		var diaryGrid=$("#diaryGrid${idSuffix}");
+		diaryGrid.grid("option","url",baseSearch);
+		diaryGrid.grid("reload"); 
+	}
+	
+	function refreshGrid(){
+		$("#diaryGrid${idSuffix}").grid('reload');
+	}
+	
+	function successHandlerShowMessage(msg){
+		message(msg);
+	}
 	function formatePreview(cellValue, options, rowObject){
 		var id=rowObject.id;
-		var result="<a href='${ctx}/diary/previewDiary.do?id="+id+"' style='color:blue;'>"+cellValue+"</a>";
+		var result="<a href='#' style='color:blue;' onclick='addOrEditDiary(2,"+id+")'>"+cellValue+"</a>";
 		return result;
 	}
 	
 	
-	function operateFormatter(cellValue, options, rowObject){
-		var result = "";
-			result += " <a href='javascript:addOrEditDiary(2,\""+ rowObject.id+"\");' title='edit' class='grideditbtn'></a> ";
-			result += " <a href='javascript:deleteProperty(\""+ rowObject.id+ "\");' title='preview' class='gridpreviewbtn'></a> ";
-		return result;}
+	
+	
 	
 	function addOrEditDiary(index,id){
 		if(index==0){
-			openWindow("${ctx}/diary/toCkeditorPage.do");
+			openWindow("${ctx}/diary/toCkeditorPage.do?username=${username}");
 		}else if(index==1){
-			
+			var diaryGrid = $("#diaryGrid${idSuffix}");
+			var sel=diaryGrid.grid("option", "selarrrow");
+			var row = $("#diaryGrid${idSuffix}").grid("getRowData",sel);
+			if(sel.length !=1){
+				message("请选择一条记录！");
+				return;
+			}
+			openWindow("${ctx}/diary/toCkeditorPage.do?username=${username}&id="+row.id);
 		}else{
-			openWindow("${ctx}/diary/toCkeditorPage.do?id="+id);
+			openWindow("${ctx}/diary/toCkeditorPage.do?username=${username}&id="+id);
 		}
 		
 		

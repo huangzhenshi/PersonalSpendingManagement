@@ -17,8 +17,8 @@
 <title>Tornado_huang</title>
 <%@ include file="../../include/headerForCUI.jsp"%>
 <script type="text/javascript" src="${ctx}/res/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${ctx}/res/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="${ctx}/res/ckfinder/ckfinder.js"></script>
+<script type="text/javascript" src="${ctx}/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${ctx}/ckfinder/ckfinder.js"></script>
 <style>.error{color:red;}</style>
 </head>
 
@@ -28,39 +28,56 @@
 				<input name="id" value="${diary.id}" hidden=true""/>
 		<div class="container-fluid">
 			 <div class="row ">					
-				<div class="col-lg-7" >
+				<div class="col-lg-5" >
 					<div class="form-group"> 
 					      <label >TITLE:</label>    
 							<input  class="form-control required"  id="title" name="title" value="${diary.title}"/>
 					 </div>
-					  
 				</div>
+				
+				<div class="col-lg-2" >
+					<div class="form-group"> 
+					 <label >TYPE:</label>    
+						<select id="articleType"   name="type" class="form-control required">
+								 <c:forEach items="${codeList}" var="code">
+											<option value="${code.value}" <c:if test="${diary.type==code.value}">selected</c:if>>${code.code}</option>
+								 </c:forEach>
+						</select>
+					 </div>
+				</div>
+				
 				<div class="col-lg-3">
 				<div class="form-group"> 
 					      <label >TAG_DATE:</label>   
-						<input type="text" class="date form_date form-control required" id="sleepTimes" name="tagTime" value="${diary.tagTime}"
+						<input type="text" class="date form_date form-control required" id="tagTime" name="tagTime" value="${diary.tagTime}"
 									         	 data-date="" data-date-format="yyyy-mm-dd" />
 				</div>          
 			 </div>	
 			 <div class="col-lg-2">
 				 <div class="form-group"> 
-						  <button class=" form-control btnBs btn-success">SAVE</button>
-						  <button class=" form-control btnBs btn-primary" onclick="closeDiary()">CLOSE</button>
+				 <div style="margin:15px 0"></div>
+						  <span onclick="submitDiary();" class="btn btn-lg" style="background-color:#3686E8;color:white">保存</span>
+						  <span onclick="window.close();" class="btn btn-lg" style="background-color:#3686E8;color:white">取消</span>
 				 </div>
 			</div>
 		</div>
 		
-			    <textarea id="editor1" name="content" class="ckeditor" rows="10">&nbsp;${diary.content}
+			    <textarea id="editor1" name="content" class="ckeditor" rows="10">${diary.content}
 			    </textarea>
 			   
 		
 		</form>
 <script type="text/javascript">
-function closeDiary(){
-	window.opener=null;
-	window.open('','_self');
-	window.close();
-}
+$(function(){
+	if(!'${diary.tagTime}'){
+		$("#tagTime").val(getDateTodayDayOnly());
+	}
+})
+
+$().ready(function() {
+		$("#addOrEditDiaryForm").validate();
+	});
+	
 $('.form_date').datetimepicker({
     language:  'zh-CN',
     weekStart: 1,
@@ -73,30 +90,45 @@ $('.form_date').datetimepicker({
 });
 
 
-$().ready(function() {
-		$("#addOrEditDiaryForm").validate();
-	});
-	/* function sub(){
-		debugger;
-		var editor1 = CKEDITOR.instances.editor1.getData();//取得textarea的值
-		var title= $("#title").val();
-		window.location.href="myPicture.do?editor1="+editor1+"&title="+title;
-     
-	
-	} */
-        /* $(function () {
-            // var editor = CKEDITOR.replace("editor1", { "toolbar": "Basic" }); //显示编辑器
-            // CKFinder.setupCKEditor(editor, "ckfinder/"); //设置图片管理组件
 
-            //处理CKEDITOR的值 处理获取图片的地址
-            function CKupdate() {
-                 for (instance in CKEDITOR.instances)
-                     CKEDITOR.instances[instance].updateElement();
-            }
-            
-            
-        }) */
-
+	function submitDiary(){
+		if($("#addOrEditDiaryForm").valid()){
+			$.ajax({
+				type : 'post',
+				url : '${ctx}/diary/addOrEditDiarySava.do',
+				data : {"holdername":"${username}",
+						"id":"${diary.id}",
+						"title":$("#title").val(),
+						"tagTime":$("#tagTime").val(),
+						"content":CKEDITOR.instances.editor1.getData(),
+						"type":$("#articleType").val()
+				},
+				dataType:"json",  
+				success : function(data) {
+					debugger;
+					if(data.msg){
+						window.opener.refreshGrid();
+						window.close();
+						window.opener.successHandlerShowMessage("operation is successful!");
+					}else{
+						message("operation is fail!");
+					}
+				},
+				error : function(e) {
+					message(e.msg);
+					error(e);
+				}
+			});
+		}
+	}
+    $(function () {
+        //处理CKEDITOR的值 处理获取图片的地址
+        function CKupdate() {
+             for (instance in CKEDITOR.instances)
+                 CKEDITOR.instances[instance].updateElement();
+        }
+        
+    })
     </script>
 </body>
 </html>

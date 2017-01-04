@@ -7,8 +7,17 @@ public class Diary {
     private String lastTime;
     private String holdername;
     private String content;
+    private String type;
 
-    public String getId() {
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getId() {
         return id;
     }
 
