@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="account_huang.dao.ListTodoMapper" >
+  <resultMap id="mainResultMap" type="account_huang.entity.ListTodo" >
+    <result column="ID" property="id" />
+    <result column="RECORD_TIME" property="recordTime" />
+    <result column="DESCRIPTION" property="description" />
+    <result column="STATUS" property="status" />
+    <result column="HOLDERNAME" property="holdername" />
+    <result column="PRIORITY" property="priority" />
+  </resultMap>
+
+  <sql id="All_Column_List" >
+    ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY
+  </sql>
+
+  <select id="findAllPage" resultMap="mainResultMap" >
+  	select * from (
+        	select ROW_NUMBER() OVER(order by PRIORITY,RECORD_TIME desc ) as RN,
+		 ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY
+		    from LIST_TODO
+		 		 where holdername=#{username} and status=#{status}
+			 )
+	 where RN between #{startNumber} and #{endNumber}
+   </select>
+
+  <select id="findById" resultMap="mainResultMap" >
+    select ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY
+    from LIST_TODO
+    where ID = #{id} and status=#{status}
+  </select>
+
+  <insert id="save" parameterType="account_huang.entity.ListTodo" >
+   <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+		              select SEQ_LIST_ID.nextval from dual 
+		       </selectKey> 
+	 insert into LIST_TODO(ID,RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME,PRIORITY) 
+	 VALUES(#{id},#{recordTime},#{description},#{status},#{holdername}, #{priority})
+
+  </insert>
+
+  <update id="update" parameterType="account_huang.entity.ListTodo" >
+    update LIST_TODO
+    <set >
+      RECORD_TIME = #{recordTime},
+      DESCRIPTION = #{description},
+      STATUS = #{status},
+      HOLDERNAME = #{holdername},
+      PRIORITY = #{priority}
+    </set>
+    where ID = #{id}
+  </update>
+  
+  <update id="switchStatus"  parameterType="java.util.HashMap" >
+    update LIST_TODO
+    set STATUS = #{status}
+    where id in (${ids})
+  </update>
+
+</mapper>

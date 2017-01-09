@@ -7,6 +7,8 @@ public final class Constants {
 	public static final int ToDoDays_Record=30;
 	public static final String TABLENAME_SLEEP="SLEEP";
 	public static final String TABLENAME_ARTICLE="ARTICLE";
+	public static final String TABLENAME_TIPS="TIPS";
+	public static final String TABLENAME_LIST_TODO="LIST_TODO";
 	
 	public static final String CODETYPE_ARTICLE="article";
 	

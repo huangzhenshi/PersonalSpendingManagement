@@ -17,7 +17,7 @@
 
   <select id="findAllPage" resultMap="mainResultMap">
   	select * from (
-	        	select ROW_NUMBER() OVER(order by TAG_TIME desc ) as RN,
+	        	select ROW_NUMBER() OVER(order by a.type,TAG_TIME desc ) as RN,
 	        	 a.ID, a.TITLE, a.TAG_TIME, a.LAST_TIME, a.HOLDERNAME, a.CONTENT,b.code as TYPE
 						from ARTICLE  a  left join codes b on a.type=b.value
 	        	where a.holdername=#{username} and b.type='article'

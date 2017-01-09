@@ -11,12 +11,15 @@
         <div class="menuLeftFirst">
 			<ul>
 		         <li id="doSleepNav" class="hit" onclick="refreshCenter('${ctx}/sleep/toMainSleepPage.do?username=${username}');" >
-		        	 <span>sleep</span>
+		        	 <span>Sleep</span>
 		         </li> 
 		         
-		         <li id="recordReviewNav" onclick="refreshCenter('${ctx}/diary/toMainDiaryPage.do?username=${username}');" >
-		  		    <span>diary</span>
-		  		 </li>  
+		         <li  onclick="refreshCenter('${ctx}/diary/toMainDiaryPage.do?username=${username}');" >
+		  		    <span>Article</span>
+		  		 </li> 
+		  		 <li  onclick="refreshCenter('${ctx}/listTodo/toListTodoMainPage.do?username=${username}');" >
+		  		    <span>ListTodo</span>
+		  		 </li>   
 			 </ul>
 		</div>
 	</div>

@@ -13,5 +13,6 @@
 	
 	 <select id="queryCount"   resultType="java.lang.Integer">
       	select count(*) from ${tableName} where HOLDERNAME= #{username}
+      	 <if test="column !=null" > and ${column} = #{value} </if>
     </select>
 </mapper>

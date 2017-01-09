@@ -49,7 +49,7 @@
     </select>
     
     <select id="findByType" parameterType="java.util.HashMap" resultMap="CodeResult">
-    	 select TYPE, code, VALUE from codes where holdername=#{holdername} and type=#{type}
+    	 select TYPE, code, VALUE from codes where holdername=#{holdername} and type=#{type} order by value
     </select>
     
     <delete id="deleteById" parameterType="java.lang.String">
