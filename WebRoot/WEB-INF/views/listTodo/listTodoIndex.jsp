@@ -53,6 +53,7 @@
 		    		<cui:gridCol name="description"  width="800">Description</cui:gridCol>
 		    		<cui:gridCol name="priority" width="200" align="center"  formatter="formatePriority">Priority</cui:gridCol>
 		    		<cui:gridCol name="recordTime" width="200" align="center">CreateTime</cui:gridCol>
+		    		<cui:gridCol name="remark" width="400">Remark</cui:gridCol>
 		    	</cui:gridCols>
 		    	<cui:gridPager gridId="listTodoGrid${idSuffix}" />
 		    </cui:grid> 
@@ -84,6 +85,7 @@
 		    		<cui:gridCol name="status" hidden="true"></cui:gridCol>
 		    		<cui:gridCol name="description"  width="800">Description</cui:gridCol>
 		    		<cui:gridCol name="recordTime" width="300" align="center">CreateTime</cui:gridCol>
+		    		<cui:gridCol name="remark" width="400">Remark</cui:gridCol>
 		    	</cui:gridCols>
 		    	<cui:gridPager gridId="listdoGrid${idSuffix}" />
 		    </cui:grid> 
@@ -163,6 +165,7 @@
 			$("#listTodoDescription").val(row.description);
 			$("#listTodoStatus").val(row.status);
 			$("#listTodoPriority").val(row.priority);
+			$("#listTodoRemark").val(row.remark);
 			$("#addOrEditListTodoModal").modal();
 		}
 	}

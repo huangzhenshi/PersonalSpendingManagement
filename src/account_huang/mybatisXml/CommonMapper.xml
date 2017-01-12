@@ -15,4 +15,8 @@
       	select count(*) from ${tableName} where HOLDERNAME= #{username}
       	 <if test="column !=null" > and ${column} = #{value} </if>
     </select>
+    
+    <update id="order" >
+      	UPDATE ${tableName} SET ORDER_NO=#{orderNo} WHERE ID= #{id}
+    </update>
 </mapper>

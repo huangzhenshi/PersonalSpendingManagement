@@ -14,37 +14,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 import account_huang.entity.Code;
-import account_huang.entity.Tips;
+import account_huang.entity.Hierarchy;
 import account_huang.service.CodeService;
 import account_huang.service.CommonService;
-import account_huang.service.TipsService;
+import account_huang.service.HierarchyService;
 import account_huang.utils.Constants;
 import account_huang.utils.PageCoral;
 import account_huang.utils.Utils;
 
 
 @Controller
-@RequestMapping("/tips")
-public class TipsController{
+@RequestMapping("/hierarchy")
+public class HierarchyController{
 	@Resource
-	private TipsService tipsService;
+	private HierarchyService hierarchyService;
 	@Resource
 	private CommonService commonService;
 	
 	@Resource
 	private CodeService codeService;
-	@RequestMapping("/toMainTipsPage.do")
-	public String toMainTipsPage(){
-		return  "tips/tipsIndex";
+	@RequestMapping("/toMainHierarchyPage.do")
+	public ModelAndView toMainHierarchyPage(ModelMap model,String username){
+			model.addAttribute("typeList",new Gson().toJson(hierarchyService.findAllType(username)));
+			List<Code> categoryList=codeService.findByType(username, Constants.CODETYPE_HIERARCHY);
+			model.addAttribute("categoryList",new Gson().toJson(categoryList));
+		return  new ModelAndView("code/hierarchyIndex");
 	}
 	
 
-	@RequestMapping("/getTipsGrid.do")
+	@RequestMapping("/getHierarchyGrid.do")
     @ResponseBody
-    public Map<String,Object> getTipsGrid(PageCoral page,Tips tips) {
+    public Map<String,Object> getHierarchyGrid(PageCoral page,String username) {
         Map<String,Object> map = new HashMap<String, Object>();
-       List<Tips> list=tipsService.getAllTipsByPageAndSumTotal(page, tips);
+       List<Hierarchy> list=hierarchyService.getAllHierarchyByPageAndSumTotal(page, username);
         map.put("data",list) ;
         Utils.setPageElementMap(map, page);
         return map;
@@ -54,17 +59,17 @@ public class TipsController{
 	
 	
 	//异步新增和修改
-		@RequestMapping("/addOrEditTipsSava.do")
+		@RequestMapping("/addOrEditHierarchySava.do")
 	    @ResponseBody
-		public Map<String,Object> addOrEditTipsSava(Tips tips){
+		public Map<String,Object> addOrEditHierarchySava(Hierarchy hierarchy){
 			 Map<String,Object> map = new HashMap<String, Object>();
 			 Boolean message=true;
 			 try{
 				  //修改保存功能
-				  if(tips.getId()!=null&&tips.getId().length()>0){
-					  tipsService.updateTips(tips); 
+				  if(hierarchy.getId()!=null&&hierarchy.getId().length()>0){
+					  hierarchyService.updateHierarchy(hierarchy); 
 				  }else{
-					  tipsService.saveTips(tips); 
+					  hierarchyService.saveHierarchy(hierarchy); 
 				  }
 			 }
 			   catch (Exception e) {  
@@ -83,7 +88,7 @@ public class TipsController{
 			 Map<String,Object> map = new HashMap<String, Object>();
 			 Boolean message=true;
 			try{
-					tipsService.deleteTips(id);
+					hierarchyService.deleteHierarchy(id);
 				}
 			   catch (Exception e) {  
 				   message=false;

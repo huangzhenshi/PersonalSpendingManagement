@@ -5,9 +5,10 @@ public class ListTodo {
     private String recordTime;
     private String description;
     private String status;
+    private String remark;
     private String holdername;
     private String priority;
-
+    
     public String getId() {
         return id;
     }
@@ -26,6 +27,14 @@ public class ListTodo {
 
     public String getDescription() {
         return description;
+    }
+    
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
     public void setDescription(String description) {

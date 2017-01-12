@@ -17,7 +17,6 @@
 
 <title>黄大大财务管理软件</title>
 <%@ include file="../../include/headerForCUI.jsp"%>
-<style>.error{color:red;}</style>
 </head>
 <body>
 <div class="container-fluid">

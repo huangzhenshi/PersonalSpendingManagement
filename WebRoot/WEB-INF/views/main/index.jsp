@@ -21,6 +21,9 @@
 <%@include file="../code/editOrUpdateCodeModal.jsp" %>
 <%@include file="../cashFlow/editOrUpdateCashFlowModal.jsp" %>
 <%@include file="../listTodo/listTodoEditOrUpdateModal.jsp" %>
+<%@include file="../tips/tipsEditOrUpdateModal.jsp" %>
+<%@include file="../words/wordsEditOrUpdateModal.jsp" %>
+<%@include file="../code/hierarchyEditOrUpdateModal.jsp" %>
 <link rel="stylesheet" type="text/css" href="${ctx}/res/thirdParty/jquery-lightbox-0.5/css/jquery.lightbox-0.5.css">
 <script src="${ctx}/res/thirdParty/jquery-lightbox-0.5/js/jquery.lightbox-0.5.js"></script> 
 
@@ -29,6 +32,7 @@ html,body {
 	height: 100%;
 	width: 100%;
 }
+.error{color:red;}
 </style>
 </head>
 <body>

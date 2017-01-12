@@ -9,7 +9,11 @@ public final class Constants {
 	public static final String TABLENAME_ARTICLE="ARTICLE";
 	public static final String TABLENAME_TIPS="TIPS";
 	public static final String TABLENAME_LIST_TODO="LIST_TODO";
-	
+	public static final String TABLENAME_WORDS="WORDS";
+	public static final String TABLENAME_HIERARCHY="HIERARCHY";
 	public static final String CODETYPE_ARTICLE="article";
+	
+	
+	public static final String CODETYPE_HIERARCHY="hierarchy";
 	
 }

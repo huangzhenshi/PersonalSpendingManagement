@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="account_huang.dao.WordsMapper" >
+  <resultMap id="mainResultMap" type="account_huang.entity.Words" >
+    <result column="ID" property="id" />
+    <result column="CONTENT" property="content" />
+    <result column="TOP_NO" property="topNo" />
+    <result column="ORDER_NO" property="orderNo" />
+    <result column="HOLDERNAME" property="holdername" />
+  </resultMap>
+
+  <sql id="All_Column_List" >
+    ID, CONTENT, TOP_NO, ORDER_NO, HOLDERNAME
+  </sql>
+
+<select id="findAllPage" resultMap="mainResultMap" >
+	  select * from (
+	        	select ROW_NUMBER() OVER(order by TOP_NO,ORDER_NO desc ) as RN, ID, CONTENT, 
+			TOP_NO, ORDER_NO, HOLDERNAME from WORDS
+		 where holdername=#{username}
+	     )
+		 where RN between #{startNumber} and #{endNumber}
+  </select>
+  
+  <select id="findById" resultMap="mainResultMap" >
+    select ID, CONTENT, TOP_NO, ORDER_NO, HOLDERNAME
+    from WORDS
+    where ID = #{id}
+  </select>
+
+  <insert id="save" parameterType="account_huang.entity.Words" >
+	  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+			select SEQ_WORDS_ID.nextval from dual 
+	  </selectKey> 
+    insert into WORDS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      CONTENT,
+      TOP_NO,
+      ORDER_NO,
+      HOLDERNAME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id},
+      #{content},
+      #{topNo},
+      SEQ_WORDS_ORDER.nextval,
+      #{holdername},
+    </trim>
+  </insert>
+  
+
+  <update id="update" parameterType="account_huang.entity.Words" >
+    update WORDS
+    <set >
+      CONTENT = #{content},
+      TOP_NO = #{topNo},
+      ORDER_NO = #{orderNo},
+      HOLDERNAME = #{holdername}
+    </set>
+    where ID = #{id}
+  </update>
+</mapper>

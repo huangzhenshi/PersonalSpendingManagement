@@ -32,6 +32,11 @@
 											<option value="1" >Normal</option>
 										</select>
 									</div>
+									<div class="form-group">
+										 <label >Remark:</label>
+										<textarea type="text" class="form-control" id="listTodoRemark" 
+											name="remark" rows="3" value="${listTodo.remark}">${listTodo.remark}</textarea>
+								     </div>
 						</div>
 						<div class="modal-footer">
 							<span onclick="submitListTodo();" class="btn btn-lg" style="background-color:#3686E8;color:white">保存</span>
@@ -54,7 +59,6 @@
 					url : ctx + '/listTodo/addOrEditListTodoSava.do',
 					data : $("#addOrEditListTodoForm").serialize(),
 					success : function(data) {
-						debugger;
 						if(data.msg){
 							$("#addOrEditListTodoModal").modal("hide");
 							message("Operation Success!");

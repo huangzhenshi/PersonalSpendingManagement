@@ -7,44 +7,40 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import account_huang.entity.Code;
-import account_huang.entity.Tips;
+import account_huang.entity.Words;
 import account_huang.service.CodeService;
 import account_huang.service.CommonService;
-import account_huang.service.TipsService;
+import account_huang.service.WordsService;
 import account_huang.utils.Constants;
 import account_huang.utils.PageCoral;
 import account_huang.utils.Utils;
 
 
 @Controller
-@RequestMapping("/tips")
-public class TipsController{
+@RequestMapping("/words")
+public class WordsController{
 	@Resource
-	private TipsService tipsService;
+	private WordsService wordsService;
 	@Resource
 	private CommonService commonService;
 	
 	@Resource
 	private CodeService codeService;
-	@RequestMapping("/toMainTipsPage.do")
-	public String toMainTipsPage(){
-		return  "tips/tipsIndex";
+	@RequestMapping("/toMainWordsPage.do")
+	public String toMainWordsPage(){
+		return  "words/wordsIndex";
 	}
 	
 
-	@RequestMapping("/getTipsGrid.do")
+	@RequestMapping("/getWordsGrid.do")
     @ResponseBody
-    public Map<String,Object> getTipsGrid(PageCoral page,Tips tips) {
+    public Map<String,Object> getWordsGrid(PageCoral page,Words words) {
         Map<String,Object> map = new HashMap<String, Object>();
-       List<Tips> list=tipsService.getAllTipsByPageAndSumTotal(page, tips);
+       List<Words> list=wordsService.getAllWordsByPageAndSumTotal(page, words);
         map.put("data",list) ;
         Utils.setPageElementMap(map, page);
         return map;
@@ -54,17 +50,17 @@ public class TipsController{
 	
 	
 	//异步新增和修改
-		@RequestMapping("/addOrEditTipsSava.do")
+		@RequestMapping("/addOrEditWordsSava.do")
 	    @ResponseBody
-		public Map<String,Object> addOrEditTipsSava(Tips tips){
+		public Map<String,Object> addOrEditWordsSava(Words words){
 			 Map<String,Object> map = new HashMap<String, Object>();
 			 Boolean message=true;
 			 try{
 				  //修改保存功能
-				  if(tips.getId()!=null&&tips.getId().length()>0){
-					  tipsService.updateTips(tips); 
+				  if(words.getId()!=null&&words.getId().length()>0){
+					  wordsService.updateWords(words); 
 				  }else{
-					  tipsService.saveTips(tips); 
+					  wordsService.saveWords(words); 
 				  }
 			 }
 			   catch (Exception e) {  
@@ -83,7 +79,7 @@ public class TipsController{
 			 Map<String,Object> map = new HashMap<String, Object>();
 			 Boolean message=true;
 			try{
-					tipsService.deleteTips(id);
+					wordsService.deleteWords(id);
 				}
 			   catch (Exception e) {  
 				   message=false;
@@ -100,7 +96,7 @@ public class TipsController{
 			 Map<String,Object> map = new HashMap<String, Object>();
 			 Boolean message=true;
 			try{
-					commonService.sort(firstNoTopOrder,sortAfterIDs,Constants.TABLENAME_TIPS);
+					commonService.sort(firstNoTopOrder,sortAfterIDs,Constants.TABLENAME_WORDS);
 				}
 			   catch (Exception e) {  
 				   message=false;

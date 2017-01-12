@@ -5,10 +5,37 @@ public class Sleep {
     private String times;
     private String getUp;
     private String getSleep;
+    private String breakfast;
+    private String lunch;
+    private String dinner;
     private String remark;
     private String holderName;
 
-    public String getId() {
+    public String getBreakfast() {
+		return breakfast;
+	}
+
+	public void setBreakfast(String breakfast) {
+		this.breakfast = breakfast;
+	}
+
+	public String getLunch() {
+		return lunch;
+	}
+
+	public void setLunch(String lunch) {
+		this.lunch = lunch;
+	}
+
+	public String getDinner() {
+		return dinner;
+	}
+
+	public void setDinner(String dinner) {
+		this.dinner = dinner;
+	}
+
+	public String getId() {
         return id;
     }
 

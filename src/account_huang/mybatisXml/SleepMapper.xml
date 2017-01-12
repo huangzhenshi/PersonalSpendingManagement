@@ -6,12 +6,15 @@
     <result column="TIMES" property="times" />
     <result column="GET_UP" property="getUp" />
     <result column="GET_SLEEP" property="getSleep" />
+    <result column="BREAKFAST" property="breakfast" />
+    <result column="LUNCH" property="lunch" />
+    <result column="DINNER" property="dinner" />
     <result column="REMARK" property="remark" />
     <result column="HOLDERNAME" property="holderName" />
   </resultMap>
 
   <sql id="All_Column_List" >
-    ID, TIMES, GET_UP, GET_SLEEP, REMARK, USERNAME
+    ID, TIMES, GET_UP, GET_SLEEP, REMARK,BREAKFAST, LUNCH,DINNER,HOLDERNAME
   </sql>
 
   <select id="findAllPage" resultMap="mainResultMap" >
@@ -21,7 +24,7 @@
   </select>
 
   <select id="findById" resultMap="mainResultMap" >
-    select ID, TIMES, GET_UP, GET_SLEEP, REMARK, USERNAME
+    select   ID, TIMES, GET_UP, GET_SLEEP, REMARK,BREAKFAST, LUNCH,DINNER,HOLDERNAME
     from SLEEP
     where ID = #{id}
   </select>
@@ -36,6 +39,9 @@
       <if test="getUp != null" >        GET_UP,      </if>
       <if test="getSleep != null" >        GET_SLEEP,      </if>
       <if test="remark != null" >        REMARK,      </if>
+       <if test="lunch != null" >        LUNCH,      </if>
+       <if test="dinner != null" >        DINNER,      </if>
+       <if test="breakfast != null" >        BREAKFAST,      </if>
       holderName,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -43,6 +49,10 @@
       <if test="getUp != null" >        #{getUp},      </if>
       <if test="getSleep != null" >        #{getSleep},      </if>
       <if test="remark != null" >        #{remark},      </if>
+      
+       <if test="lunch != null" >        #{lunch},      </if>
+      <if test="dinner != null" >        #{dinner},      </if>
+      <if test="breakfast != null" >        #{breakfast},      </if>
       #{holderName},
     </trim>
   </insert>
@@ -54,6 +64,9 @@
       <if test="getUp != null" >        GET_UP = #{getUp},      </if>
       <if test="getSleep != null" >        GET_SLEEP = #{getSleep},      </if>
       <if test="remark != null" >        REMARK = #{remark},      </if>
+      <if test="breakfast != null" >        BREAKFAST = #{breakfast},      </if>
+      <if test="lunch != null" >        LUNCH = #{lunch},      </if>
+      <if test="dinner != null" >        DINNER = #{dinner},      </if>
       holderName = #{holderName}
     </set>
     where ID = #{id}

@@ -6,7 +6,7 @@
     	<div class="w-head clearfix">
     		<div class="w-h-l">
     			<%-- <img src="${ctx}/res/resource/style/css/images/logo.png" class="logo"> --%>
-    			<h4 style="color:white;">we are gonna be rich!</h4>
+    			<h4 style="color:white;">we gonna be rich!</h4>
     		</div>
     		<div class="w-h-M">
     			<div class="w-h-m-c">

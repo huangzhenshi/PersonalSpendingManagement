@@ -8,16 +8,17 @@
     <result column="STATUS" property="status" />
     <result column="HOLDERNAME" property="holdername" />
     <result column="PRIORITY" property="priority" />
+     <result column="REMARK" property="remark" />
   </resultMap>
 
   <sql id="All_Column_List" >
-    ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY
+    ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY,REMARK
   </sql>
 
   <select id="findAllPage" resultMap="mainResultMap" >
   	select * from (
         	select ROW_NUMBER() OVER(order by PRIORITY,RECORD_TIME desc ) as RN,
-		 ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY
+		 ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY,REMARK
 		    from LIST_TODO
 		 		 where holdername=#{username} and status=#{status}
 			 )
@@ -25,7 +26,7 @@
    </select>
 
   <select id="findById" resultMap="mainResultMap" >
-    select ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY
+    select ID, RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME, PRIORITY,REMARK
     from LIST_TODO
     where ID = #{id} and status=#{status}
   </select>
@@ -34,8 +35,13 @@
    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
 		              select SEQ_LIST_ID.nextval from dual 
 		       </selectKey> 
-	 insert into LIST_TODO(ID,RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME,PRIORITY) 
-	 VALUES(#{id},#{recordTime},#{description},#{status},#{holdername}, #{priority})
+	 insert into LIST_TODO(ID,RECORD_TIME, DESCRIPTION, STATUS, HOLDERNAME
+	  <if test="remark != null" >         ,remark </if>
+	  ,PRIORITY
+	 ) 
+	 VALUES(#{id},#{recordTime},#{description},#{status},#{holdername}
+	  <if test="remark != null" >        ,#{remark}   </if>
+	 , #{priority})
 
   </insert>
 
@@ -46,6 +52,7 @@
       DESCRIPTION = #{description},
       STATUS = #{status},
       HOLDERNAME = #{holdername},
+       <if test="remark != null" >        remark = #{remark},      </if>
       PRIORITY = #{priority}
     </set>
     where ID = #{id}

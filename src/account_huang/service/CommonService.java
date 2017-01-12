@@ -32,4 +32,18 @@ public class CommonService {
    		 int result=template.delete("account_huang.dao.CommonDao.deleteById",params);
    		return result;
       }
+    
+	//排序，根据表名，第一个位置的Order，排序后的ID字符串数组
+	@Transactional
+	public void sort(int firstNoTopOrder,String sortAfterIDs,String tableName){
+	  	Map<String, Object> params =new HashMap<String, Object>();
+   		params.put("tableName",tableName);
+		String[] sortIDArr=sortAfterIDs.split(",");
+		for(int k=0;k<sortIDArr.length;k++){
+			 params.put("id",sortIDArr[k]);
+			 params.put("orderNo",firstNoTopOrder);
+			template.update("account_huang.dao.CommonDao.order", params);
+			firstNoTopOrder--;
+		}
+	}
 }

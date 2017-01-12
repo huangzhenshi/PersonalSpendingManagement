@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="account_huang.mybatisXml.BlogMapper" >
+  <resultMap id="mainResultMap" type="account_huang.entity.Blog" >
+    <result column="ID" property="id" />
+    <result column="TITLE" property="title" />
+    <result column="TAG_TIME" property="tagTime" />
+    <result column="LAST_TIME" property="lastTime" />
+    <result column="HOLDERNAME" property="holdername" />
+    <result column="CATEGORY" property="category" />
+    <result column="NEXTLEVEL_CATEGORY" property="nextlevelCategory" />
+    <result column="CONTENT" property="content" />
+  </resultMap>
+
+  <sql id="All_Column_List" >
+    ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CATEGORY, NEXTLEVEL_CATEGORY, CONTENT
+  </sql>
+
+  <select id="findAllPage" resultMap="mainResultMap" >
+    select ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CATEGORY, NEXTLEVEL_CATEGORY, 
+    CONTENT
+    from BLOG
+    where ${column}=#{value} ORDER BY id offset #{startNum}-1   rows fetch next #{pageSize} rows only 
+  </select>
+
+  <select id="findById" resultMap="mainResultMap" >
+    select ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CATEGORY, NEXTLEVEL_CATEGORY, 
+    CONTENT
+    from BLOG
+    where ID = #{id}
+  </select>
+
+  <insert id="save" parameterType="account_huang.entity.Blog" >
+    insert into BLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      TITLE,
+      TAG_TIME,
+      LAST_TIME,
+      HOLDERNAME,
+      <if test="category != null" >        CATEGORY,      </if>
+      <if test="nextlevelCategory != null" >        NEXTLEVEL_CATEGORY,      </if>
+      CONTENT,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{title},
+      #{tagTime},
+      #{lastTime},
+      #{holdername},
+      <if test="category != null" >        #{category},      </if>
+      <if test="nextlevelCategory != null" >        #{nextlevelCategory},      </if>
+      #{content},
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="account_huang.entity.Blog" >
+    update BLOG
+    <set >
+      TITLE = #{title},
+      TAG_TIME = #{tagTime},
+      LAST_TIME = #{lastTime},
+      HOLDERNAME = #{holdername},
+      <if test="category != null" >        CATEGORY = #{category},      </if>
+      <if test="nextlevelCategory != null" >        NEXTLEVEL_CATEGORY = #{nextlevelCategory},      </if>
+      CONTENT = #{content}
+    </set>
+    where ID = #{id}
+  </update>
+
+</mapper>

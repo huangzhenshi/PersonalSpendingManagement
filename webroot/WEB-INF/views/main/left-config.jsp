@@ -12,7 +12,10 @@
         <div class="menuLeftFirst">
 			<ul>
 		          <li id="configCodeNav" class="hit"  onclick="refreshCenter('${ctx}/code/toMainRecordPage.do?username=${username}');" >
-		        	 <span>码表配置</span>
+		        	 <span>Code Config</span>
+		         </li> 
+		          <li id="configCodeNav" onclick="refreshCenter('${ctx}/hierarchy/toMainHierarchyPage.do?username=${username}');" >
+		        	 <span>Hierarchy Config</span>
 		         </li> 
 		         
 	   

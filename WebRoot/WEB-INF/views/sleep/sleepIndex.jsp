@@ -44,6 +44,9 @@
 		    		<cui:gridCol  name="op" align="center" formatter="formateWeek">星期</cui:gridCol>
 		    		<cui:gridCol name="getUp" width="80" align="center">起床时间</cui:gridCol>
 		    		<cui:gridCol name="getSleep" width="80" align="center">上床时间</cui:gridCol>
+		    		<cui:gridCol name="breakfast" width="100" align="center">BREAKFAST</cui:gridCol>
+		    		<cui:gridCol name="lunch" width="80" align="center">LUNCH</cui:gridCol>
+		    		<cui:gridCol name="dinner" width="80" align="center">DINNER</cui:gridCol>
 		    		<cui:gridCol name="remark" width="300" align="center">备注</cui:gridCol>
 		    	</cui:gridCols>
 		    	<cui:gridPager gridId="sleepGrid${idSuffix}" />
@@ -98,9 +101,13 @@
 			$("#sleepTimes").val(row.times);
 			$("#sleepGetUp").val(row.getUp);
 			$("#sleepGetSleep").val(row.getSleep);
+			$("#sleepBreakfast").val(row.breakfast);
+			$("#sleepLunch").val(row.lunch);
+			$("#sleepDinner").val(row.dinner);
 			$("#sleepRemark").val(row.remark);
 			$("#addOrEditSleepModal").modal();
 		}else{
+			$("#sleepTimes").val(getDateTodayDayOnly());
 			$("#sleepModalDescription").html("Record sleep time");
 		}
 		
