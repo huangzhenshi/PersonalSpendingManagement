@@ -80,5 +80,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CKFinderPlugin-Watermark-2.6.2.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CKFinder-2.2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/google-collect-1.0.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
