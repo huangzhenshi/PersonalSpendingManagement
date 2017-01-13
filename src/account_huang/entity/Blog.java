@@ -1,7 +1,7 @@
 package account_huang.entity;
 
 public class Blog {
-    private Short id;
+    private String id;
     private String title;
     private String tagTime;
     private String lastTime;
@@ -10,11 +10,11 @@ public class Blog {
     private String nextlevelCategory;
     private String content;
 
-    public Short getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(String id) {
         this.id = id;
     }
 

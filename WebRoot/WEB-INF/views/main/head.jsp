@@ -13,6 +13,7 @@
     				<ul id="headMenu" class="headMenu">
     						<li id="account" onclick="toDisplay('account')" title="财务管理"><i class="tz"></i><span>财务管理</span></li>
     						<li id="smartAnalyseNav" onclick="toDisplay('smart')" title="智能分析"><i class="gl"></i><span>智能分析</span></li>
+    						<li id="habitNav" onclick="toDisplay('work')" title="工作"><i class="gl"></i><span>工作</span></li>
     						<li id="habitNav" onclick="toDisplay('habit')" title="习惯养成"><i class="gl"></i><span>习惯养成</span></li>
     						<li id="excelNav" onclick="toDisplay('excel')" title="导入导出"><i class="gl"></i><span>导入导出</span></li>
     						<li id="codeNav" onclick="toDisplay('config')" title="系统配置"><i class="gl"></i><span>系统配置</span></li>
@@ -54,6 +55,9 @@ var pannel="";
 		}
 		else if(name=="habit"){
 			baseUrl='${ctx}/sleep/toMainSleepPage.do?username='+username;
+		}
+		else if(name=="work"){
+			baseUrl='${ctx}/blog/toMainBlogPage.do?username='+username;
 		}
 		panel.panel("refresh", baseUrl);
 		

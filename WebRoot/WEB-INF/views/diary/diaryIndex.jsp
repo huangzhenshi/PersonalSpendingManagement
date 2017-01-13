@@ -77,9 +77,7 @@
 		message(msg);
 	}
 	function formatePreview(cellValue, options, rowObject){
-		var id=rowObject.id;
-		var result="<a href='#' style='color:blue;' onclick='addOrEditDiary(2,"+id+")'>"+cellValue+"</a>";
-		return result;
+		return "<a href='javascript:addOrEditDiary(2,\""+rowObject.id +"\");' style='color:blue;'>"+cellValue+"</a>";
 	}
 	
 	
@@ -158,9 +156,9 @@
 			message("请至少选择一条记录！");
 			return;
 		}
-		var ids=diaryGrid.grid("getRowData",sel[0]).id;;
+		var ids="'"+diaryGrid.grid("getRowData",sel[0]).id+"'";
 		for(var i=1;i<sel.length;i++){
-			ids=ids+","+diaryGrid.grid("getRowData",sel[i]).id;
+			ids=ids+",'"+diaryGrid.grid("getRowData",sel[i]).id+"'";
 		}
 		deleteDiary(ids);
 	}

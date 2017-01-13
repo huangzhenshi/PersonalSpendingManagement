@@ -69,5 +69,14 @@
   <delete id="deleteCascaded">
 	      delete from  HIERARCHY where id in (${ids}) or parent_id in (${ids})
 	</delete>  
+	
+	 <select id="findAllMainTypeByHoldernameAndCategory" resultType="java.lang.String" >
+	 	 select type from HIERARCHY WHERE HOLDERNAME=#{holdername} AND PARENT_ID IS NULL
+ 	 </select>
+ 	 
+ 	 <select id="findAllNextLevelTypeByHoldernameAndParentType" resultType="java.lang.String" >
+	 	 select A.type from HIERARCHY A join HIERARCHY B ON A.PARENT_ID=B.ID
+	 	 	WHERE A.HOLDERNAME=#{holdername} AND B.TYPE=#{type}
+ 	 </select>
 
 </mapper>

@@ -76,6 +76,17 @@ public class HierarchyService {
    		 params.put("ids",ids);
 		template.delete("account_huang.dao.HierarchyMapper.deleteCascaded", params);
 	  }
+	
+	public List<String> findAllMainTypeByHoldernameAndCategory(String username){
+		return template.selectList("account_huang.dao.HierarchyMapper.findAllMainTypeByHoldernameAndCategory",username);
+	}
+	
+	public List<String> findAllNextLevelTypeByHoldernameAndParentType(String username,String type){
+		 Map<String, Object> params =new HashMap<String, Object>();
+		 params.put("holdername",username);
+		 params.put("type", type);
+		return template.selectList("account_huang.dao.HierarchyMapper.findAllNextLevelTypeByHoldernameAndParentType",params);
+	}
 
 }
 

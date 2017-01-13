@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -32,7 +33,7 @@ public class DiaryController{
 	@Resource
 	private CodeService codeService;
 	@RequestMapping("/toMainDiaryPage.do")
-	public ModelAndView toMainDiaryPage(ModelMap model,String username,String message){
+	public ModelAndView toMainDiaryPage(ModelMap model,String username){
 		List<Code> codeList=codeService.findByType(username, Constants.CODETYPE_ARTICLE);
 		model.addAttribute("codeList", codeList);
 		return  new ModelAndView("diary/diaryIndex");
@@ -77,6 +78,7 @@ public class DiaryController{
 				  if(diary.getId()!=null&&diary.getId().length()>0){
 					  diaryService.updateDiary(diary); 
 				  }else{
+					  diary.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
 					  diaryService.saveDiary(diary); 
 				  }
 			 }

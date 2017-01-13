@@ -33,9 +33,6 @@
   </select>
 
   <insert id="save" parameterType="account_huang.entity.Diary" >
-	  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
-		              select SEQ_ARTICLE_ID.nextval from dual 
-		       </selectKey> 
     insert into ARTICLE(ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT,TYPE) 
     	values(#{id}, #{title},#{tagTime},  #{lastTime},#{holdername},#{content},#{type} )
   </insert>

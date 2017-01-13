@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="account_huang.mybatisXml.BlogMapper" >
+<mapper namespace="account_huang.dao.BlogMapper" >
   <resultMap id="mainResultMap" type="account_huang.entity.Blog" >
     <result column="ID" property="id" />
     <result column="TITLE" property="title" />
@@ -17,10 +17,16 @@
   </sql>
 
   <select id="findAllPage" resultMap="mainResultMap" >
-    select ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CATEGORY, NEXTLEVEL_CATEGORY, 
-    CONTENT
-    from BLOG
-    where ${column}=#{value} ORDER BY id offset #{startNum}-1   rows fetch next #{pageSize} rows only 
+     select * from (
+            select ROW_NUMBER() OVER(order by CATEGORY,NEXTLEVEL_CATEGORY) as RN,
+                ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CATEGORY, NEXTLEVEL_CATEGORY, CONTENT
+            from BLOG 
+            where holdername=#{username} 
+	            <if test="category !=null "> AND category=#{category} </if>  
+	            <if test="nextlevelCategory !=null "> AND NEXTLEVEL_CATEGORY=#{nextlevelCategory}</if>  
+	            <if test="title !=null ">   AND TITLE like '%'||#{title}||'%'</if>  
+            )
+     where RN between #{startNumber} and #{endNumber}
   </select>
 
   <select id="findById" resultMap="mainResultMap" >
@@ -33,6 +39,7 @@
   <insert id="save" parameterType="account_huang.entity.Blog" >
     insert into BLOG
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
       TITLE,
       TAG_TIME,
       LAST_TIME,
@@ -42,6 +49,7 @@
       CONTENT,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id},
       #{title},
       #{tagTime},
       #{lastTime},
@@ -54,7 +62,7 @@
 
   <update id="update" parameterType="account_huang.entity.Blog" >
     update BLOG
-    <set >
+    set
       TITLE = #{title},
       TAG_TIME = #{tagTime},
       LAST_TIME = #{lastTime},
@@ -62,7 +70,6 @@
       <if test="category != null" >        CATEGORY = #{category},      </if>
       <if test="nextlevelCategory != null" >        NEXTLEVEL_CATEGORY = #{nextlevelCategory},      </if>
       CONTENT = #{content}
-    </set>
     where ID = #{id}
   </update>
 

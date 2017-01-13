@@ -16,11 +16,6 @@
 
 
 <title>黄大大财务管理软件</title>
-<style>
-.error{
-	color:red;
-}
-</style>
 </head>
 <body>
 
