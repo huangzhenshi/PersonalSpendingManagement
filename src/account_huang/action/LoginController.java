@@ -23,7 +23,6 @@ import account_huang.service.TodoService;
 
 
 @Controller
-@RequestMapping("/login")
 public class LoginController
 {
 	@Resource
@@ -45,7 +44,7 @@ public class LoginController
 	 * 先校验有没有待办事项，如果有待办事项则第一个展示的是 待办事项的jsp，否则就进入我要记账界面
 	 * 
 	 */
-	@RequestMapping("/check.do")
+	@RequestMapping("/loginCheck.do")
 	  public ModelAndView check(HttpSession httpSession,HttpServletRequest request,User user,ModelMap model)
 	  {
 		 HttpSession session=request.getSession();

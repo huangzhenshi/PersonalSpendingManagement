@@ -18,7 +18,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
  >
- 
+    <import resource="application_mybatis.xml"/>
  	<context:component-scan base-package="account_huang"/>
  	
 	<mvc:annotation-driven/>
@@ -35,31 +35,8 @@
 	     <property name="username" value="${jdbc.username}" />      
 	     <property name="password" value="${jdbc.password}" />
 	</bean>
+	 
 	
-	<bean id="sqlsessionfactory" class="account_huang.utils.SqlSessionFactoryBean">
-		<!-- 指定数据库连接信息 -->
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="typeAliasesPackage" value="account_huang"/>  
-
-		
-			<!-- 指定SQL语句的XML文件 -->
-		<property name="mapperLocations" 
-			value="classpath:account_huang/mybatisXml/*.xml">
-		</property>
-	</bean>
-
- 	<!-- 配置MyBatis注解 -->
- 	<!-- 扫描指定包下带有注解@MyBatisRepository的接口 -->    
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="account_huang.dao" />
-         <property name="annotationClass" value="account_huang.annotation.MyBatisRepository" />
-    </bean>	
-    
-    <!--定义SqlSessionTemplate -->
-    <bean id="sqlSessionTemplate" 
-        class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="sqlsessionfactory"/>
-    </bean>
     <!-- 定义事务 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
@@ -67,6 +44,9 @@
 	
 	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760 "/>
+	</bean>
 	
 </beans>
 

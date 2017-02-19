@@ -9,8 +9,27 @@ public class Blog {
     private String category;
     private String nextlevelCategory;
     private String content;
+    private String attachment;
+    private String code;
+    
 
-    public String getId() {
+    public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	public String getId() {
         return id;
     }
 

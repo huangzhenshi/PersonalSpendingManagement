@@ -1,5 +1,12 @@
 package account_huang.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,12 +14,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -26,6 +38,14 @@ import account_huang.utils.Constants;
 import account_huang.utils.PageCoral;
 import account_huang.utils.Utils;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/blog")
@@ -53,6 +73,14 @@ public class BlogController{
 			List<String> nextCategoryList=hierarchyService.findAllNextLevelTypeByHoldernameAndParentType(username, category);
 			model.addAttribute("nextCategoryList", nextCategoryList);
 			blog.setContent(blog.getContent().replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
+			String attachment=blog.getAttachment();
+			if(!StringUtils.isEmpty(attachment)){
+				attachment=attachment.replace("\\", "/");
+			}
+			blog.setAttachment(attachment);
+			if(!StringUtils.isEmpty(blog.getCode())){
+				model.addAttribute("code", "code");
+			}
 			model.addAttribute("blog", blog);
 		}
 		
@@ -68,6 +96,27 @@ public class BlogController{
         Utils.setPageElementMap(map, page);
         return map;
     }
+	
+	@RequestMapping("/import.do")
+    @ResponseBody
+    public String importFile(HttpServletRequest request,@RequestParam(value = "file")MultipartFile file) throws Exception{
+		String currentTime=Utils.getCurrentTimeString();
+		String path = request.getSession().getServletContext().getRealPath("/upload");
+        String fileName = file.getOriginalFilename();
+        fileName=currentTime+fileName;
+        File targetFile = new File(path, fileName);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+            try {
+				file.transferTo(targetFile);
+				
+			}catch (IOException e) {
+				e.printStackTrace();
+			}   
+           return path+"\\"+currentTime; 
+		  }
+
 	
 	
 	
@@ -123,5 +172,36 @@ public class BlogController{
 	        map.put("typeList",list) ;
 	        return map;
 	    }
+		
+		@RequestMapping("/downAttachment.do")
+		public void downAttachment(HttpServletResponse response,String path) throws Exception{
+			path=path.replace("/", "\\");
+			String[] filePathArr=path.split("\\\\");
+			String fileName = filePathArr[filePathArr.length - 1]; 
+			 response.setHeader("Content-Type","application/force-download");
+	        response.setContentType("multipart/form-data");   
+	        response.setHeader( "Content-Disposition", "attachment;filename=" + new String( fileName.getBytes("gb2312"), "ISO8859-1" ) ); 
+	        try {
+	        	InputStream in = new FileInputStream(path); 
+	        	 byte[] buffer = new byte[512];  
+	        	OutputStream out = response.getOutputStream(); 
+	       
+	        	//写文件 
+	            int b; 
+	            while((b=in.read())!= -1) 
+	            { 
+	            	b = in.read(buffer);  
+	            	out.write(buffer,0,b); 
+	            } 
+	              
+	            in.close(); 
+	            out.close(); 
+	            out.flush();  
+	         } catch (IOException e) {
+	             e.printStackTrace();
+	         }
+	  
+	       
+		}
 	
 }

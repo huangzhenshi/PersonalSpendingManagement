@@ -32,11 +32,11 @@
 				  <i class="icon-minus"></i>Delete</button>
 				  	
 				<div class="input-group  col-sm-4" style="float: right; margin:0 30px 0 0;">
-			   		<input type="text" class="form-control input-lg" id="searchInfo" placeholder="输入Title模糊查找">
+			   		<input type="text" class="form-control input-lg" onkeydown="if(event.keyCode == 13) return false;" id="searchInfo" placeholder="输入Title模糊查找">
 			   		<span class="input-group-addon btn btn-lg btn-primary icon-search" onclick="search();">搜索</span>
 				</div>
 				  <div class="input-group  col-sm-1" style="float: right;">
-				  	<select id="articleType"   name="type" class="form-control input-lg">
+				  	<select id="articleType"   name="type" class="form-control input-lg"  onchange="search(1);">
 								 <c:forEach items="${codeList}" var="code">
 											<option value="${code.value}">${code.code}</option>
 								 </c:forEach>
@@ -62,7 +62,10 @@
 		    </cui:grid> 
 		    
 	<script>
-	function search(){
+	function search(index){
+		if(!isEmpty(index)&&index==1){
+			$("#searchInfo").val("");
+		}
 		var baseSearch = "${ctx}/diary/getDiaryGrid.do?holdername=${username}&type="+$("#articleType").val()+"&title="+$("#searchInfo").val();
 		var diaryGrid=$("#diaryGrid${idSuffix}");
 		diaryGrid.grid("option","url",baseSearch);

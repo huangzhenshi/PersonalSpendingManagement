@@ -105,6 +105,7 @@ function operateFormatter(cellValue, options, rowObject){
 	}
 	//index: 0 新增 1 按钮点击修改 2 操作选项中点击修改
 	function addOrEdit(index,id){
+		debugger;
 		$("#addOrEditRecordForm")[0].reset(); 
 		if("${top10ElseName}"){
 			$("#top10ElseName").html("${top10ElseName}");
@@ -114,9 +115,9 @@ function operateFormatter(cellValue, options, rowObject){
 			$("#recordRent").val($("#rentRecord").val());
 			$("#recordEating").val($("#eatingRecord").val());
 			$("#recordTimes").val(getDateTodayDayOnly());
-			//周一到周五 交通费用 才自动填充
+			//周一到周五 交通费用 才自动填充,周日的值是0，多么神奇！
 			var today=new Date().getDay();
-			if(today<6){
+			if(today>0&&today<6){
 				$("#recordTraffic").val('${traffic}');
 			}
 			$("#recordModalDescription").html("Record new cost");

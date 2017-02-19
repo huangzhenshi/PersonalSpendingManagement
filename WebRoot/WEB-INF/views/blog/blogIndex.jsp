@@ -45,7 +45,7 @@
 						</select>
 							
 					    <div class="input-group " style="float: right; margin:0 20px 0 0;">
-					   		<input type="text" class="form-control input-lg" id="searchInfo" placeholder="输入TiTle模糊查询">
+					   		<input type="text" class="form-control input-lg" onkeydown="if(event.keyCode == 13) return false;" id="searchInfo" placeholder="输入TiTle模糊查询">
 					   		<span class="input-group-addon btn btn-lg btn-primary icon-search" onclick="search();" onkeydown="if(event.keyCode == 13) return false;">搜索</span>
 						</div>
 		
@@ -68,6 +68,10 @@
 		    </cui:grid> 
 		    
 	<script>
+	function formatePreview(cellValue, options, rowObject){
+		return "<a href='javascript:addOrEditBlog(2,\""+rowObject.id +"\");' style='color:blue;'>"+cellValue+"</a>";
+	}
+	
 	function selectNextLevelCategory(){
 		var baseSearch = "${ctx}/blog/getBlogGrid.do?holdername=${username}&category="+$("#blogCategory").val()+"&nextlevelCategory="+$("#blogNextlevelCategory").val();
 		var blogGrid=$("#blogGrid${idSuffix}");
@@ -122,16 +126,13 @@
 	function successHandlerShowMessage(msg){
 		message(msg);
 	}
-	function formatePreview(cellValue, options, rowObject){
-		return "<a href='javascript:addOrEditBlog(2,\""+rowObject.id +"\");' style='color:blue;'>"+cellValue+"</a>";
-	}
+
 	
 	
 	
 	
 	
 	function addOrEditBlog(index,id){
-		debugger;
 		if(index==0){
 			openWindow("${ctx}/blog/toCkeditorPage.do?username=${username}");
 		}else if(index==1){

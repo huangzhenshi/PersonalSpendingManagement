@@ -70,7 +70,7 @@
     <div class="logo-login"></div>
     <%--判断用户名、密码、验证码是否为空，以及根据服务器返回的error码来反馈相应的错误信息 --%>
     <div class="loginbox">
-    	<form id="loginForm"  action="${ctx}/login/check.do" method="POST">
+    	<form id="loginForm"  action="${ctx}/loginCheck.do">
     		<div class="exitmessage">
 				<div id="mesBox">
 					<span>
@@ -135,7 +135,6 @@
 				return;
 			}
 			$('#loginForm').submit();
-
 		}
 </script>
 </body>

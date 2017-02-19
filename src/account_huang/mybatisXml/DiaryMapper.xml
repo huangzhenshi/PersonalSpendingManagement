@@ -25,6 +25,11 @@
 	        	)
 		 where RN between #{startNumber} and #{endNumber}
   </select>
+  
+  <select id="queryCount"   resultType="java.lang.Integer">
+      	select count(*) from ARTICLE where HOLDERNAME= #{username}
+      	<if test="type !=null "> AND type=#{type} AND TITLE like '%'||#{title}||'%'</if> 	
+  </select>
 
   <select id="findById" resultMap="mainResultMap" >
     select ID, TITLE, TAG_TIME, LAST_TIME, HOLDERNAME, CONTENT,TYPE

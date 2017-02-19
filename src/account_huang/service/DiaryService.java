@@ -47,8 +47,7 @@ public class DiaryService {
 				 params.put("title",""); 
 			 }
 		 }
-		 params.put("tableName",Constants.TABLENAME_ARTICLE);
-		 int  total= template.selectOne("account_huang.dao.CommonDao.queryCount",params);
+		 int  total= template.selectOne("account_huang.dao.DiaryMapper.queryCount",params);
 		 page.setTotal(total);
 		 List<Diary> list = template.selectList("account_huang.dao.DiaryMapper.findAllPage",params);
 		 return list;

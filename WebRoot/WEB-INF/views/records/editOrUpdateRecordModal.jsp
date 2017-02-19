@@ -86,7 +86,6 @@
 					url : ctx + '/record/addOrEditRecordSava.do',
 					data : $("#addOrEditRecordForm").serialize(),
 					success : function(data) {
-						debugger;
 						if(data.msg){
 							$("#addOrEditRecordModal").modal("hide")
 							refreshCenter('${ctx}/record/toMainRecordPage.do?username=${username}&message='+"add Success!");

@@ -41,7 +41,7 @@ public class BlogService {
 			 params.put("category",blog.getCategory());
 		 }
 		 if(!StringUtils.isEmpty(blog.getTitle())){ 
-			 params.put("title",blog.getTitle()); 
+			 params.put("title",blog.getTitle().toUpperCase()); 
 		 }
 		 if(!StringUtils.isEmpty(blog.getNextlevelCategory())){ 
 			 params.put("nextlevelCategory",blog.getNextlevelCategory()); 

@@ -94,4 +94,8 @@ public class Utils {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return df.format(new Date());
 	}
+	public static String getCurrentTimeString(){
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+		return df.format(new Date());
+	}
 }

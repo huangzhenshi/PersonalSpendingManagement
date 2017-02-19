@@ -28,14 +28,14 @@ CKEDITOR.editorConfig = function( config )
 		    ['Maximize', 'Bold','Underline','Strike','-','Subscript','Superscript'],
 		    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 		    ['Link','Unlink','Anchor'],
-		    ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar','Format']
+		    ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar','Format','Source']
 		    ];
 	  config.smiley_images = ['1.gif','2.gif','3.gif','4.gif','5.gif','6.gif','7.gif','8.gif','9.gif','10.gif',
 	                          '11.gif','12.gif','13.gif','14.gif','15.gif','16.gif','17.gif','18.gif','19.gif','20.gif',
 	                          '21.gif','22.gif','23.gif','24.gif','25.gif','26.gif','27.gif','28.gif','29.gif','30.gif',
 	                          '33.gif','36.gif','38.gif','44.gif','50.gif','64.gif','71.gif','72.gif','73.gif','74.gif','82.gif'
 	                          ];
-	 
+	  config.entities = false;
 	 
 	 //使用自定义工具栏 
 	 // config.toolbar = 
