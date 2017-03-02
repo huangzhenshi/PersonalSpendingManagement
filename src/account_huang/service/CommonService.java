@@ -26,9 +26,11 @@ public class CommonService {
     
     @Transactional
     public int deleteById(String tableName,String ids){
+    	//之前用的是 sql注入式删除，非数字的话必须带引号，现在改用 foreach标签，所以不需要引号了
+    	ids=ids.replace("'", "");
       	 Map<String, Object> params =new HashMap<String, Object>();
    		 params.put("tableName",tableName);
-   		 params.put("ids",ids);
+   		 params.put("ids",ids.split(","));
    		 int result=template.delete("account_huang.dao.CommonDao.deleteById",params);
    		return result;
       }

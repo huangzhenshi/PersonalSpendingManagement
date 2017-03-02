@@ -1,5 +1,6 @@
 package account_huang.utils;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -98,4 +99,41 @@ public class Utils {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 		return df.format(new Date());
 	}
+	
+	/**
+	 * 根据分割符将字符串进行分割.
+	 * 例：<pre>
+	 * StringUtils.split(null,"${","}")  = null
+	 * StringUtils.split("","${","}")  = null
+	 * StringUtils.split("你好","${","}")  = String[]{"你好","",""}
+	 * StringUtils.split("你好${吗？","${","}")  = String[]{"你好${吗？","",""}
+	 * StringUtils.split("你好}吗？","${","}")  = String[]{"你好}吗？","",""}
+	 * StringUtils.split("你好${userName}:你所在组织为${orgName}.","${","}")  = String[]{"你好","userName",":你所在组织为${orgName}."}
+	 * </pre>
+	 */
+	
+	public static String[] split(String str, String separatorChars, String separatorEndChars) {
+		if (str == null) return null;
+		
+		int pos = str.indexOf(separatorChars);
+		int ePos = str.indexOf(separatorEndChars);
+		
+		if (pos == -1 || ePos == -1) return new String[]{str,"",""};
+		return new String[]{str.substring(0,pos),str.substring(pos+separatorChars.length(),ePos),str.substring(ePos+separatorEndChars.length())};
+	}
+	
+	public static boolean deleteFile(String filePath) {  
+	 Boolean  flag = false;  
+	 try{ 
+			File file = new File(filePath);  
+		    // 路径为文件且不为空则进行删除  
+		    if (file.isFile() && file.exists()) {  
+		        file.delete();  
+		        flag = true;  
+		    }  
+	    }catch(Exception e){
+	    	System.out.println("file delete fail!");
+	    }
+	    return flag;  
+	} 
 }

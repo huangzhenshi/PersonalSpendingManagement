@@ -132,9 +132,12 @@ public class BlogController{
 				  //修改保存功能
 				  if(blog.getId()!=null&&blog.getId().length()>0){
 					  blogService.updateBlog(blog); 
+					  map.put("newId",blog.getId());
 				  }else{
-					  blog.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
+					  String uuid=UUID.randomUUID().toString().trim().replaceAll("-", "");
+					  blog.setId(uuid);
 					  blogService.saveBlog(blog); 
+					  map.put("newId",uuid);
 				  }
 			 }
 			   catch (Exception e) {  
@@ -142,6 +145,7 @@ public class BlogController{
 				  e.printStackTrace();
 			 }
 			  map.put("msg",message);
+			
 			  return map;
 		  }
 		/**
@@ -166,42 +170,49 @@ public class BlogController{
 		
 		@RequestMapping("/findAllNextleverCategory.do")
 	    @ResponseBody
-	    public Map<String,Object> findAllNextleverCategory(String username,String category) {
-	        Map<String,Object> map = new HashMap<String, Object>();
-	       List<String> list=hierarchyService.findAllNextLevelTypeByHoldernameAndParentType(username, category);
-	        map.put("typeList",list) ;
-	        return map;
+	    public List<String> findAllNextleverCategory(String username,String category) {
+	        return hierarchyService.findAllNextLevelTypeByHoldernameAndParentType(username, category);
 	    }
+		
 		
 		@RequestMapping("/downAttachment.do")
 		public void downAttachment(HttpServletResponse response,String path) throws Exception{
 			path=path.replace("/", "\\");
 			String[] filePathArr=path.split("\\\\");
 			String fileName = filePathArr[filePathArr.length - 1]; 
-			 response.setHeader("Content-Type","application/force-download");
+			response.setHeader("Content-Type","application/force-download");
 	        response.setContentType("multipart/form-data");   
 	        response.setHeader( "Content-Disposition", "attachment;filename=" + new String( fileName.getBytes("gb2312"), "ISO8859-1" ) ); 
+	        InputStream in = new FileInputStream(path); 
+       	 	byte[] buffer = new byte[512];  
+       	 	OutputStream out = response.getOutputStream(); 
 	        try {
-	        	InputStream in = new FileInputStream(path); 
-	        	 byte[] buffer = new byte[512];  
-	        	OutputStream out = response.getOutputStream(); 
-	       
-	        	//写文件 
-	            int b; 
-	            while((b=in.read())!= -1) 
-	            { 
-	            	b = in.read(buffer);  
-	            	out.write(buffer,0,b); 
-	            } 
-	              
-	            in.close(); 
-	            out.close(); 
-	            out.flush();  
-	         } catch (IOException e) {
-	             e.printStackTrace();
-	         }
-	  
-	       
+	        	int count = 0;
+	        	while ((count = in.read(buffer)) > 0) {
+	        				out.write(buffer, 0, count);
+	        				}
+
+	        	}catch (Exception e) {
+		        	e.printStackTrace();
+	        	}finally{
+	        		if(out != null){
+	        			out.flush();
+	        			out.close();
+	        		}
+	        		if(in != null){
+	        			in.close();
+	        		}
+	        	}		
 		}
+		
+		
+		@RequestMapping("/deleteAttachment.do")
+	    @ResponseBody
+	    public Boolean deleteAttachment(String path) {
+			path=path.replace("/", "\\");
+			String[] filePathArr=path.split("\\\\");
+			String fileName = filePathArr[filePathArr.length - 1]; 
+	        return Utils.deleteFile(path);
+	    }
 	
 }

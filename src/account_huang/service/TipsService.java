@@ -1,9 +1,12 @@
 package account_huang.service;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 
 
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.util.StringUtils;
 
+import account_huang.annotation.Mylog;
 import account_huang.entity.Tips;
 import account_huang.utils.Constants;
 import account_huang.utils.PageCoral;
@@ -31,7 +35,6 @@ public class TipsService {
 	private CodeService codeService;
 	@Resource
 	private CommonService commonService;
-	
 	
 	public List<Tips> getAllTipsByPageAndSumTotal(PageCoral page,Tips tips) {
 		 int pageNumber=page.getP_pageNumber();
@@ -53,18 +56,24 @@ public class TipsService {
 	
 	
 	@Transactional
-	public void saveTips(Tips tips){
+	@Mylog(operate="add",moduleName="Tips")
+	public Boolean saveTips(Tips tips){
 	     template.insert("account_huang.dao.TipsMapper.save", tips);
+	     return true;
 	    }
 	
 	@Transactional
-	public void updateTips(Tips tips){
+	@Mylog(operate="update",moduleName="Tips",detail="修改tips的id:${id}")
+	public Boolean updateTips(Tips tips){
 		 template.update("account_huang.dao.TipsMapper.update", tips);
+		 return true;
 	}
 	
 	@Transactional
-   public void deleteTips(String ids){
+	@Mylog(operate="delete",moduleName="Tips",detail="删除tips的ids:${id}")
+    public Boolean deleteTips(String ids){
 		commonService.deleteById(Constants.TABLENAME_TIPS,ids);
+		return true;
 	  }
 
 }

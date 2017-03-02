@@ -17,7 +17,7 @@
 
   <select id="findAllPage" resultMap="mainResultMap" >
      select * from (
-            select ROW_NUMBER() OVER(order by CATEGORY DESC,NEXTLEVEL_CATEGORY) as RN,A.*
+            select ROW_NUMBER() OVER(order by CATEGORY,NEXTLEVEL_CATEGORY) as RN,A.*
             from BLOG A
             where holdername=#{username} 
 	            <if test="category !=null "> AND category=#{category} </if>  
@@ -32,7 +32,7 @@
     where ID = #{id}
   </select>
 
-  <insert id="save" parameterType="account_huang.entity.Blog" >
+  <insert id="save" parameterType="account_huang.entity.Blog"  useGeneratedKeys="true" keyProperty="id" >
     insert into BLOG
     <trim prefix="(" suffix=")" suffixOverrides="," >
       ID,

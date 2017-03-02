@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import account_huang.annotation.Mylog;
 import account_huang.entity.Record;
 import account_huang.entity.Todo;
 import account_huang.entity.User;
@@ -39,20 +40,21 @@ public class LoginController
 			session.removeAttribute("loginUser");
 		   return new ModelAndView("login");  
 	  }
-	/**
-	 * 校验用户名和密码
-	 * 先校验有没有待办事项，如果有待办事项则第一个展示的是 待办事项的jsp，否则就进入我要记账界面
-	 * 
-	 */
-	@RequestMapping("/loginCheck.do")
-	  public ModelAndView check(HttpSession httpSession,HttpServletRequest request,User user,ModelMap model)
+	 /**
+	  * 校验用户名和密码
+	  * 先校验有没有待办事项，如果有待办事项则第一个展示的是 待办事项的jsp，否则就进入我要记账界面
+	  * 
+	  */
+	 @RequestMapping("/loginCheck.do")
+	 @Mylog(operate="loginCheck",isLogin=true)
+	  public ModelAndView check(HttpSession httpSession,HttpServletRequest request,User user,ModelMap model,String username)
 	  {
 		 HttpSession session=request.getSession();
 		  User userIn=logSer.getUserByMybatis(user);
 		  if(userIn!=null&&userIn.getUsername().length()>0){
 			  httpSession.setAttribute("username",user.getUsername());
 			  httpSession.setAttribute("loginUser",userIn);
-			  String username=userIn.getUsername();
+//			  String username=userIn.getUsername();
 			  /*List<Todo> todoList=todoSer.getAllTodo(username);
 				  if(todoList!=null&&todoList.size()>0){
 					  return new ModelAndView("todo/index");
@@ -67,9 +69,10 @@ public class LoginController
 					    }
 						model.addAttribute("costAll",totalCostThisMonth);
 						model.addAttribute("profitAll",totalProfitThisMonth );
+						session.setAttribute("loginResult", true);
 					  return new ModelAndView("main/index");
-				/*  }  */
 		  }
+		  session.setAttribute("loginResult", false);
 		  return new ModelAndView("login");
 	  }
 	
