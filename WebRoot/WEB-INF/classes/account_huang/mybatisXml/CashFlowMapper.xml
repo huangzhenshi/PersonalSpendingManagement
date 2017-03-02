@@ -3,12 +3,12 @@
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="account_huang.dao.CashFlowDao">
 	 <resultMap id="cashFlowResult" type="account_huang.entity.CashFlow">
-		<result property="id" column="id" />
+<!-- 		<result property="id" column="id" />
 		<result property="holderName" column="holderName" />
 		<result property="item" column="item" />
 		<result property="money" column="money" />
 		<result property="times" column="timesString" />
-		<result property="remark" column="remark" />
+		<result property="remark" column="remark" /> -->
 	</resultMap>
 	
 	<insert id="save" parameterType="account_huang.entity.CashFlow">  
@@ -41,7 +41,8 @@
    		  where id=#{id}
 	</update>
 	
-    <select id="getAllCashFlowInfoByHoldername" parameterType="java.util.HashMap" resultMap="cashFlowResult">
+   <!--  <select id="getAllCashFlowInfoByHoldername" parameterType="java.util.HashMap" resultMap="cashFlowResult"> -->
+    <select id="getAllCashFlowInfoByHoldername"  resultType="account_huang.entity.CashFlow">
    		select ID, to_char(times,'yyyy-mm-dd') as timesString, item, money, remark, holdername from CashFlow 
    		where holdername=#{holdername} 
    		<if test="type!=null">and type=#{type} </if> 

@@ -23,7 +23,7 @@
 <body >
 <form name="form" id="addOrEditBlogForm" action="${ctx}/blog/addOrEditBlogSava.do">
 				<input name="holdername" value="${username}" hidden=true""/>
-				<input name="id" value="${blog.id}" hidden=true""/>
+				<input id="blogId" name="id" value="${blog.id}" hidden=true""/>
 		<div class="container-fluid">
 			 <div class="row ">					
 				<div class="col-lg-3" >
@@ -66,7 +66,7 @@
 			 <div class="col-lg-3">
 				 <div class="form-group"> 
 				 <div style="margin:25px 0"></div>
-						  <span onclick="submitBlog();" class="btn " style="background-color:#3686E8;color:white">保存</span>
+						  <span onclick="submitBlog(true);" class="btn " style="background-color:#3686E8;color:white">保存</span>
 						  <span onclick="showUpload();" class="btn " style="background-color:#3686E8;color:white">附件</span>
 						  <span onclick="showCode();" class="btn " style="background-color:#3686E8;color:white">JS代码</span>
 						  <span onclick="window.close();" class="btn " style="background-color:#3686E8;color:white">取消</span>
@@ -82,7 +82,7 @@
         </div>
         		<div id="codeDiv" style="display:none,width:100%;" >
         		<lable>源码</lable>
-                <textarea id="codeContent"rows="10" style="width:95%;" name="code">${blog.code}</textarea>              
+                <textarea id="codeContent"rows="15" style="width:95%;" name="code">${blog.code}</textarea>              
         </div>
 			    <textarea id="editor1" name="content" class="ckeditor" rows="10">${blog.content}</textarea>
 
@@ -90,28 +90,62 @@
 		
 		</form>
 <script type="text/javascript">
+function deleteAttachment(path,id){
+	if(!$("#addOrEditBlogForm").valid()||isEmpty(CKEDITOR.instances.editor1.getData())){
+		message("validation fail!");
+		return;
+	}
+
+	$.ajax({
+		type : 'post',
+		url : ctx + '/blog/deleteAttachment.do',
+		dataType : "json",
+		data : {path : path},
+		success : function(data) {
+			if(data){
+				//删除掉对应 li即可
+				$("#"+id).remove();
+				submitBlog(false);
+			}else{
+				error("attachment delete fail!");
+			}
+		},
+		error : function(e) {
+			error(e);
+		}
+	});
+}
+
+
 
 $(function(){
 	if(!'${blog.tagTime}'){
 		$("#tagTime").val(getDateTodayDayOnly());
 	}
 		var arr='${blog.attachment}'.split(",");
-		$.each(arr,function(index){
-			 var a="<a href='${ctx}/blog/downAttachment.do?path="+arr[index]+"' style='color:blue;'>"+arr[index]+"</a>";
-	        	$("#attachmentList").append(" <li value='"+arr[index]+"'>"+a+"</li>");
-				
-			})
-        //处理CKEDITOR的值 处理获取图片的地址
-        function CKupdate() {
-             for (instance in CKEDITOR.instances)
-                 CKEDITOR.instances[instance].updateElement();
-        }
+		//if their is some attachment,then present all the attachments	
+		if(!isEmpty('${blog.attachment}')&&arr.length>0){
+				$.each(arr,function(index){
+					 var a="<a href='javascript:downloadAttachment(\""+arr[index] +"\")' style='color:blue;'>"+arr[index]+"</a>";
+					 var timestamp="utilIndetify"+new Date().getTime();
+					 var deleteHref="<a href='javascript:deleteAttachment(\""+arr[index] +"\",\""+timestamp +"\")' style='color:red;'>delete</a>";
+			        $("#attachmentList").append(" <li id='"+timestamp+"' value='"+arr[index]+"'>"+a+'          '+deleteHref+"</li>");
+					})
+				$("#uploadDiv").css("display","block");
+		}else{
+			$("#uploadDiv").css("display","none");
+		}
+
 		if(isEmpty('${code}')){
 			$("#codeDiv").css("display","none");
 		}else{
 			$("#codeDiv").css("display","block");
 		}
-        
+        //处理CKEDITOR的值 处理获取图片的地址
+        function CKupdate() {
+             for (instance in CKEDITOR.instances)
+                 CKEDITOR.instances[instance].updateElement();
+        }
     })
 
 function showCode(){
@@ -132,15 +166,14 @@ function showUpload(){
 	}
 }
 function uploadSomeFile(){
+	if(!$("#addOrEditBlogForm").valid()||isEmpty(CKEDITOR.instances.editor1.getData())){
+		message("validation fail!");
+		return;
+	}
 	var pathArr=$("#fileToUpload").val().split("\\");
 	var fileName=pathArr[pathArr.length-1];
 	if(isEmpty(fileName)){
 		message("请选择上传文件");
-		return;
-	}
-	var fileType=fileName.split(".")[1];
-	if("txt"!=fileType){
-		message("仅支持txt格式附件上传");
 		return;
 	}
 	 $.ajaxFileUpload({  
@@ -148,14 +181,39 @@ function uploadSomeFile(){
 		 dataType: 'json',//返回数据的类型  
          fileElementId:'fileToUpload',//file标签的id
          success: function (result) {  
-        		 var a="<a href='${ctx}/blog/downAttachment.do?path="+result+fileName+"' style='color:blue;'>"+result+fileName+"</a>";
-        	$("#attachmentList").append(" <li value="+result+">"+a+"</li>");
+                	 var fullpathConbine=result+fileName;
+                	 var fullPath=fullpathConbine.replace(/\\/g,'/');
+                	 var a="<a href='javascript:downloadAttachment(\""+fullPath +"\")' style='color:blue;'>"+fullPath+"</a>";
+        		 	 var timestamp="utilIndetify"+new Date().getTime();
+                	 var deleteHref="<a href='javascript:deleteAttachment(\""+fullPath +"\",\""+timestamp +"\");' style='color:red;' >delete</a>"
+                	 $("#attachmentList").append(" <li id='"+timestamp+"' value="+result+">"+a+"               "+deleteHref+"</li>");
+                	 submitBlog(false);        
          },  
          error: function (data) {  
         	 message(e.msg);
          }  
      });  	
 }
+
+function downloadAttachment(path){
+			window.location.href=('${ctx}/blog/downAttachment.do');
+			post('${ctx}/blog/downAttachment.do',{path:path})
+}
+function post(URL, PARAMS) {        
+    var temp = document.createElement("form");        
+    temp.action = URL;        
+    temp.method = "post";        
+    temp.style.display = "none";        
+    for (var x in PARAMS) {        
+        var opt = document.createElement("textarea");        
+        opt.name = x;        
+        opt.value = PARAMS[x];          
+        temp.appendChild(opt);        
+    }        
+    document.body.appendChild(temp);        
+    temp.submit();        
+    return temp;        
+}   
 
 $().ready(function() {
 		$("#addOrEditBlogForm").validate();
@@ -173,17 +231,22 @@ $('.form_date').datetimepicker({
 });
 //reload the grid  and sycn the nextlevelCategory Select element at the same time
 function selectCategory(){
+	debugger;
 	$("#blogNextlevelCategory").empty();
 	$("#blogNextlevelCategory").append('<option value="">  </option>');
 	var category=$("#blogCategory").val();
 	if(!isEmpty(category.trim())){
 			$.ajax({
 				type : 'post',
-				url : ctx + '/blog/findAllNextleverCategory.do?username=${username}&category='+category,
+				url : ctx + '/blog/findAllNextleverCategory.do',
+				dataType : "json",
+				data : {
+					username : '${username}',
+					category: category
+				},
 				success : function(data) {
-					var arrType=data.typeList;
-					$.each(arrType, function(i) {     
-						var option='<option value="'+arrType[i]+'">'+arrType[i]+'</option>';
+					$.each(data, function(i) {     
+						var option='<option value="'+data[i]+'">'+data[i]+'</option>';
 						$("#blogNextlevelCategory").append(option);
 					}); 
 				},
@@ -197,25 +260,23 @@ function selectCategory(){
 }
 
 
-	function submitBlog(){
+	function submitBlog(isClose){
 		debugger;
 		var attachment="";
 		$("#attachmentList li").each(function(){
-			debugger;
-			var process=1;
-			 attachment = attachment+$(this).text()+",";
+			var path=$(this).text();
+      		attachment = attachment+path.substr(0,path.length-7)+",";
 		});
 		attachment=attachment.substring(0,attachment.length-1);
 		if(attachment.substring(0,1)==","){
 			attachment=attachment.substring(1);	
 		}
-		
 		if($("#addOrEditBlogForm").valid()){
 			$.ajax({
 				type : 'post',
 				url : '${ctx}/blog/addOrEditBlogSava.do',
 				data : {"holdername":"${username}",
-						"id":"${blog.id}",
+						"id":$("#blogId").val(),
 						"title":$("#title").val(),
 						"tagTime":$("#tagTime").val(),
 						"content":CKEDITOR.instances.editor1.getData(),
@@ -229,8 +290,14 @@ function selectCategory(){
 					debugger;
 					if(data.msg){
 						window.opener.refreshGrid();
-						window.close();
-						window.opener.successHandlerShowMessage("Success!");
+						if(isClose){
+							window.close();
+							window.opener.successHandlerShowMessage("Success!");
+						}else{
+							$("#blogId").val(data.newId);
+							message("暂存成功");
+						}
+						
 					}else{
 						message("Fail!");
 					}

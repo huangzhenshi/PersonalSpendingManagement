@@ -1,0 +1,71 @@
+����ˢ��:
+		$.ajax({
+					type : 'post',
+					url : ctx + '/blog/findAllNextleverCategory.do',
+					dataType : "json",
+					data : {
+						username : '${username}',
+						category: category
+					},
+					success : function(data) {
+						$.each(data, function(i) {     
+							var option='<option value="'+data[i]+'">'+data[i]+'</option>';
+							$("#blogNextlevelCategory").append(option);
+						}); 
+						var params = {};
+						params["category"] =category;
+						params["holdername"] ='${username}';
+						blogGrid.grid("option","postData",params);
+						blogGrid.grid("option","url",baseSearch);
+						blogGrid.grid("reload"); 
+					},
+					error : function(e) {
+						hide();
+						blogGrid.grid('reload');
+						error(e);
+					}
+				})
+
+�?�첽�ύ
+function submitForm(){
+	var form=$("#taskAddOrEditForm");
+	if(!form.valid()){
+		return;
+	}
+	var taskType=$("#taskType").val();
+	if(taskType!="ONE_TIME"){
+		if(isEmpty($("#taskStartTime").val())){
+			message("START_TIME should not be empty!");
+			return;
+		}
+	}
+	if(taskType=="WEEKLY"){
+		var weeks=$('#comboboxWeeks').combobox("getValue");
+		if(isEmpty(weeks)){
+			message("����Ҫѡ��һ��!");
+			return;
+		}
+	}else if(taskType=="MONTHLY"){
+		var months=$('#comboboxMonths').combobox("getValue");
+		if(isEmpty(months)){
+			message("����Ҫѡ��һ��!");
+			return;
+		}
+	}
+	$.ajax({
+		type : 'post',
+		url : ctx + '/task/addOrEditTaskSave.html?username=${username}',
+		data : form.serialize(),
+		success : function(data) {
+			if(data.msg){
+				window.location.href='${ctx}/task/toTaskMainPage.html?message=operationSuccess';
+			}else{
+				message("����ʧ��!�����ͻ���߳����쳣");
+			}
+		},
+		error : function(e) {
+			message(e.msg);
+			error(e);
+		}
+	});
+}

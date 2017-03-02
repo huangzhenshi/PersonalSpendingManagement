@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="account_huang.dao.BlogMapper" >
+  <resultMap id="mainResultMap" type="account_huang.entity.Blog" >
+    <result column="ID" property="id" />
+    <result column="TITLE" property="title" />
+    <result column="TAG_TIME" property="tagTime" />
+    <result column="LAST_TIME" property="lastTime" />
+    <result column="HOLDERNAME" property="holdername" />
+    <result column="CATEGORY" property="category" />
+    <result column="NEXTLEVEL_CATEGORY" property="nextlevelCategory" />
+    <result column="CONTENT" property="content" />
+      <result column="ATTACHMENT" property="attachment" />
+           <result column="CODE" property="code" />
+  </resultMap>
+
+
+  <select id="findAllPage" resultMap="mainResultMap" >
+     select * from (
+            select ROW_NUMBER() OVER(order by CATEGORY,NEXTLEVEL_CATEGORY) as RN,A.*
+            from BLOG A
+            where holdername=#{username} 
+	            <if test="category !=null "> AND category=#{category} </if>  
+	            <if test="nextlevelCategory !=null "> AND NEXTLEVEL_CATEGORY=#{nextlevelCategory}</if>  
+	            <if test="title !=null ">   AND UPPER(TITLE) like '%'||#{title}||'%'</if>  
+            )
+     where RN between #{startNumber} and #{endNumber}
+  </select>
+
+  <select id="findById" resultMap="mainResultMap" >
+    select *    from BLOG
+    where ID = #{id}
+  </select>
+
+  <insert id="save" parameterType="account_huang.entity.Blog"  useGeneratedKeys="true" keyProperty="id" >
+    insert into BLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      TITLE,
+      TAG_TIME,
+      LAST_TIME,
+      HOLDERNAME,
+      <if test="category != null" >        CATEGORY,      </if>
+      <if test="nextlevelCategory != null" >        NEXTLEVEL_CATEGORY,      </if>
+       <if test="attachment != null" >        ATTACHMENT,      </if>
+       <if test="code != null" >        CODE,      </if>
+      CONTENT,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id},
+      #{title},
+      #{tagTime},
+      #{lastTime},
+      #{holdername},
+      <if test="category != null" >        #{category},      </if>
+      <if test="nextlevelCategory != null" >        #{nextlevelCategory},      </if>
+      <if test="attachment != null" >        #{attachment},      </if>
+      <if test="code != null" >        #{code},      </if>
+      #{content},
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="account_huang.entity.Blog" >
+    update BLOG
+    set
+      TITLE = #{title},
+      TAG_TIME = #{tagTime},
+      LAST_TIME = #{lastTime},
+      HOLDERNAME = #{holdername},
+      <if test="category != null" >        CATEGORY = #{category},      </if>
+      <if test="nextlevelCategory != null" >        NEXTLEVEL_CATEGORY = #{nextlevelCategory},      </if>
+      <if test="attachment != null" >        ATTACHMENT = #{attachment},      </if>
+      <if test="code != null" >        CODE = #{code},      </if>
+      CONTENT = #{content}
+    where ID = #{id}
+  </update>
+
+</mapper>

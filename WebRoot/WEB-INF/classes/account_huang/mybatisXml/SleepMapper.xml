@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="account_huang.dao.SleepMapper" >
+  <resultMap id="mainResultMap" type="account_huang.entity.Sleep" >
+    <result column="GET_UP" property="getUp" />
+    <result column="GET_SLEEP" property="getSleep" />
+  </resultMap>
+
+  <sql id="All_Column_List" >
+    ID, TIMES, GET_UP, GET_SLEEP, REMARK,BREAKFAST, LUNCH,DINNER,HOLDERNAME
+  </sql>
+
+  <select id="findAllPage" resultMap="mainResultMap" >
+	  select * from (
+	        	select ROW_NUMBER() OVER(order by times desc ) as RN,a.* from sleep  a where holdername=#{username})
+		 where RN between #{startNumber} and #{endNumber}
+  </select>
+
+  <select id="findById" resultMap="mainResultMap" >
+    select   ID, TIMES, GET_UP, GET_SLEEP, REMARK,BREAKFAST, LUNCH,DINNER,HOLDERNAME
+    from SLEEP
+    where ID = #{id}
+  </select>
+
+  <insert id="save" parameterType="account_huang.entity.Sleep" >
+	  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id" > 
+	              select SLEEP_ID_SEQ.nextval from dual 
+	       </selectKey> 
+    insert into SLEEP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,TIMES,
+      <if test="getUp != null" >        GET_UP,      </if>
+      <if test="getSleep != null" >        GET_SLEEP,      </if>
+      <if test="remark != null" >        REMARK,      </if>
+       <if test="lunch != null" >        LUNCH,      </if>
+       <if test="dinner != null" >        DINNER,      </if>
+       <if test="breakfast != null" >        BREAKFAST,      </if>
+      holderName,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     #{id},#{times},
+      <if test="getUp != null" >        #{getUp},      </if>
+      <if test="getSleep != null" >        #{getSleep},      </if>
+      <if test="remark != null" >        #{remark},      </if>
+      
+       <if test="lunch != null" >        #{lunch},      </if>
+      <if test="dinner != null" >        #{dinner},      </if>
+      <if test="breakfast != null" >        #{breakfast},      </if>
+      #{holderName},
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="account_huang.entity.Sleep" >
+    update SLEEP
+    <set >
+      TIMES = #{times},
+      <if test="getUp != null" >        GET_UP = #{getUp},      </if>
+      <if test="getSleep != null" >        GET_SLEEP = #{getSleep},      </if>
+      <if test="remark != null" >        REMARK = #{remark},      </if>
+      <if test="breakfast != null" >        BREAKFAST = #{breakfast},      </if>
+      <if test="lunch != null" >        LUNCH = #{lunch},      </if>
+      <if test="dinner != null" >        DINNER = #{dinner},      </if>
+      holderName = #{holderName}
+    </set>
+    where ID = #{id}
+  </update>
+
+</mapper>

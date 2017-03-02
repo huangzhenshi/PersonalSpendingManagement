@@ -73,8 +73,13 @@
 	}
 	
 	function selectNextLevelCategory(){
-		var baseSearch = "${ctx}/blog/getBlogGrid.do?holdername=${username}&category="+$("#blogCategory").val()+"&nextlevelCategory="+$("#blogNextlevelCategory").val();
+		var baseSearch = "${ctx}/blog/getBlogGrid.do";
 		var blogGrid=$("#blogGrid${idSuffix}");
+		var params = {};
+		params["category"] =$("#blogCategory").val();
+		params["holdername"] ='${username}';
+		params["nextlevelCategory"] =$("#blogNextlevelCategory").val();
+		blogGrid.grid("option","postData",params);
 		blogGrid.grid("option","url",baseSearch);
 		blogGrid.grid("reload"); 
 	}
@@ -86,18 +91,27 @@
 		$("#blogNextlevelCategory").append('<option value="">  </option>');
 		var blogGrid=$("#blogGrid${idSuffix}");
 		var category=$("#blogCategory").val();
-		var baseSearch="${ctx}/blog/getBlogGrid.do?holdername=${username}";
+		var baseSearch="${ctx}/blog/getBlogGrid.do";
 		if(!isEmpty(category.trim())){
-				baseSearch+="&category="+category;
 				$.ajax({
 					type : 'post',
-					url : ctx + '/blog/findAllNextleverCategory.do?username=${username}&category='+category,
+					url : ctx + '/blog/findAllNextleverCategory.do',
+					dataType : "json",
+					data : {
+						username : '${username}',
+						category: category
+					},
 					success : function(data) {
-						var arrType=data.typeList;
-						$.each(arrType, function(i) {     
-							var option='<option value="'+arrType[i]+'">'+arrType[i]+'</option>';
+						$.each(data, function(i) {     
+							var option='<option value="'+data[i]+'">'+data[i]+'</option>';
 							$("#blogNextlevelCategory").append(option);
 						}); 
+						var params = {};
+						params["category"] =category;
+						params["holdername"] ='${username}';
+						blogGrid.grid("option","postData",params);
+						blogGrid.grid("option","url",baseSearch);
+						blogGrid.grid("reload"); 
 					},
 					error : function(e) {
 						hide();
@@ -106,8 +120,6 @@
 					}
 				});
 		}
-		blogGrid.grid("option","url",baseSearch);
-		blogGrid.grid("reload"); 
 	}
 	
 	
@@ -127,11 +139,6 @@
 		message(msg);
 	}
 
-	
-	
-	
-	
-	
 	function addOrEditBlog(index,id){
 		if(index==0){
 			openWindow("${ctx}/blog/toCkeditorPage.do?username=${username}");
@@ -150,13 +157,6 @@
 		
 		
 	}
-	
-	function opentest(){
-		openWindow("${ctx}/sleep/toMainSleepPage.do?username=${username}");
-	}
-	
-	
-	
 	$(function(){
 		if('${message}'){
 			message('${message}');
@@ -174,6 +174,7 @@
 						url : ctx + '/blog/delete.do?id='+ids,
 						success : function(data) {
 							if(data.msg){
+								debugger;
 								hide();
 								message("删除成功！");
 								blogGrid.grid('reload');
